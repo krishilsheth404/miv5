@@ -5420,7 +5420,7 @@
         // Stop the EventSource connection once "over" is received
         console.log('Data fetching completed.');
         eventSource.close();
-        document.getElementById('loadingText').innerHTML = `Found Data From &nbsp; <span style="color:#529dff"> ${i } Of 20 </span>&nbsp;   Pharmacies.`;
+        document.getElementById('loadingText').innerHTML = `<span style="color:#529dff" id="resultCount"> ${i } </span>&nbsp; Pharmacies Found For &nbsp; <span style="color:#529dff"> ${medname}</span>`;
         sidebarContentLoad()
         beautifyPage();  // Call beautifyPage() when data fetching is done
         return;
@@ -5434,7 +5434,7 @@
     eventSource.onerror = function (e) {
       console.error('Error connecting to the server.');
       console.error(e);
-      document.getElementById('loadingText').innerHTML = `Found Data From &nbsp;  <span style="color:#529dff"> ${i } Of 20 </span> &nbsp;  Pharmacies.`;
+      document.getElementById('loadingText').innerHTML =`<span style="color:#529dff" id="resultCount"> ${i } </span>&nbsp; Pharmacies Found For &nbsp; <span style="color:#529dff"> ${medname}</span>`;
       eventSource.close();
       sidebarContentLoad()
       beautifyPage()
@@ -6204,7 +6204,7 @@ function filterPrice(){
     var items = Array.from(container.querySelectorAll('.column-collector')); // Assuming items have class 'item'
     items.forEach(function(item) {
       var pprice = parseInt(item.dataset.pt); // Assuming data-pprice attribute for price
-      if (pprice < minPrice || pprice > maxPrice) {
+      if (pprice <minPrice || pprice > maxPrice) {
         item.style.display = 'none'; // Hide items outside price range
       } else {
         item.style.display = 'flex'; // Show items within price range
@@ -6212,7 +6212,7 @@ function filterPrice(){
       }
     });
 
-    document.getElementById('loadingText').innerHTML = `Found Data From &nbsp;  <span style="color:#529dff"> ${c} OF 20 </span> &nbsp;  Pharmacies.`;
+    document.getElementById('resultCount').innerHTML =c-1;
 
   }
   
@@ -6235,7 +6235,7 @@ function filterPrice(){
       }
     });
 
-    document.getElementById('loadingText').innerHTML = `Found Data From &nbsp;  <span style="color:#529dff"> ${c} OF 20 </span> &nbsp;  Pharmacies.`;
+    document.getElementById('resultCount').innerHTML =c-1;
 
   }
 
