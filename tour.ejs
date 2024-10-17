@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Medicomp India | Results</title>
+
+  <meta name="title" content="Medicomp India Results">
+  <meta name="description"
+    content="Prices For <%=final[final.length-1]%> Ranges From <%=final[0].finalCharge%> - <%=final[final.length-2].finalCharge%> , Click to explore further details on our website">
+  <meta name="keywords"
+    content="medicine price compare,apollo pharmacy,netmeds.pulse plus,tata 1mg,pharmeasy,
+        medicine prices, online comparison, prescription drugs, generic drugs, brand name drugs, affordable medications, pharmacy prices, drug costs, healthcare, pharmaceuticals,
+        medicine, price comparison, online, healthcare, prescription drugs, generic drugs, brand-name drugs, drug prices, discounts, savings, pharmacies, healthcare costs, health insurance, 
+        drug information, drug reviews, medication costs, drug savings, drug coupons, online pharmacies, drug price comparison, drugstore, pharmaceuticals,
+        medicomp india,price compare online,medication prices, pharmacy prices, online pharmacy, drug prices, prescription prices, generic medication prices, 
+        brand medication prices, drugstore prices, health prices, compare medication prices, cheapest medication prices, best medication prices, medication price comparison, drug price comparison, pharmacy price comparison.
+        3meds,compare medicine prices online,krishil sheth,india's 1st pltform to compare medicine prices,live prices of medicines,medicomp,Medicomp India,India, ">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="1 days">
+  <meta name="author" content="Krishil Rohit Sheth">
+  <meta charset="utf-8">
+
+  <% for(var i=0; i < final.length-1; i++) { %>
+    <% if(final[i].imgLink) {%>
+      <meta property="og:image" content="<%=final[i].imgLink%>">
+      <%}else{%>
+        <meta property="og:image" content="medicompLogo.png">
+        <%}%>
+          <%}%>
+
+
+          
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          <script src="https://cdn.jsdelivr.net/npm/isotope-layout@3.0.6/dist/isotope.pkgd.min.js"></script>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.js" integrity="sha512-E/yP5UiPXb6VelX+dFLuUD+1IZw/Kz7tMncFTYbtoNSCdRZPFoGN3jZ2p27VUxHEkhbPiLuZhZpVEXxk9wAHCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+
+            <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+            <link rel="stylesheet" href="css/animate.css">
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.js"
+              integrity="sha512-20FZL4lG1jTZXPeMkblgj4b/fsXASK5aW87Tm7Z5QK9QmmYleVGM0NlS9swfb6XT8yrFTAWkq3QfnMe7MKIX8A=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.2/fetch.min.js"
+              integrity="sha512-1Gn7//DzfuF67BGkg97Oc6jPN6hqxuZXnaTpC9P5uw8C6W4yUNj5hoS/APga4g1nO2X6USBb/rXtGzADdaVDeA=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://js.upload.io/upload-js/v2"></script>
+
+
+
+            <script async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6943409373544581"
+              crossorigin="anonymous"></script>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+
+            <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+
+            <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+            <link rel="stylesheet" href="css/animate.css">
+
+            <link rel="stylesheet" href="css/owl.carousel.min.css">
+            <link rel="stylesheet" href="css/owl.theme.default.min.css">
+            <link rel="stylesheet" href="css/magnific-popup.css">
+
+            <link rel="stylesheet" href="css/aos.css">
+
+            <link rel="stylesheet" href="css/ionicons.min.css">
+
+            <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+            <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+
+
+
+            <link rel="stylesheet" href="css/flaticon.css">
+            <link rel="stylesheet" href="css/icomoon.css">
+            <link rel="stylesheet" href="css/style.css">
+
+
+
+
+</head>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-KSWBE6PN2J');
+</script>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Medicomp India.</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <!-- <li class="nav-item"><a href="tour.html" class="nav-link">Tour</a></li> -->
+          <li class="nav-item"><a href="#nearbychemists" class="nav-link">NearBy Chemists</a></li>
+          <li class="nav-item"><a href="blog.html" class="nav-link">Blogs</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+          <li class="nav-item cta"><a href="contact.html" class="nav-link"><span>Add listing</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- END nav -->
+
+  <% 
+  function calculatePercentageDifference(originalPrice, discountedPrice) 
+  { 
+    priceDifference=parseFloat(originalPrice) - parseFloat(discountedPrice); 
+    const savingPercentage=(priceDifference /originalPrice) * 100; 
+    return savingPercentage.toFixed(2); // Round to two decimal places 
+  }
+     %>
+
+     <div style="height: 0px;width: 0px;font-size: 0px;">
+
+     <% try { %>
+      <% if (final[0].price) { %>
+        <span id='fc0'><%=final[0].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+     
+  <% try { %>
+      <% if (final[1].price) { %>
+        <span id='fc1'><%=final[1].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[2].price) { %>
+        <span id='fc2'><%=final[2].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[3].price) { %>
+        <span id='fc3'><%=final[3].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[4].price) { %>
+        <span id='fc4'><%=final[4].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[5].price) { %>
+        <span id='fc5'><%=final[5].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[6].price) { %>
+        <span id='fc6'><%=final[6].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[7].price) { %>
+        <span id='fc7'><%=final[7].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+  
+  <% try { %>
+      <% if (final[8].price) { %>
+        <span id='fc8'><%=final[8].price%></span>
+      <% } %>
+  <% } catch (error) { %>
+  <% } %>
+</div>
+
+
+    <div class="hero-wrap js-fullheight" id="fullheight"
+      style="background: url(wave3F.png);background-repeat: no-repeat;background-color: #eff4ff;background-size:cover;">
+      <!-- <span><img src="doctoon-removebg-preview.png" style="position: absolute;bottom:0px;right: 0px;height: 50vh;width: auto;" alt=""></span> -->
+      <div class="overlay"></div>
+      <div class="container" id="idcontainer">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+          data-scrollax-parent="true">
+          <div class="col-md-9 text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+            <p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span style="font-size: 18px;
+            color: white;
+            opacity: 1;
+            font-weight: bolder;">Medicomp Saved You</span></p>
+            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
+              <%=calculatePercentageDifference(parseFloat(final[final.length-2].finalCharge),parseFloat(final[0].finalCharge));%>
+                %</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .sort-buttons {
+  display: flex; /* Arrange buttons horizontally */
+  margin: 10px 0; /* Add some margin for spacing */
+}
+
+.sort-buttons button {
+  background-color: #f0f0f0; /* Light gray background */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 4px; /* Rounded corners */
+  padding: 8px 16px; /* Padding for content */
+  cursor: pointer; /* Indicate clickable behavior */
+  margin-right: 5px; /* Add some spacing between buttons */
+}
+
+.sort-buttons button.selected {
+  background-color: #b6ccf6; /* Change background color for selected button */
+}
+
+.sort-buttons button:hover {
+  background-color: #b6ccf6;
+  transition: all 0.4s;
+   /* Change background color on hover */
+}
+
+    </style>
+
+<section class="ftco-section ftco-degree-bg">
+  <div class="container">
+    <div class="sort-buttons" style="flex-wrap: wrap;">
+      <button id="btn1ForPriceSort" style="margin: 5px;" class="selected" data-sort-value="pt" onclick="btnSortPriceClick()">Sort by Price</button>
+      <button id="btn1ForAccuraySort" style="margin: 5px;"  data-sort-value="ut" onclick="btnSortClick()">Sort by Accuracy</button>
+    </div>
+    <div class="row" style="display: flex;align-items: center;justify-content:center;margin-top: 40px;">
+
+
+          <%var itemCount=0%>
+            <%var ApolloLink=0%>
+              <%var temp=0%>
+                <%var globalUrlForImg=0%>
+                  <div class="col-lg-9">
+                    <div class="row" id="isotope-container">
+
+                      
+
+
+
+                      <% for(var i=0; i < final.length-1; i++) { %>
+
+                        <% if(final[i].price) {itemCount++;%>
+
+
+                          <%var finalP%>
+                                         
+                          <%
+                          if(final[i].deliveryCharge!="login"){
+                            finalP= (parseFloat(final[i].price) + parseFloat(final[i].deliveryCharge)).toFixed(2)
+                              }else{
+                                finalP=parseFloat((final[i][0][k].price.toString()).replace( /,/g, "" ))
+                                  }
+                          %>
+                          
+                        
+
+                          <div class="col-md-4 itemForSorting" data-ut="<%=final[i].similarityIndex%>" data-pt="<%=finalP%>">
+                            AR:<%=final[i].similarityIndex%>%
+                            <div class="destination">
+                              <% if(final[i].imgLink) {%>
+                                <a href="#" class="img img-2 d-flex justify-content-center align-items-center"
+                                  style="background-image: url(<%=final[i].imgLink%>);background-size: contain;">
+                                  <%}else{%>
+                                    <a href="#" class="img img-2 d-flex justify-content-center align-items-center"
+                                      style="background-image: url(noimage.jpg);background-size: contain;">
+                                      <%}%>
+                                        <div class="icon d-flex justify-content-center align-items-center">
+                                          <span class="icon-search2"></span>
+                                        </div>
+                                    </a>
+                                    <div class="text p-3">
+                                      <div class="d-flex" style="height: auto;">
+                                        <div class="one" style="height: auto; ">
+                                          <h3 style="
+                        overflow-wrap: anywhere;
+                    "><a href="#" id="mediname">
+                                              <%=final[i].item%>
+                                            </a></h3>
+
+
+                                        </div>
+                                        <div class="two">
+                                        
+                                        
+                                          <span class="price" id="finalprice_<%=i%>">
+                                           ₹<%=finalP%>
+                                          </span> 
+                                          
+
+                                          <br>
+                                        </div>
+                                      </div>
+                                      <select name="qty" id="qty_<%=i%>" style="font-size: 19px;
+                                          position: absolute;
+                                          right: 40px;
+                                          margin-top: 10px;" onchange="multiplyPriceByCount(this.id)">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                      </select>
+
+                                      <span>Medicine Price : <span id="price_<%=i%>">
+                                          <%=final[i].price%>
+                                        </span> </span> <br>
+
+                                      <span>Delivery Price : <span id="delivery_<%=i%>">
+                                          <%=final[i].deliveryCharge%>
+                                        </span>
+                                      </span> <br>
+                                      <!-- <p class="days"><span>2 days 3 nights</span></p> -->
+                                      <hr>
+                                      <p class="bottom-area d-flex">
+                                        <span><i class="icon-map-o"></i>
+                                          <span id="company_<%=i%>">
+                                            <%=final[i].name%>
+                                          </span>
+                                        </span>
+                                      <p></p>
+                                      <span class="ml-auto">
+                                        <!-- <form action="/redirect" method="post"> -->
+                                        <input type="text" name="medlink" id="medlink" value="<%=final[i].link%>"
+                                          style="visibility:hidden;height: 0px;width: 0px;">
+                                        <input type="text" name="medName" id="medName" value="<%=final[i].name%>"
+                                          style="visibility:hidden;height: 0px;width: 0px;">
+                                        <!-- <input type="text" name="medicineName" id="medicineName" value="<%=final[i].item%>" style="visibility:hidden;height: 0px;"> -->
+                                        <!-- <a href="<%=final[i].link%>">&nbsp;BUY&nbsp;</a> -->
+                                         <%if(final[i].medicineAvailability){%>
+                                                <a id="smbtn" type="submit" value="BUY" href="<%=final[i].link%>"
+                                                  style="border: none;background-color: lightgreen;width: 100%;text-align: center;">&nbsp;BUY&nbsp;</a>
+                                                <%}else{%>
+                                                  <a id="smbtn" type="submit" disable="true" value="Out Of Stock"
+                                                    href="<%=final[i].link%>"
+                                                    style="border: none;background-color: rgb(255, 114, 114);width: 100%;text-align: center;">&nbsp;Out Of Stock&nbsp;</a>
+                                                  <%}%>
+
+                                        </form>
+                                        <style>
+                                          #smbtn:hover {
+                                            cursor: pointer;
+                                          }
+                                        </style>
+                                      </span>
+                                      </p>
+                                    </div>
+                            </div>
+                          </div>
+
+                          <%}%>
+                            <%}%>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                    <script>
+                          var container = document.getElementById("isotope-container");
+                          var items = Array.from(container.querySelectorAll(".itemForSorting")); // Assuming your item class is `.item`
+
+                          // Function to sort items based on a comparator function
+                          function sortItems(comparator) {
+                            items.sort(comparator);
+                            for (var i = 0; i < items.length; i++) {
+                              container.appendChild(items[i]); // Re-order items in DOM
+                            }
+                          }
+
+                          // Function to compare items based on a specific property (replace with your sort criteria)
+                          function compareItemsByUT(item1, item2) {
+                            var ut1 = parseInt(item1.dataset.ut); // Assuming data-ut attribute for sorting
+                            var ut2 = parseInt(item2.dataset.ut);
+                            return ut2 - ut1; // Ascending sort
+                          }
+                          
+                          function compareItemsByPT(item1, item2) {
+                            var ut1 = parseInt(item1.dataset.pt); // Assuming data-ut attribute for sorting
+                            var ut2 = parseInt(item2.dataset.pt);
+                            return ut1 - ut2; // Ascending sort
+                          }
+
+                          // Example sorting by data-ut attribute (replace with your sorting logic)
+                          function sortByUT() {
+                            console.log("called");
+                            sortItems(compareItemsByUT);
+                          }
+                          
+                          function sortByPT() {
+                            console.log("called");
+                            sortItems(compareItemsByPT);
+                          }
+
+                          // Call the sorting function when needed (e.g., a button click)
+                        
+                        function btnSortClick(){
+                          document.getElementById('btn1ForPriceSort').classList.remove("selected") 
+                          document.getElementById('btn1ForAccuraySort').classList.add("selected") 
+                          sortByUT();
+                        }
+                        
+                        function btnSortPriceClick(){
+                          document.getElementById('btn1ForPriceSort').classList.add("selected") 
+                          document.getElementById('btn1ForAccuraySort').classList.remove("selected") 
+                          sortByPT();
+                        }
+                      
+                    </script>
+                    
+                    <script>
+                  
+                      async function multiplyPriceByCount(i) {
+                        var num = parseInt(i.split('_')[1]);
+                        var count = parseInt(document.getElementById(i).value);
+                        console.log("count->" + count);
+                        var companyname = document.getElementById(`company_${num}`).innerHTML.toLowerCase();
+                        console.log(companyname);
+                        var finalcost = parseFloat(document.getElementById(`finalprice_${num}`.innerHTML));
+                        console.log("I --> "+i)
+                        var myVariable=parseFloat(document.getElementById(`fc${num}`).innerText);
+                        console.log(myVariable)
+                        var deliveryCharge;
+                        
+                      
+                        console.log("Value->>"+typeof(myVariable)+"Cout_>>"+typeof(count))
+                      if (companyname.includes('netmeds')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfNetmeds?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('pharmeasy')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfPharmeasy?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('tablet')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfTabletShablet?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('pulseplus')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfPulsePlus?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('upchar')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfMyUpChar?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('pasumai')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfPasumaiPharmacy?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('medplus')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfMedPlusMart?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('truemeds')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfTruemeds?val=${myVariable * count}`)).data;
+                      } else if (companyname.includes('tata')) {
+                        deliveryCharge =(await axios.get(`/getDeliveryPriceOfTata1mg?val=${myVariable * count}`)).data;
+                      }
+                        
+                      document.getElementById(`delivery_${num}`).innerHTML = parseFloat(deliveryCharge);
+                      // console.log(document.getElementById(`price_${num}`).innerHTML);
+                      document.getElementById(`price_${num}`).innerHTML = (parseFloat(myVariable) * (count)).toFixed(2);
+                      document.getElementById(`finalprice_${num}`).innerHTML = "₹" +  (parseFloat(deliveryCharge) + (parseFloat(myVariable) * (count))).toFixed(2);
+                      }
+                      
+                    </script>
+
+
+                    <!-- <div class="row mt-5">
+		          <div class="col text-center">
+		            <div class="block-27">
+		              <ul>
+		                <li><a href="#">&lt;</a></li>
+		                <li class="active"><span>1</span></li>
+		                <li><a href="#">2</a></li>
+		                <li><a href="#">3</a></li>
+		                <li><a href="#">4</a></li>
+		                <li><a href="#">5</a></li>
+		                <li><a href="#">&gt;</a></li>
+		              </ul>
+		            </div>
+		          </div>
+		        </div> -->
+                  </div> <!-- .col-md-8 -->
+        </div>
+      </div>
+      <section class="ftco-section ftco-destination">
+        <div class="container">
+          <div class="row justify-content-start mb-5 pb-3">
+            <div class="col-md-7 heading-section ftco-animate">
+              <span class="subheading"></span>
+              <!-- <h2 class="mb-4"><strong>Substitutes</strong></h2> -->
+            </div>
+          </div>
+          <div class="row" id="zRow">
+            <div class="col-md-12">
+              <div class="destination-slider owl-carousel ftco-animate">
+
+                <% for(var i=0; i < final.length-1; i++) { %>
+                  <% if(final[i].subsname) {%>
+                    <div class="item">
+                      <div class="destination">
+                        <a href="http://localhost:3000/compare?medname=<%=final[i].subsname%>"
+                          class="img d-flex justify-content-center align-items-center pharmasList"
+                          style="border:1px solid #e6e6e6;background-image: url(https://images.apollo247.in/pub/media<%=final[i].subsImgLink%>);background-size: contain;">
+                          <div class="icon d-flex justify-content-center align-items-center">
+                            <span class="icon-search2"></span>
+                          </div>
+                        </a>
+                        <div class="text p-3">
+                          <h3><a href="#">
+                              <%=final[i].subsname%>
+                            </a></h3>
+                          <span class="listing">
+                            <%=final[i].subsprice%>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <%}%>
+                      <%}%>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <script>
+        var z = document.querySelectorAll('.pharmasList');
+        console.log(z);
+        if (window.innerWidth < 800) {
+          for (i in z) {
+            console.log("called")
+            z[i].style.height = "200px";
+          }
+        }
+      </script>
+
+
+    </section>
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Medicomp India.</h2>
+              <p>Welcome to Medicomp India, your one-stop solution for comparing medicine prices across
+                various pharmacies and online retailers in India.</p>
+              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                <li class="ftco-animate"><a href="https://www.linkedin.com/in/krishilsheth/"><span
+                      class="icon-linkedin"></span></a></li>
+                <!-- <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li> -->
+                <li class="ftco-animate"><a href="https://www.instagram.com/medicomp.india/"><span
+                      class="icon-instagram"></span></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="/about.html" class="py-2 d-block">About</a></li>
+                <li><a href="#" class="py-2 d-block">Med A-Z</a></li>
+                <!-- <li><a href="#" class="py-2 d-block">Terms and Conditions</a></li> -->
+                <li><a
+                    href="mailto:krishilsheth@gmail.com?subject=We Want To Collaborate With Medicomp India&body=//text here"
+                    class="py-2 d-block">Become a partner</a></li>
+                <!-- <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li> -->
+                <li><a href="/privacypolicy.html" class="py-2 d-block">Privacy and Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+                <li><a href="/about.html" class="py-2 d-block">FAQ</a></li>
+                <!-- <li><a href="#" class="py-2 d-block">Payment Option</a></li>
+                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
+                <li><a href="#" class="py-2 d-block">How it works</a></li> -->
+                <li><a href="/contact.html" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+              <div class="block-23 mb-3">
+                <ul>
+
+                  <!-- <li><a href="tel:9372677245"><span class="icon icon-phone"></span>
+                    
+                    <span class="text">9372677245</span></a></li> -->
+                  <li><a href="mailto:@krishilsheth@gmail.com"><span class="icon icon-envelope"></span><span
+                        class="text">krishilsheth@gmail.com</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p>
+              Copyright &copy;
+              <script>document.write(new Date().getFullYear());</script> All rights reserved | <i class="icon-plus"
+                aria-hidden="true"></i> <a href="https://medicomp.in" target="_blank">Medicomp India</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen">
+      <!-- <svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg> -->
+      <img src="medicomp-loading-unscreen.gif"
+        style="width: 50px;height: 50px;position: absolute;transform:translate(-50%,-50%);filter: brightness(1.1);"
+        alt="">
+
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/jquery.animateNumber.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+    <script src="js/scrollax.min.js"></script>
+    <script src="js/range.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
