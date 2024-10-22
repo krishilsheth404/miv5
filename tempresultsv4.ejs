@@ -5410,10 +5410,11 @@
   function fetchData() {
     const urlParams = new URLSearchParams(window.location.search);
     const medname = urlParams.get('medname');
+    const packSize = urlParams.get('packSize');
     const pincode = urlParams.get('pincode');
 
     // Pass medname and pincode as query parameters
-    const eventSource = new EventSource(`/scrape-data?medname=${encodeURIComponent(medname)}&pincode=${encodeURIComponent(pincode)}`);
+    const eventSource = new EventSource(`/scrape-data?medname=${encodeURIComponent(medname)}&packSize=${encodeURIComponent(packSize)}&pincode=${encodeURIComponent(pincode)}`);
 
     eventSource.onmessage = function (event) {
       if (event.data === "over") {

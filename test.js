@@ -7787,7 +7787,7 @@ extractDataFromExpressMed= async (url,ogNameOfMed,nameOfMed, medicinePackSize,cf
     
       // Filter products based on text_msg and medicinePackSize
      
-      var price=parseFloat($('.item-price').first().clone().children().remove().end().text().trim())
+      var price=parseFloat($('.item-price').first().clone().children().remove().end().text().trim().replace(',',''))
       
       var saltSection=($('.detail-key-incre ul li').text().split('+') || 'NA');
       if(typeof(saltSection)=='string'){
@@ -11529,15 +11529,19 @@ app.get('/medicomp',async (req, res) => {
 });
 
 
-async function getMedicineCollection(medname) {
+async function getMedicineCollection(medname,packSize) {
     try {
         const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
         var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         const collection = client.db('MedicompDb').collection('biggerDOM');
         
         // Find all documents where medname matches the input
-        const result = await collection.find({"medicineName":medname}).toArray();
-        console.log(result[0].medicinePackSize)
+           const  result = await collection.find({
+                "medicineName": medname,
+                "packSize": packSize // Add this line to filter by packSize as well
+            }).toArray();
+        
+        console.log(result[0])
         return result;  // Return the entire collection matching the medname
     } catch (err) {
         console.error("Error fetching collection:", err);
@@ -11684,7 +11688,7 @@ app.get('/scrape-data',async (req, res) => {
         'Connection': 'keep-alive'
       });
       
-    var medicineInformation=await getMedicineCollection(req.query['medname']);
+    var medicineInformation=await getMedicineCollection(req.query['medname'],req.query['packSize']);
     var pincode=parseInt(req.query['pincode'])||400003;
 
     var linksExistsInDb=false;

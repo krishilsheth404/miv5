@@ -496,7 +496,8 @@ display: flex;
                     <form action="/medicomp" method="GET" class="ss searchString7" style="z-index: 1;cursor: pointer;height: 30px;">
                       <a onclick="this.parentNode.submit();  window.scrollTo(0, 0);" id="pntr">
                         <b class="view-comparison2">View Comparison</b>
-                        <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Gemfrac Injection 1">
+                        <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Gemfrac Injection">
+                        <input type="text" autocomplete="off" id="packSize" style="word-wrap: break-word;display:none" contenteditable="false" name="packSize" class="form-control foodItem_7" value="pre-filled pen of 2.4 ml Injection">
 
                         </a>
                     </form>
@@ -541,7 +542,8 @@ display: flex;
                         
                           
                         <b class="view-comparison2">View Comparison</b>
-                        <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Endoreg Tablet 14">
+                        <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Endoreg Tablet">
+                        <input type="text" autocomplete="off" id="packSize" style="word-wrap: break-word;display:none" contenteditable="false" name="packSize" class="form-control foodItem_7" value="1 Strip of 14 Tablet">
 
                         </a>
                     </form>
@@ -585,7 +587,8 @@ display: flex;
                           
                               
                         <b class="view-comparison2">View Comparison</b>
-                          <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Volini Spray 40gm">
+                        <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Volini Spray">
+                        <input type="text" autocomplete="off" id="packSize" style="word-wrap: break-word;display:none" contenteditable="false" name="packSize" class="form-control foodItem_7" value="40 gm Spray">
 
                           </a>
                   </form>
@@ -632,7 +635,8 @@ display: flex;
                           
                               
                         <b class="view-comparison2">View Comparison</b>
-                          <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Crocin 650 Tablet 15">
+                        <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word;display:none" contenteditable="false" name="medname" class="form-control foodItem_7" value="Crocin 650">
+                        <input type="text" autocomplete="off" id="packSize" style="word-wrap: break-word;display:none" contenteditable="false" name="packSize" class="form-control foodItem_7" value="1 Strip of 15 Tablet">
 
                           </a>
                   </form>
@@ -904,7 +908,8 @@ display: flex;
           <p class="m-0" style="font-size: 12px; font-weight: 500; color: rgba(138, 150, 188, 1);">${medicine['packSize'] ? medicine['packSize'] : ''}</p>
     </a>
            <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word; display:none" contenteditable="false" name="medname" class="form-control foodItem_${i + 1}" value="${medicine['medicineName']}">
-       
+                                <input type="text" autocomplete="off" id="packSize" style="word-wrap: break-word; display:none" contenteditable="false" name="packSize" class="form-control foodItem_${i + 1}" value="${medicine['packSize']}">
+
           </form>
           </div>
 
