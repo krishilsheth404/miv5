@@ -326,7 +326,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
                         <a onclick="event.preventDefault(); this.parentNode.submit();" id="pntr">
                            
                         <h6 class="m-0" style="color: rgba(38, 50, 87, 1); font-weight: 500; font-family: Poppins, sans-serif;">${medicine['medicineName']}</h6>
-                        <p class="m-0" style="font-size: 12px; font-weight: 500; color: rgba(138, 150, 188, 1);">${medicine['medicinePackSize'] ? medicine['medicinePackSize'] : ''}</p>
+                        <p class="m-0" style="font-size: 12px; font-weight: 500; color: rgba(138, 150, 188, 1);">${medicine['packSize'] ? medicine['packSize'] : ''}</p>
                   </a>
                          <input type="text" autocomplete="off" id="medname" style="word-wrap: break-word; display:none" contenteditable="false" name="medname" class="form-control foodItem_${i + 1}" value="${medicine['medicineName']}">
                    </form>

@@ -11256,7 +11256,7 @@ app.get('/medicineName', async (req, res) => {
     
     const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = client.db("MedicompDb");
-    const collection = db.collection("medicineList");
+    const collection = db.collection("biggerDOM");
    
     
     try {
@@ -11268,7 +11268,7 @@ app.get('/medicineName', async (req, res) => {
         var query = [
             {
               $search: {
-                index: "medicompSearch",
+                index: "searchFromBiggerDOM",
                 autocomplete: {
                   query: req.query['q'],
                   path: "medicineName",
@@ -11290,7 +11290,7 @@ app.get('/medicineName', async (req, res) => {
             query = [
                 {
                   $search: {
-                    index: "medicompSearch",
+                    index: "searchFromBiggerDOM",
                     autocomplete: {
                       query: req.query['q'],
                       path: "medicineName",
@@ -11533,7 +11533,7 @@ async function getMedicineCollection(medname) {
     try {
         const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
         var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        const collection = client.db('MedicompDb').collection('medicineList');
+        const collection = client.db('MedicompDb').collection('biggerDOM');
         
         // Find all documents where medname matches the input
         const result = await collection.find({"medicineName":medname}).toArray();
@@ -11577,7 +11577,8 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed,packSize,medicineInformat
                 // 'chemistbox.in','1mg.com', 
                  'myupchar.com',
                 // 'chemistsworld.com', 
-                '1mg.com', 'expressmed.in'
+                '1mg.com', 'expressmed.in' ,
+                'truemeds.in',
                 // 'onebharatpharmacy.com',
                 // 'wellnessforever.com',
                 // 'secondmedic.com', 
@@ -11593,7 +11594,7 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed,packSize,medicineInformat
             var cpyOftempf;
 
 
-            while (cont != 8) {
+            while (cont != 9) {
         
         
                 tries++;
@@ -11649,6 +11650,8 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed,packSize,medicineInformat
                     t[6] = tempf[k];
                 } else if (tempf[k].includes("expressmed")) {
                     t[7] = tempf[k];
+                } else if (tempf[k].includes("truemeds")) {
+                    t[8] = tempf[k];
                 }
 
             }
@@ -11687,9 +11690,10 @@ app.get('/scrape-data',async (req, res) => {
     var linksExistsInDb=false;
     console.log(medicineInformation[0].medicineName)
     var nameOfMed = medicineInformation[0].medicineName + '\n';
-    var packSize = medicineInformation[0].medicinePackSize ;
+    var packSize = medicineInformation[0].packSize ;
     nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s]/g, ' ').toLowerCase();
     console.log(nameOfMed);
+    console.log(packSize);
    
     
 
@@ -11710,7 +11714,8 @@ app.get('/scrape-data',async (req, res) => {
     var cfnie=[]; //Check For Number If Exists
     var splitCfnieBySpace=nameOfMed.split(' ');
 
-    var tempArrayOfNumbersInString=nameOfMed.match(/\d+/g).map(Number);
+    var tempArrayOfNumbersInString = nameOfMed.match(/\d+/g) || []; // Default to an empty array
+    tempArrayOfNumbersInString = tempArrayOfNumbersInString.map(Number);
     if(tempArrayOfNumbersInString.length>1){
         cfnie=tempArrayOfNumbersInString.slice(0, -1);
     }
@@ -11746,7 +11751,8 @@ app.get('/scrape-data',async (req, res) => {
     
 
 
-    const medicinePackSize=extractNumbersWithDecimalPoints(packSize);
+    var medicinePackSize=extractNumbersWithDecimalPoints(packSize);
+    medicinePackSize=Math.max(...medicinePackSize)
     // const manufacturerN= await extractManufacNameFromPharmeasy(item[1]);
     // console.log(manufacturerN)
 
