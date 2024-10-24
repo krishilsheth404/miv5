@@ -40,6 +40,7 @@ const { ConnectAppContext } = require('twilio/lib/rest/api/v2010/account/connect
 const { filter } = require('domutils');
 const { runInContext } = require('vm');
 const { Console } = require('console');
+const e = require('express');
 
 
 
@@ -64,21 +65,21 @@ const { Console } = require('console');
 // });
 
 app.use(express.static(__dirname));
-  
+
 app.set('view engine', 'ejs');
 
 
 function validateReferer(req, res, next) {
     const allowedOrigin = 'https://medicomp.in';  // Replace with your actual domain
     const origin = req.get('origin') || req.get('referer');  // Check both Origin and Referer headers
-  
+
     // If the request comes from the allowed origin/referer, proceed; otherwise, block the request
     if (origin && origin.startsWith(allowedOrigin)) {
-      return next();
+        return next();
     } else {
-      return res.status(403).json({ message: 'Unauthorized access - Invalid Origin/Referer' });
+        return res.status(403).json({ message: 'Unauthorized access - Invalid Origin/Referer' });
     }
-  }
+}
 
 
 // session middleware
@@ -105,29 +106,29 @@ app.use(bodyParser.json());
 // var newItem;
 // Route to Login Page
 
-app.get('/', async (req, res)  => {
+app.get('/', async (req, res) => {
 
 
 
-      
-      const url = 'https://api-console.mkart.dev/api/v1/check';
-      const data = { // Object containing data to be sent in the request body
-       
-      };
-      
-      const headers = {
+
+    const url = 'https://api-console.mkart.dev/api/v1/check';
+    const data = { // Object containing data to be sent in the request body
+
+    };
+
+    const headers = {
         'Content-Type': 'application/json', // Example header
         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzhlOGVkMTZiMTBlMmFiYzhiNDdkNDdkYTExZmI5MzFlYjNlMGZiNzBhZjg4Njg2NDI3MTFjMjU5ZjRiZjVjMGQ0MWU4MDhlNzhkZGM3MjUiLCJpYXQiOjE3MTk2NTkyNTYuMzYyOTY0LCJuYmYiOjE3MTk2NTkyNTYuMzYyOTY2LCJleHAiOjE3NTExOTUyNTYuMzQ5NzcsInN1YiI6IjQiLCJzY29wZXMiOltdfQ.jJw6_397To_aq8fdRqBIsJPNsSCJopU75SZIGOmzoe5iRlINC17d4yJrg1vW6GfBse8SEM8FHg98dQOFYc3nxaIfP8fZwLgk6LcGapBWtZPV4w3p9VqRP8Iwx8-z4R48W5MW9qLE-6SB0ikcuBZzYDj6adyxgBfZDvOGqqBgk3lDM-YCUZl6SFWvtO0emkPjq9ZnB5P_HUBArPgzEY5rE9U9kWbKYCgpB_N19qcSiconCSjJJDXu-cfPIudYsJvSYREluz9hfh02gyxFdcxmgafNM32MRjx3x7KU1OcD3F7tTzxkDDCunPNn9P36lKV5SHVCg0-3og621uTsl5Xc5tO137jupbNSTqCzyRZ4bzqt3amAhRD01aHkEl0jZ4qyFJDPy6c7z8wyQP4W2zk1paucsgFmvmZY0IqiY9EVe-YVN3jks5uTstUVvOWdladFVAQrmUsiL0wNKomRUY9slgi0zAN47fnCOGz5sTit7fYqRpNyS2g2luYtpgq6u_AGEve2sEjOXmxKcrm5hCOUL9xsIedv6KfttZmBqFmoMLbIYENc6GK4EwEn3UinC0_aOnARpzYE9r1LEdTTB76vRaONDvPLJzZdVZROtpWjEFPdp2v8JnsnOjwpDszwfFOYSqlcEaSb2VtaNW8Y1bL38vdaT3pTJbTdMtQZGnB_UxE',
-      };
-      
-      await axios.post(url, data, { headers })
+    };
+
+    await axios.post(url, data, { headers })
         .then(response => {
-          console.log(response.data); // Response data from the server
+            console.log(response.data); // Response data from the server
         })
         .catch(error => {
             console.error(error);
         });
-        res.render(__dirname+'/Laptopindex.html');
+    res.render(__dirname + '/Laptopindex.html');
 
     // if (req.session.user) {
     //     res.redirect('/home')
@@ -136,8 +137,8 @@ app.get('/', async (req, res)  => {
     // }
 });
 
-app.get('/about-us', async (req, res)  => {
-    res.sendFile(__dirname+'/about.html');
+app.get('/about-us', async (req, res) => {
+    res.sendFile(__dirname + '/about.html');
     // if (req.session.user) {
     //     res.redirect('/home')
     // } else {
@@ -147,9 +148,9 @@ app.get('/about-us', async (req, res)  => {
 
 
 
-app.get('/index.html', async (req, res)  => {
+app.get('/index.html', async (req, res) => {
     // res.sendFile(__dirname+'/index.html');
-    res.render(__dirname+'/Laptopindex.html');
+    res.render(__dirname + '/Laptopindex.html');
 
     // if (req.session.user) {
     //     res.redirect('/home')
@@ -161,7 +162,7 @@ app.get('/index.html', async (req, res)  => {
 app.get('/home', (req, res) => {
 
     // console.log(req.session.user)
-    res.sendFile(__dirname+'Laptopindex.html');
+    res.sendFile(__dirname + 'Laptopindex.html');
     // if (req.session.user) {
     //     res.sendFile(__dirname+'/index.html');
     // } else {
@@ -173,14 +174,14 @@ app.post('/home', (req, res) => {
 
     console.log(req.session.user)
     if (req.session.user) {
-        res.render(__dirname+'/Laptopindex.html');
+        res.render(__dirname + '/Laptopindex.html');
     } else {
-       res.redirect('/login')
+        res.redirect('/login')
     }
 });
 
-app.get('/login', (req, res) => {   
-    res.sendFile(__dirname+'/loginPage.html');
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/loginPage.html');
     // if (req.session.user) {
     //     res.redirect('/home');
     // } else {
@@ -188,49 +189,49 @@ app.get('/login', (req, res) => {
 });
 
 
-app.get('/medkart',async  (req, res) => {   
+app.get('/medkart', async (req, res) => {
     const url = 'https://api-console.mkart.dev/api/v1/product/search?q=Crocin 650 Tablet 15&page=1';
-      
-      const headers = {
+
+    const headers = {
         'Content-Type': 'application/json', // Example header
         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzhlOGVkMTZiMTBlMmFiYzhiNDdkNDdkYTExZmI5MzFlYjNlMGZiNzBhZjg4Njg2NDI3MTFjMjU5ZjRiZjVjMGQ0MWU4MDhlNzhkZGM3MjUiLCJpYXQiOjE3MTk2NTkyNTYuMzYyOTY0LCJuYmYiOjE3MTk2NTkyNTYuMzYyOTY2LCJleHAiOjE3NTExOTUyNTYuMzQ5NzcsInN1YiI6IjQiLCJzY29wZXMiOltdfQ.jJw6_397To_aq8fdRqBIsJPNsSCJopU75SZIGOmzoe5iRlINC17d4yJrg1vW6GfBse8SEM8FHg98dQOFYc3nxaIfP8fZwLgk6LcGapBWtZPV4w3p9VqRP8Iwx8-z4R48W5MW9qLE-6SB0ikcuBZzYDj6adyxgBfZDvOGqqBgk3lDM-YCUZl6SFWvtO0emkPjq9ZnB5P_HUBArPgzEY5rE9U9kWbKYCgpB_N19qcSiconCSjJJDXu-cfPIudYsJvSYREluz9hfh02gyxFdcxmgafNM32MRjx3x7KU1OcD3F7tTzxkDDCunPNn9P36lKV5SHVCg0-3og621uTsl5Xc5tO137jupbNSTqCzyRZ4bzqt3amAhRD01aHkEl0jZ4qyFJDPy6c7z8wyQP4W2zk1paucsgFmvmZY0IqiY9EVe-YVN3jks5uTstUVvOWdladFVAQrmUsiL0wNKomRUY9slgi0zAN47fnCOGz5sTit7fYqRpNyS2g2luYtpgq6u_AGEve2sEjOXmxKcrm5hCOUL9xsIedv6KfttZmBqFmoMLbIYENc6GK4EwEn3UinC0_aOnARpzYE9r1LEdTTB76vRaONDvPLJzZdVZROtpWjEFPdp2v8JnsnOjwpDszwfFOYSqlcEaSb2VtaNW8Y1bL38vdaT3pTJbTdMtQZGnB_UxE',
-      };
-      
-      await axios.get(url, { headers:headers })
+    };
+
+    await axios.get(url, { headers: headers })
         .then(response => {
-        const products = response.data.data.products;
-        // console.log(products);
-        
-        // const products = jsonData.data.products;
+            const products = response.data.data.products;
+            // console.log(products);
 
-        // Filter products with package_size of 10
-        const filteredProducts = products.filter(product => product.package_size === 15);
+            // const products = jsonData.data.products;
 
-        // Log the filtered products
-        // console.log(productsWithPackageSize10);
-        
-        const targetString = "Crocin 650 Tablet";
+            // Filter products with package_size of 10
+            const filteredProducts = products.filter(product => product.package_size === 15);
 
-        let mostSimilarProduct = null;
-        let highestSimilarityScore = 0;
+            // Log the filtered products
+            // console.log(productsWithPackageSize10);
 
-        filteredProducts.forEach(product => {
-            const similarityScore = stringSimilarity.compareTwoStrings(product.name, targetString);
-            if (similarityScore > highestSimilarityScore) {
-                highestSimilarityScore = similarityScore;
-                mostSimilarProduct = product;
+            const targetString = "Crocin 650 Tablet";
+
+            let mostSimilarProduct = null;
+            let highestSimilarityScore = 0;
+
+            filteredProducts.forEach(product => {
+                const similarityScore = stringSimilarity.compareTwoStrings(product.name, targetString);
+                if (similarityScore > highestSimilarityScore) {
+                    highestSimilarityScore = similarityScore;
+                    mostSimilarProduct = product;
+                }
+            });
+
+            if (mostSimilarProduct) {
+                console.log('Product with the highest similarity to "Crocin 650 Tablet":');
+                console.log(`Name: ${mostSimilarProduct.name}`);
+                console.log(`Similarity Score: ${highestSimilarityScore.toFixed(2)}`);
+            } else {
+                console.log('No products found with package size of 10.');
             }
-        });
 
-        if (mostSimilarProduct) {
-            console.log('Product with the highest similarity to "Crocin 650 Tablet":');
-            console.log(`Name: ${mostSimilarProduct.name}`);
-            console.log(`Similarity Score: ${highestSimilarityScore.toFixed(2)}`);
-        } else {
-            console.log('No products found with package size of 10.');
-        }
-        
-        res.send(response.data); // Response data from the server
+            res.send(response.data); // Response data from the server
 
 
         })
@@ -242,7 +243,7 @@ app.get('/medkart',async  (req, res) => {
 
 
 app.get('/get', (req, res) => {
-   console.log(req.session.user)
+    console.log(req.session.user)
 });
 
 app.post('/', (req, res) => {
@@ -255,7 +256,7 @@ app.post('/', (req, res) => {
 
 
 // app.get('/getSearchHistoryData', async (req, res) => {
-   
+
 //     async function fetchData() {
 //         const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
 //         var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -263,22 +264,22 @@ app.post('/', (req, res) => {
 //             // Connect to the MongoDB client
 //             await client.connect();
 //             console.log('Connected to the MongoDB server');
-    
+
 //             // Select the database and collection
 //             const db = client.db("MedicompDb");
 //             const collection = db.collection("finalResultPageMedicomp");
-    
+
 //             // Perform a query to get all documents (adjust query as necessary)
 //             const filter = {
 //                 "DateOfComparison": { $regex: "[0-9]{2}/09/2024" }
 //             };
-    
+
 //             // Perform the filtered query to get documents
 //             const data = await collection.find(filter).toArray();
 
 //             const count = await collection.countDocuments(filter);
 //             console.log('Total count of documents:', count);
-    
+
 //             return data;
 //         } catch (error) {
 //             console.error('Error fetching data:', error);
@@ -288,13 +289,13 @@ app.post('/', (req, res) => {
 //             console.log('MongoDB connection closed');
 //         }
 //     }
-    
+
 //     // Call the function to fetch data
 //     var a=fetchData();
-    
+
 
 //     res.send(a)
-        
+
 // })
 
 
@@ -302,64 +303,64 @@ app.get('/signin', async (req, res) => {
     console.log(req.query['email'])
     console.log(req.query['password'])
 
-    async function retrieveData(email,password) {
+    async function retrieveData(email, password) {
         const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
         var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         try {
             const database = client.db('MedicompDb');
             const collection = database.collection('User');
-    
+
             // Find documents that match a query
-            const user = await collection.findOne({email});
+            const user = await collection.findOne({ email });
             console.log(user)
-            
+
             if (!user) {
                 return 'Incorrect Email';
             }
-    
+
             if (user.password !== password) {
                 return 'Incorrect Password';
             }
-    
+
             // Return the username if email and password are correct
             return user.username;
-          
+
         } catch (err) {
             if (err.code === 11000 && err.keyPattern.email) {
                 console.error('Duplicate email found');
             } else {
                 console.error('Error inserting document', err);
             }
-        }finally {
+        } finally {
             await client.close();
         }
     }
     // retrieveData(req.body.email_id,req.body.password);
-    var cVal=await retrieveData(req.query['email'],req.query['password']);
+    var cVal = await retrieveData(req.query['email'], req.query['password']);
 
     if (cVal == 'Incorrect Email') {
         res.send('Incorrect Email');
-    }else if(cVal == 'Incorrect Password'){
+    } else if (cVal == 'Incorrect Password') {
         res.send('Incorrect Password');
-    }else{
-        req.session.user = {    
-            name:cVal, 
-            isLoggedIn:true,
+    } else {
+        req.session.user = {
+            name: cVal,
+            isLoggedIn: true,
         };
-    
-    
+
+
         res.send('Ok')
     }
-        
+
 })
 app.get('/signup', async (req, res) => {
 
     console.log(req.query['username'])
     console.log(req.query['email'])
     console.log(req.query['password'])
-    
-    var errorOccured=[];
-    
+
+    var errorOccured = [];
+
     const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
 
     async function checkEmailExists(email) {
@@ -367,10 +368,10 @@ app.get('/signup', async (req, res) => {
         try {
             const database = client1.db('MedicompDb');
             const collection = database.collection('User');
-    
+
             // Check if the email exists in the collection
             const existingUser = await collection.findOne({ email });
-    
+
             return !!existingUser; // Return true if email exists, false otherwise
         } catch (err) {
             console.error('Error checking email existence', err);
@@ -380,57 +381,57 @@ app.get('/signup', async (req, res) => {
         }
     }
 
-    
-    
-    async function insertSignUpData(u,e,p) {
+
+
+    async function insertSignUpData(u, e, p) {
         var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         try {
             const database = client.db('MedicompDb');
             const collection = database.collection('User');
-            
+
             const emailExists = await checkEmailExists(e);
             if (emailExists) {
                 console.error('Email already exists');
                 errorOccured.push("Email Duplicate Error")
                 return 'duplicate Email';
             }
-            
-            
+
+
             // Insert a single document
             const result = await collection.insertOne(
                 {
-                     username:u,
-                     email:e,
-                     password:p,
+                    username: u,
+                    email: e,
+                    password: p,
                 }
-                                                    );
-                                                    
-                  console.log(`Inserted details of ${u} sucessfully`);
-                  return 'Ok';
-        }  catch (err) {
+            );
+
+            console.log(`Inserted details of ${u} sucessfully`);
+            return 'Ok';
+        } catch (err) {
             if (err.code === 11000 && err.keyPattern.email) {
                 console.error('Duplicate email found');
             } else {
                 console.error('Error inserting document', err);
             }
-        }finally {
+        } finally {
             await client.close();
         }
     }
-    
-    
 
-    var cVal=await insertSignUpData(req.query['username'],req.query['email'],req.query['password']);
+
+
+    var cVal = await insertSignUpData(req.query['username'], req.query['email'], req.query['password']);
 
     if (cVal === 'duplicate Email') {
         res.send('duplicate Email');
-    }else{
-        req.session.user = {    
-            name:req.query['username'], 
-            isLoggedIn:true,
+    } else {
+        req.session.user = {
+            name: req.query['username'],
+            isLoggedIn: true,
         };
-    
-    
+
+
         res.send('Ok')
     }
 
@@ -439,7 +440,7 @@ app.get('/signup', async (req, res) => {
 
 
 app.post('/logout', (req, res) => {
-    req.session.user.isLoggedIn='';
+    req.session.user.isLoggedIn = '';
     res.redirect('/login');
 });
 
@@ -456,61 +457,61 @@ app.get('/temp', async (req, res) => {
     //     console.log(e)
     //   });
 
-    var DataFinalForMDB=[];
-   
+    var DataFinalForMDB = [];
 
 
-    
-
-        async function addData() {
-            const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
-            const dbName = 'MedicompDb'; // Replace with your database name
-            const collectionName = 'medicineList'; // Replace with your collection name
-            
-            
-            try {
-                const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-                const db = client.db(dbName);
-                const collection = db.collection(collectionName);
-
-                // const result = await collection.createIndex({ medicineName: 1 });
-                // console.log("Index created successfully:", result);
-
-                await collection.createIndex({ "medicineName": "text" }, { "default_language": "english", "weights": { "medicineName": 10 } });
 
 
-                console.log("done")
-                // console.log(collection('medicineList').getIndexes())
-                // const regex = new RegExp("ant", 'i'); // 'i' for case-insensitive
-                // const cursor = collection.find({ medicineName: { $regex: regex } }).limit(20);
-        
-                // Convert cursor to array and log the results
-                console.log("Found the following records:");
+
+    async function addData() {
+        const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
+        const dbName = 'MedicompDb'; // Replace with your database name
+        const collectionName = 'medicineList'; // Replace with your collection name
+
+
+        try {
+            const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            const db = client.db(dbName);
+            const collection = db.collection(collectionName);
+
+            // const result = await collection.createIndex({ medicineName: 1 });
+            // console.log("Index created successfully:", result);
+
+            await collection.createIndex({ "medicineName": "text" }, { "default_language": "english", "weights": { "medicineName": 10 } });
+
+
+            console.log("done")
+            // console.log(collection('medicineList').getIndexes())
+            // const regex = new RegExp("ant", 'i'); // 'i' for case-insensitive
+            // const cursor = collection.find({ medicineName: { $regex: regex } }).limit(20);
+
+            // Convert cursor to array and log the results
+            console.log("Found the following records:");
 
 
             //   for (const line of lines) {
             //     console.log(line);
             //     const td = line.split(',');
-                
+
             //         // await collection.insertOne({medicineName:td[0],manufacturerName:td[1],medicinePackSize:td[2],saltComposition:td[3].split('+'),prescriptionReq:td[4],prodLink:td[5]});
             //         await collectionName.createIndex({medicineName: `${td[0]}`})
-                // }
-                
-                await client.close();
-            }catch (err) {
-              console.error('Error inserting data:', err);
-            }
-          }
-        
+            // }
 
-        // const myData = { // Replace with your actual data object
-        //     name: "Hello World",
-        //     age: 21,
-        //     city: "India"
-        // };
-       
-        await addData();
-        console.log('Data inserted successfully');
+            await client.close();
+        } catch (err) {
+            console.error('Error inserting data:', err);
+        }
+    }
+
+
+    // const myData = { // Replace with your actual data object
+    //     name: "Hello World",
+    //     age: 21,
+    //     city: "India"
+    // };
+
+    await addData();
+    console.log('Data inserted successfully');
 
 
 });
@@ -520,56 +521,56 @@ app.get('/ScrapeDataFromApollo', async (req, res) => {
         try {
             // Fetch the image
             const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-    
+
             // Save the image to a local file
             fs.writeFileSync(localPath, response.data);
-    
+
         } catch (error) {
             console.error(`Error downloading image: ${imageUrl}`, error);
         }
     };
 
     extractAddress = async (url) => {
-            
+
         const { data } = await axios.get(url, { responseType: 'arraybuffer' });
         const $ = cheerio.load(data);
-        var medicompFileName=$('.black-txt').text().replace(/[%,+'\/\\\s.]/g, '').trim();
-              var imageUrl =$('.largeimage img').attr('src')
+        var medicompFileName = $('.black-txt').text().replace(/[%,+'\/\\\s.]/g, '').trim();
+        var imageUrl = $('.largeimage img').attr('src')
 
-        
+
         // downloadImage($('.largeimage img').attr('src'), `./MedicineImage/${medicompFileName}.jpg`);
 
         try {
             // Fetch the image
             // const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-    
+
             // Save the image to a local file
-           await downloadImage(imageUrl, `./MedicineImage/${medicompFileName}.jpg`);
-    
-            console.log('Image downloaded successfully'+url);
+            await downloadImage(imageUrl, `./MedicineImage/${medicompFileName}.jpg`);
+
+            console.log('Image downloaded successfully' + url);
 
         } catch (error) {
             console.error('Error downloading image:', error);
         }
         // for images from netmeds
-        
 
 
-            // const { data } = await axios.get(url);
-            // const $ = cheerio.load(data);
 
-            // const image =$('.largeimage img').attr('src')
+        // const { data } = await axios.get(url);
+        // const $ = cheerio.load(data);
 
-            // fs.appendFile('./NetmedsImagesLink.txt', `${image}\n`, (err) => {
-            //     if (err) {
-            //         console.error('Error writing to file:', err);
-            //     } else {
-            //         console.log(`Saved Link ${image}`);
-            //     }
-            // })//for medlinks images links
+        // const image =$('.largeimage img').attr('src')
+
+        // fs.appendFile('./NetmedsImagesLink.txt', `${image}\n`, (err) => {
+        //     if (err) {
+        //         console.error('Error writing to file:', err);
+        //     } else {
+        //         console.log(`Saved Link ${image}`);
+        //     }
+        // })//for medlinks images links
 
 
-      
+
         // for (let i = 0; i < urls.length; i++) {
         //     const { data } = await axios.get(urls[i]);
         //     const $ = cheerio.load(data);
@@ -610,10 +611,10 @@ app.get('/ScrapeDataFromApollo', async (req, res) => {
         //     });
         // });
 
-            
+
         // const inputFilePath = 'allLinksForNames.txt';
         const outputFilePath = 'medicineDb.txt';
-        
+
         const appendToFile = (data) => {
             fs.appendFileSync(outputFilePath, `${data}\n`, (err) => {
                 if (err) {
@@ -623,7 +624,7 @@ app.get('/ScrapeDataFromApollo', async (req, res) => {
             });
             console.log("appened...");
         };
-        
+
         // const fetchDataAndAppendToFile = async (line) => {
         //     return new Promise(async (resolve, reject) => {
         //         const [medicineName, url] = line.split('~');
@@ -648,17 +649,17 @@ app.get('/ScrapeDataFromApollo', async (req, res) => {
         //             });
         //     });
         // };
-        
-        
+
+
         // const lines = fs.readFileSync(inputFilePath, 'utf-8').split('\n').filter(Boolean);
-        
+
         // const processLinks = async () => {
         //     for (const line of lines) {
         //         await new Promise(resolve => setTimeout(resolve, 1000)); // Delay of 1 second
         //         await fetchDataAndAppendToFile(line);
         //     }
         // };
-        
+
         // processLinks().then(() => {
         //     console.log('Finished processing all links.');
         // });
@@ -671,41 +672,41 @@ app.get('/ScrapeDataFromApollo', async (req, res) => {
                 return;
             }
 
-     const lines = data.split('\n');
+            const lines = data.split('\n');
 
 
-    for (const line of lines) {
-        // Process the line here
-        console.log(line);
-        // Split the data into individual JSON objects
-        const url = line.split('~')[1];
-        console.log(url);
-        
-    
-                         await axios.get(url)
-                        .then(async response => {
-                            const $ = cheerio.load(response.data);
-                            // Extract the required information using cheerio
-                            var medicineData = []
-                            medicineData.push($('.medName').first().text())
-                            medicineData.push($('#manufacturer').first().text())
-                            medicineData.push($('.medStrips p').first().text())
-                            if($('.compositionDescription').text().includes('...See more')){
-                                medicineData.push($('.compositionDescription').text().split('...See more')[0])
-                            }else{
-                                medicineData.push($('.compositionDescription').text())
-                            }
-                            medicineData.push($('.instructionLine').text().includes('Prescription') ? $('.instructionLine').text() : "No Prescription Required");
-                            medicineData.push(url)
-                            await appendToFile(`${medicineData}`);
-                            console.log("Appended For " + $('.medname').text());
-                        })
-                        .catch(error => {
-                            console.log(error)
-                            // console.error(`Error fetching data for ${$('.medname').text()}: ${error.message}`);
-                        });
+            for (const line of lines) {
+                // Process the line here
+                console.log(line);
+                // Split the data into individual JSON objects
+                const url = line.split('~')[1];
+                console.log(url);
 
-        }
+
+                await axios.get(url)
+                    .then(async response => {
+                        const $ = cheerio.load(response.data);
+                        // Extract the required information using cheerio
+                        var medicineData = []
+                        medicineData.push($('.medName').first().text())
+                        medicineData.push($('#manufacturer').first().text())
+                        medicineData.push($('.medStrips p').first().text())
+                        if ($('.compositionDescription').text().includes('...See more')) {
+                            medicineData.push($('.compositionDescription').text().split('...See more')[0])
+                        } else {
+                            medicineData.push($('.compositionDescription').text())
+                        }
+                        medicineData.push($('.instructionLine').text().includes('Prescription') ? $('.instructionLine').text() : "No Prescription Required");
+                        medicineData.push(url)
+                        await appendToFile(`${medicineData}`);
+                        console.log("Appended For " + $('.medname').text());
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        // console.error(`Error fetching data for ${$('.medname').text()}: ${error.message}`);
+                    });
+
+            }
 
         });
 
@@ -718,43 +719,43 @@ app.get('/ScrapeDataFromApollo', async (req, res) => {
     //     console.log(i+" - found");
 
     // }
-    
+
 
     await extractLinksOnly();
 
 })
-   
-    
+
+
 app.get('/addLinksToMednames', async (req, res) => {
     fs.readFile('MedicineNamesStartingWithC.txt', 'utf8', async (err, data) => {
         if (err) {
             console.error(err);
             return;
         }
-        
+
         // Split the data into an array of medicine names
         const medicineNames = data.split('\n').map(name => name.replace(/[^\w\s+\/\\]/gi, '').replace('%', '').trim());
 
-        
-        
+
+
         // Construct links for each medicine name
         for (const medicineName of medicineNames) {
             try {
                 // Construct the URL for the API endpoint
                 const link = `http://localhost:4000/fastCompMorePharmasFasterOp?medname=${encodeURIComponent(medicineName)}`;
-                
+
                 // Make the API request and wait for the response
                 const response = await axios.get(link);
-                
+
                 // Append the response data to the file
                 fs.appendFile('./MedicineLinksForNamesStartingWithZ.txt', `${medicineName} : ${JSON.stringify(response.data)}\n`, err => {
                     if (err) {
                         console.error(err);
                         return;
                     }
-                    
+
                     console.log(`Link for ${medicineName} saved to MedicineLinksForNamesStartingWithZ.txt`);
-                    var message= `${medicineName} Search Complete`;
+                    var message = `${medicineName} Search Complete`;
                     say.speak(message);
 
 
@@ -831,7 +832,7 @@ function extractNumbers(text) {
 async function calculateSimilarity(medicine1, medicine2) {
     const numbers1 = extractNumbers(medicine1);
     const numbers2 = extractNumbers(medicine2);
-    
+
     // Normalize the rest of the text
     const normMedicine1 = normalizeText(medicine1);
     const normMedicine2 = normalizeText(medicine2);
@@ -840,7 +841,7 @@ async function calculateSimilarity(medicine1, medicine2) {
     const similarityScore = stringSimilarity.compareTwoStrings(normMedicine1, normMedicine2);
 
     // Print the similarity score no matter what
-    
+
     // Comparison logic
     let finalMatch = false;
 
@@ -851,9 +852,9 @@ async function calculateSimilarity(medicine1, medicine2) {
         // If only one contains numbers, rely on text similarity with a higher threshold
         finalMatch = similarityScore > 0.75;
     }
-    
+
     console.log(`Similarity Score: ${similarityScore}`);
-    return (similarityScore*100).toFixed(2);
+    return (similarityScore * 100).toFixed(2);
 }
 
 
@@ -863,19 +864,19 @@ function compareStringArraysByIndex(arr1, arr2) {
     let totalSimilarity = 0;
     const shortestLength = Math.min(arr1.length, arr2.length);
     for (let i = 0; i < shortestLength; i++) {
-      const element1 = arr1[i].toLowerCase(); // Convert to lowercase
-      const element2 = arr2[i].toLowerCase(); // Convert to lowercase
-      if (element1 && element2) {
-        const similarity = stringSimilarity.compareTwoStrings(element1, element2);
-        totalSimilarity += similarity;
-        const percentage = similarity * 100;
-        similarities.push({ element1, element2, similarity: percentage.toFixed(2) });
-      }
+        const element1 = arr1[i].toLowerCase(); // Convert to lowercase
+        const element2 = arr2[i].toLowerCase(); // Convert to lowercase
+        if (element1 && element2) {
+            const similarity = stringSimilarity.compareTwoStrings(element1, element2);
+            totalSimilarity += similarity;
+            const percentage = similarity * 100;
+            similarities.push({ element1, element2, similarity: percentage.toFixed(2) });
+        }
     }
     const averageSimilarity = totalSimilarity / (shortestLength || 1);
-    return { similarities, averageSimilarity: (averageSimilarity*100).toFixed(2) };
-  }
-  
+    return { similarities, averageSimilarity: (averageSimilarity * 100).toFixed(2) };
+}
+
 
 app.post('/getImageData', async (req, res) => {
     const start = performance.now();
@@ -1042,7 +1043,7 @@ app.get('/medname', async (req, res) => {
                 final.push({
                     name: $(elm).find('.ProductCard_medicineName__8Ydfq').text(),
                     img: (($(elm).find('.ProductCard_medicineImgDefault__Q8XbJ noscript').html()).split('src="')[1]).split('"')[0],
-                    manufacturerName:($(elm).find('.ProductCard_brandName__kmcog').text().split("By")[1]),
+                    manufacturerName: ($(elm).find('.ProductCard_brandName__kmcog').text().split("By")[1]),
                 })
             });
 
@@ -1817,37 +1818,37 @@ function getDeliveryChargeForPharmeasy(price) {
         dc = 0;
     }
 
-    
+
     return dc;
 }
-extractManufacNameFromPharmeasy=async(url)=>{
+extractManufacNameFromPharmeasy = async (url) => {
     const { data } = await axios.get(url)
     const $ = cheerio.load(data, { xmlMode: false });
     var a = JSON.parse($('script[type=application/json]').text());
     return a['props']['pageProps']['productDetails']['manufacturer'];
 }
-extractDataOfPharmEasy = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataOfPharmEasy = async (url, meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
-        var filterCount=600;
+        var filterCount = 600;
 
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        const { data } = await axios.get(url, { timeout: 5000 });
         const $ = cheerio.load(data, { xmlMode: false });
 
-        var lson= await axios.get(`https://pharmeasy.in/apt-api/pincode/pincode?pincode=${pincode}`);
+        var lson = await axios.get(`https://pharmeasy.in/apt-api/pincode/pincode?pincode=${pincode}`);
         // lson = Pincode Serviceable or not
 
-        var delTime=''
+        var delTime = ''
 
-        if(lson.data.neighbourhoodAttributes.isExpressAvailable||null){
-            delTime="1 - 2 days"
-        }else{
-            delTime="2 - 7 days"
+        if (lson.data.neighbourhoodAttributes.isExpressAvailable || null) {
+            delTime = "1 - 2 days"
+        } else {
+            delTime = "2 - 7 days"
         }
 
         if (lson.data && lson.data.cityAttributes) {
-            lson="Pincode Serviceable"
-        }else{
-            lson="Pincode Not Serviceable"
+            lson = "Pincode Serviceable"
+        } else {
+            lson = "Pincode Not Serviceable"
         }
 
 
@@ -1855,25 +1856,24 @@ extractDataOfPharmEasy = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfni
         var a = JSON.parse($('script[type=application/json]').text());
 
 
-        var costPrice=0;
-        var finalPrice=0;
-        var discProv=parseInt(a['props']['pageProps']['productDetails']['discountPercent']);
+        var costPrice = 0;
+        var finalPrice = 0;
+        var discProv = parseInt(a['props']['pageProps']['productDetails']['discountPercent']);
         // console.log(a['props']['pageProps']['productDetails'])
-        costPrice=parseFloat(a['props']['pageProps']['productDetails']['costPrice']);
+        costPrice = parseFloat(a['props']['pageProps']['productDetails']['costPrice']);
 
-        if(discProv==4||discProv==8||discProv==12){
-            if(costPrice<=749)
-            {
-                finalPrice=costPrice;
-            }else if(costPrice>749 && costPrice<=849){
-                finalPrice=costPrice-(costPrice*0.04);
-            }else if (costPrice>849 && costPrice<=999){
-                finalPrice=costPrice-(costPrice*0.8);
-            }else if (costPrice>999){
-              finalPrice=costPrice-(costPrice*0.12);
+        if (discProv == 4 || discProv == 8 || discProv == 12) {
+            if (costPrice <= 749) {
+                finalPrice = costPrice;
+            } else if (costPrice > 749 && costPrice <= 849) {
+                finalPrice = costPrice - (costPrice * 0.04);
+            } else if (costPrice > 849 && costPrice <= 999) {
+                finalPrice = costPrice - (costPrice * 0.8);
+            } else if (costPrice > 999) {
+                finalPrice = costPrice - (costPrice * 0.12);
             }
-        }else{
-            finalPrice=parseFloat(a['props']['pageProps']['productDetails']['salePrice'])
+        } else {
+            finalPrice = parseFloat(a['props']['pageProps']['productDetails']['salePrice'])
         }
 
 
@@ -1897,66 +1897,97 @@ extractDataOfPharmEasy = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfni
             imgurl = "";
         }
 
-       
 
-        var salts= (a['props']['pageProps']['productDetails']['compositions'].map(composition => composition.name)||"NA")
-       
-        if(typeof(salts)=='string'){
-            salts=[salts];
+
+        var salts = (a['props']['pageProps']['productDetails']['compositions'].map(composition => composition.name) || "NA")
+
+        if (typeof (salts) == 'string') {
+            salts = [salts];
         }
 
-        console.log("Size In Pharmeasy "+ a['props']['pageProps']['productDetails']['measurementUnit']);
-        var qty=a['props']['pageProps']['productDetails']['measurementUnit'];
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
+        console.log("Size In Pharmeasy " + a['props']['pageProps']['productDetails']['measurementUnit']);
+        var qty = a['props']['pageProps']['productDetails']['measurementUnit'];
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
             qty = getPackSize(a['props']['pageProps']['productDetails']['name']);
-        }else{
-            qty=extractLargestNumber(qty);
+        } else {
+            qty = extractLargestNumber(qty);
         }
-       
 
-        var cfnieScore=0;
-        try{
-        var newcfnie=a['props']['pageProps']['productDetails']['name'].match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
 
-        if(cfnie){
+        var cfnieScore = 0;
+        try {
+            var newcfnie = a['props']['pageProps']['productDetails']['name'].match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+            console.log(newcfnie)
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
-            } else {
-            cfnieScore = 0; // No numbers found
-            }
-            
-            }else{
-            filterCount-=100;;
-            }
-    } catch (error) {
-        filterCount-=100;;
-    }
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
 
-        var smed=parseFloat(await calculateSimilarity(a['props']['pageProps']['productDetails']['name'].toLowerCase(), nameOfMed.toLowerCase()) );
+            if (cfnie.length) {
+
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inPackSize = qty.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy" + meddata.packSize)
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    console.log("foundcount length in pharmeasy " + foundCount)
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
+
+        } catch (error) {
+            console.log(error)
+            filterCount -= 100;;
+        }
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+
+        var smed = parseFloat(await calculateSimilarity(a['props']['pageProps']['productDetails']['name'].toLowerCase(), nameOfMed.toLowerCase()));
 
 
         // if(finalCharge>=749&&finalCharge<849){
@@ -1967,89 +1998,89 @@ extractDataOfPharmEasy = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfni
         //     finalCharge=finalCharge-(0.12*finalCharge)
         // }
 
-        var firstWordScore=0;
-        var firstWord= a['props']['pageProps']['productDetails']['name'];
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var firstWordScore = 0;
+        var firstWord = a['props']['pageProps']['productDetails']['name'];
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
 
-        var newSecondaryAnchor=a['props']['pageProps']['productDetails']['name'].toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
+        var newSecondaryAnchor = a['props']['pageProps']['productDetails']['name'].toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
 
 
-        var newTempStringForExtractingSecondaryAnchor='';
+        var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName=a['props']['pageProps']['productDetails']['name'].replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
-        if(firstWordScore==100){
+        var fullNewMedicineName = a['props']['pageProps']['productDetails']['name'].replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         // //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
 
 
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-        
-        if(secondaryAnchor!='@'){
 
-                const allPresent = secondaryAnchor.every(anchor => {
-            // If the anchor length is 1, use the original method
-            if (anchor.length === 1) {
-                return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-            } 
-            // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-            else {
-                return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        });
-
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
-            }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
-       
+
         return {
             name: 'PharmEasy',
             item: a['props']['pageProps']['productDetails']['name'],
@@ -2058,32 +2089,33 @@ var releaseMechScore=0;
             price: finalPrice.toFixed(2),
             offer: '',
             deliveryCharge: dc ? dc : 0,
-            finalCharge:( parseFloat(finalPrice + dc)).toFixed(2),
+            finalCharge: (parseFloat(finalPrice + dc)).toFixed(2),
 
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            newcfnie: newcfnie,
+            cfnieScore: cfnieScore,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            tempnewanchor:tempnewanchor,
+            secondaryAnchor: secondaryAnchor,
+            tempnewanchor: tempnewanchor,
 
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
-            lson:lson,
-            deliveryTime:delTime,
+            lson: lson,
+            deliveryTime: delTime,
 
             manufacturerName: a['props']['pageProps']['productDetails']['manufacturer'],
-            medicineAvailability:(a['props']['pageProps']['productDetails']['productAvailabilityFlags']['isAvailable']),
+            medicineAvailability: (a['props']['pageProps']['productDetails']['productAvailabilityFlags']['isAvailable']),
             minQty: a['props']['pageProps']['productDetails']['minQuantity'],
-            saltName:salts,
-            qtyItContainsDesc:qty,
-            LevenshteinDistance:levenshteinDistance(nameOfMed.toLowerCase(),a['props']['pageProps']['productDetails']['name']),
+            saltName: salts,
+            qtyItContainsDesc: qty,
+            LevenshteinDistance: levenshteinDistance(nameOfMed.toLowerCase(), a['props']['pageProps']['productDetails']['name']),
         };
 
 
@@ -2092,219 +2124,247 @@ var releaseMechScore=0;
         // res.sendFile(__dirname + '/error.html');
         console.log(error);
         return {};
-       }
+    }
 };
 
-extractDataOfMedkart = async (ogNameOfMed,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism) => {
+extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
     try {
 
-        var filterCount=600;
+        var filterCount = 600;
 
         // console.log("link->"+nameOfMed)
-    const url = `https://api-console.mkart.dev/api/v1/product/search?q=${nameOfMed}&page=1`;
-      
-    const headers = {
-      'Content-Type': 'application/json', // Example header
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzhlOGVkMTZiMTBlMmFiYzhiNDdkNDdkYTExZmI5MzFlYjNlMGZiNzBhZjg4Njg2NDI3MTFjMjU5ZjRiZjVjMGQ0MWU4MDhlNzhkZGM3MjUiLCJpYXQiOjE3MTk2NTkyNTYuMzYyOTY0LCJuYmYiOjE3MTk2NTkyNTYuMzYyOTY2LCJleHAiOjE3NTExOTUyNTYuMzQ5NzcsInN1YiI6IjQiLCJzY29wZXMiOltdfQ.jJw6_397To_aq8fdRqBIsJPNsSCJopU75SZIGOmzoe5iRlINC17d4yJrg1vW6GfBse8SEM8FHg98dQOFYc3nxaIfP8fZwLgk6LcGapBWtZPV4w3p9VqRP8Iwx8-z4R48W5MW9qLE-6SB0ikcuBZzYDj6adyxgBfZDvOGqqBgk3lDM-YCUZl6SFWvtO0emkPjq9ZnB5P_HUBArPgzEY5rE9U9kWbKYCgpB_N19qcSiconCSjJJDXu-cfPIudYsJvSYREluz9hfh02gyxFdcxmgafNM32MRjx3x7KU1OcD3F7tTzxkDDCunPNn9P36lKV5SHVCg0-3og621uTsl5Xc5tO137jupbNSTqCzyRZ4bzqt3amAhRD01aHkEl0jZ4qyFJDPy6c7z8wyQP4W2zk1paucsgFmvmZY0IqiY9EVe-YVN3jks5uTstUVvOWdladFVAQrmUsiL0wNKomRUY9slgi0zAN47fnCOGz5sTit7fYqRpNyS2g2luYtpgq6u_AGEve2sEjOXmxKcrm5hCOUL9xsIedv6KfttZmBqFmoMLbIYENc6GK4EwEn3UinC0_aOnARpzYE9r1LEdTTB76vRaONDvPLJzZdVZROtpWjEFPdp2v8JnsnOjwpDszwfFOYSqlcEaSb2VtaNW8Y1bL38vdaT3pTJbTdMtQZGnB_UxE',
-    };
-    
-    const response=await axios.get(url, { headers:headers,timeout: 5000 })
+        const url = `https://api-console.mkart.dev/api/v1/product/search?q=${nameOfMed}&page=1`;
 
-      const products = response.data.data.products;
-      // console.log(products);
-      
-      // const products = jsonData.data.products;
+        const headers = {
+            'Content-Type': 'application/json', // Example header
+            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzhlOGVkMTZiMTBlMmFiYzhiNDdkNDdkYTExZmI5MzFlYjNlMGZiNzBhZjg4Njg2NDI3MTFjMjU5ZjRiZjVjMGQ0MWU4MDhlNzhkZGM3MjUiLCJpYXQiOjE3MTk2NTkyNTYuMzYyOTY0LCJuYmYiOjE3MTk2NTkyNTYuMzYyOTY2LCJleHAiOjE3NTExOTUyNTYuMzQ5NzcsInN1YiI6IjQiLCJzY29wZXMiOltdfQ.jJw6_397To_aq8fdRqBIsJPNsSCJopU75SZIGOmzoe5iRlINC17d4yJrg1vW6GfBse8SEM8FHg98dQOFYc3nxaIfP8fZwLgk6LcGapBWtZPV4w3p9VqRP8Iwx8-z4R48W5MW9qLE-6SB0ikcuBZzYDj6adyxgBfZDvOGqqBgk3lDM-YCUZl6SFWvtO0emkPjq9ZnB5P_HUBArPgzEY5rE9U9kWbKYCgpB_N19qcSiconCSjJJDXu-cfPIudYsJvSYREluz9hfh02gyxFdcxmgafNM32MRjx3x7KU1OcD3F7tTzxkDDCunPNn9P36lKV5SHVCg0-3og621uTsl5Xc5tO137jupbNSTqCzyRZ4bzqt3amAhRD01aHkEl0jZ4qyFJDPy6c7z8wyQP4W2zk1paucsgFmvmZY0IqiY9EVe-YVN3jks5uTstUVvOWdladFVAQrmUsiL0wNKomRUY9slgi0zAN47fnCOGz5sTit7fYqRpNyS2g2luYtpgq6u_AGEve2sEjOXmxKcrm5hCOUL9xsIedv6KfttZmBqFmoMLbIYENc6GK4EwEn3UinC0_aOnARpzYE9r1LEdTTB76vRaONDvPLJzZdVZROtpWjEFPdp2v8JnsnOjwpDszwfFOYSqlcEaSb2VtaNW8Y1bL38vdaT3pTJbTdMtQZGnB_UxE',
+        };
 
-      // Filter products with package_size of 10
-      const filteredProducts = products.filter(product => parseFloat(product.package_size) === parseFloat(medicinePackSize));
+        const response = await axios.get(url, { headers: headers, timeout: 5000 })
 
-      // Log the filtered products
-    //   console.log(filteredProducts);
-      
-      const targetString = nameOfMed.toLowerCase();
+        const products = response.data.data.products;
+        // console.log(products);
 
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
+        // const products = jsonData.data.products;
 
-      filteredProducts.forEach(product => {
-          const similarityScore = stringSimilarity.compareTwoStrings(product.name.toLowerCase(), targetString.toLowerCase());
-          if (similarityScore > highestSimilarityScore) {
-              highestSimilarityScore = similarityScore;
-              mostSimilarProduct = product;
-          }
-      });
+        // Filter products with package_size of 10
+        const filteredProducts = products.filter(product =>
+            medicinePackSize.includes(parseFloat(product.package_size))
+        );
+        // Log the filtered products
+        //   console.log(filteredProducts);
 
-      var finalProd;
-      if (mostSimilarProduct) {
-            finalProd=mostSimilarProduct; 
-            // console.log(mostSimilarProduct)     
-    } else {
-          console.log('No products found with that package size');
-      }
+        const targetString = nameOfMed.toLowerCase();
 
-      console.log(finalProd)
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
 
-
-      var saltSection=(finalProd.combinations||"NA");
-      if(typeof(saltSection)=='string'){
-          saltSection=[saltSection];
-      }
-
-      var cfnieScore=0;
-      try{
-      var newcfnie=finalProd.name.match(/\d+/g);
-      newcfnie=newcfnie?newcfnie.map(Number):[];
-
-      if(cfnie){
-        var foundCount = 0;
-        
-        // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-        cfnie.forEach(num => {
-        // Check if the number is in apolloData.name
-        var inName = newcfnie.includes(num);
-        
-        // Check if the number is in saltSection (join saltSection to a string and check)
-        var inSalt = saltSection.join(' ').includes(num.toString());
-        
-        // If found in either apolloData.name or saltSection, increment the counter
-        if (inName || inSalt) {
-        foundCount++;
-        }
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.name.toLowerCase(), targetString.toLowerCase());
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
         });
-        
-        // Update cfnieScore based on how many cfnie numbers were found
-        if (foundCount === cfnie.length) {
-        cfnieScore = 100; // All numbers found
+
+        var finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+            // console.log(mostSimilarProduct)     
         } else {
-        cfnieScore = 0; // No numbers found
-        }
-        
-        }else{
-        filterCount-=100;;
+            console.log('No products found with that package size');
         }
 
-
-    } catch (error) {
-        filterCount-=100;;
-    }
+        console.log(finalProd)
 
 
-    //   console.log(finalProd);
-     
-    var qty=finalProd.package_size;
-    var spack=0;
-    if(parseFloat(qty)==parseFloat(medicinePackSize)){
-          spack=100;
-    }
+        var saltSection = (finalProd.combinations || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
 
-    var smed=parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase()) );
-    
-    var firstWordScore=0;
-    var firstWord= finalProd.name;
-    if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-        firstWordScore=100;
-    }else{
-    firstWordScore=0;
-    }
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.name.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
-   var newSecondaryAnchor=finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-   var secondAnchorSearchScore=0;
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
 
-   var newTempStringForExtractingSecondaryAnchor='';
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
 
-   var fullNewMedicineName=finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-   if(firstWordScore==100){
-       newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
-   }
-   //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
+                    var inPackSize = finalProd.package_size.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
 
 
-   var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
-
-   if(secondaryAnchor!='@'){
-
-    const allPresent = secondaryAnchor.every(anchor => 
-        newTempStringForExtractingSecondaryAnchor.includes(anchor.toLowerCase())
-    ); // this checks if all Og secondary anchors , are present in the new string or not
+        } catch (error) {
+            filterCount -= 100;;
+        }
 
 
-    if(allPresent){
-        secondAnchorSearchScore=100;
-    }else{
-        secondAnchorSearchScore=0;
-        
-    }
-}else{
-    if(tempnewanchor==secondaryAnchor){
-        filterCount-=100;
-    }else{
-        secondAnchorSearchScore=0;
-    }
-}
+        //   console.log(finalProd);
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var qty = finalProd.package_size;
+        qty = parseFloat(qty);
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase()));
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.name;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
+            newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
+        }
+        //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
+
+
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
+
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor =>
+                newTempStringForExtractingSecondaryAnchor.includes(anchor.toLowerCase())
+            ); // this checks if all Og secondary anchors , are present in the new string or not
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
+            }
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
+            }
+        }
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
-       
-    
-            return {
-                name: 'Medkart',
-                item: finalProd.name?finalProd.name:'',
-                link: finalProd.slug ? `https://www.medkart.in/${finalProd.slug}` : '',
-                imgLink: finalProd.images && finalProd.images[0] ? finalProd.images[0].url : '',
-                price: finalProd.mrp?finalProd.mrp:0,
-                offer: finalProd.sales_price?finalProd.sales_price:0,
-                deliveryCharge: finalProd.mrp<1500?70:0,
-                finalCharge: (parseFloat(parseFloat(finalProd.sales_price) + parseFloat(finalProd.mrp<1500?70:0))).toFixed(2),
-            
-                smed: smed,
-                spack:spack,
-                cfnie:cfnieScore,
-                firstWordScore:firstWordScore,
-                releaseMechScore:releaseMechScore,
 
-                sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-                filterCount:filterCount,
-                lson:"Pincode Serviceable",
-                deliveryTime:"3 - 5 days",
 
-                secondaryAnchor:secondaryAnchor,
-                newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-                secondAnchorSearchScore:secondAnchorSearchScore,
+        return {
+            name: 'Medkart',
+            item: finalProd.name ? finalProd.name : '',
+            link: finalProd.slug ? `https://www.medkart.in/${finalProd.slug}` : '',
+            imgLink: finalProd.images && finalProd.images[0] ? finalProd.images[0].url : '',
+            price: finalProd.mrp ? finalProd.mrp : 0,
+            offer: finalProd.sales_price ? finalProd.sales_price : 0,
+            deliveryCharge: finalProd.mrp < 1500 ? 70 : 0,
+            finalCharge: (parseFloat(parseFloat(finalProd.mrp) + parseFloat(finalProd.mrp < 1500 ? 70 : 0))).toFixed(2),
 
-                manufacturerName: finalProd.manufacturer_name?finalProd.manufacturer_name:0,
-                medicineAvailability: finalProd.is_live?finalProd.is_live:0,
-                minQty: 1,
-                saltName: saltSection,
-                qtyItContainsDesc: `${finalProd.package_size?finalProd.package_size:0} ${finalProd.uom?finalProd.uom:0}`
-            };
-        
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+            lson: "Pincode Serviceable",
+            deliveryTime: "3 - 5 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: finalProd.manufacturer_name ? finalProd.manufacturer_name : 0,
+            medicineAvailability: finalProd.is_live ? finalProd.is_live : 0,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: `${finalProd.package_size ? finalProd.package_size : 0} ${finalProd.uom ? finalProd.uom : 0}`
+        };
+
     } catch (error) {
         // res.sendFile(__dirname + '/try.html');
         // res.sendFile(__dirname + '/error.html');
@@ -2313,19 +2373,19 @@ var releaseMechScore=0;
             name: 'Medkart',
             item: '',
             link: '',
-            imgLink:'',
+            imgLink: '',
             price: 0,
             offer: 0,
-            deliveryCharge:  0,
+            deliveryCharge: 0,
             finalCharge: 0,
             // similarityIndex: simIndex,
-            smed:0,
+            smed: 0,
             sman: 0,
-            manufacturerName:0,
+            manufacturerName: 0,
             medicineAvailability: 0,
             minQty: 1,
             saltName: 0,
-            qtyItContainsDesc:0,
+            qtyItContainsDesc: 0,
         };
 
         console.log(error);
@@ -2411,200 +2471,231 @@ getOffersOfNetmeds = async () => {
     }
     return offers;
 }
-extractDataOfNetMeds = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
-    
-    try {
-        var filterCount=600;
+extractDataOfNetMeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
 
-        const { data } =  await axios.get(url, { timeout: 5000 });
-        
+    try {
+        var filterCount = 600;
+
+        const { data } = await axios.get(url, { timeout: 5000 });
+
 
         const $ = cheerio.load(data);
         var dc = '';
 
-        var sku=$('div[class=wishlist] label').attr('data-sku');
+        var sku = $('div[class=wishlist] label').attr('data-sku');
 
-        var pric=($('.final-price').first().text());
-        pric=pric.match(/\d+(\.\d+)?/)[0];
+        var pric = ($('.final-price').first().text());
+        pric = pric.match(/\d+(\.\d+)?/)[0];
 
-        var lson= await axios.get(`https://www.netmeds.com/nmsd/rest/v2/pin/${pincode}`);
+        var lson = await axios.get(`https://www.netmeds.com/nmsd/rest/v2/pin/${pincode}`);
         // lson = Pincode Serviceable or not
 
         if (lson.data.status === 'success') {
-            lson="Pincode Serviceable"
-        }else{
-            lson="Pincode Not Serviceable"
+            lson = "Pincode Serviceable"
+        } else {
+            lson = "Pincode Not Serviceable"
         }
 
         if (parseFloat(pric) < 199) {
             dc = 69;
         } else if (parseFloat(pric) >= 199 && parseFloat(pric) < 250) {
             dc = 49;
-        } else if (parseFloat(pric) >= 250 ) {
+        } else if (parseFloat(pric) >= 250) {
             dc = 0;
         }
 
 
-        var saltSection=($('.drug-conf').first().text().split('+')||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
+        var saltSection = ($('.drug-conf').first().text().split('+') || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
 
-        var cfnieScore=0;
-        try{
-        var newcfnie=$('.prodName h1').first().text().match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        var qty = $(".drug-varient").first().text();
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = await getPackSize($('.prodName h1').first().text());
+        } else {
+            qty = extractLargestNumber(qty);
+        }
 
-        if(cfnie){
+        
+
+        var cfnieScore = 0;
+        try {
+            var newcfnie = $('.prodName h1').first().text().match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = qty.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
-    } catch (error) {
-        filterCount-=100;;
-    }
+
+        } catch (error) {
+            filterCount -= 100;;
+        }
 
         const params = {
             "pincode": pincode,
             "do_not_split": false,
             "calling_to_route": true,
             "lstdrug": [
-              {
-                "itemcode": sku,
-                "Qty": 1
-              }
+                {
+                    "itemcode": sku,
+                    "Qty": 1
+                }
             ]
-          };
-        var deltimeData = await axios.post(`https://www.netmeds.com/nmsp/api/v2/Splitpost`,params);
-        
-        var delTime=(deltimeData.data.Result.result[0].delivery_estimate.in_day_counts.on_or_after);
+        };
+        var deltimeData = await axios.post(`https://www.netmeds.com/nmsp/api/v2/Splitpost`, params);
 
-        if(delTime>2){
-            delTime=`${delTime-2} - ${delTime} days`;
-        }else{
-            delTime=`${delTime-1} - ${delTime} days`;
+        var delTime = (deltimeData.data.Result.result[0].delivery_estimate.in_day_counts.on_or_after);
+
+        if (delTime > 2) {
+            delTime = `${delTime - 2} - ${delTime} days`;
+        } else {
+            delTime = `${delTime - 1} - ${delTime} days`;
         }
 
 
 
-        var qty=$(".drug-varient").first().text();
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty = await getPackSize($('.prodName h1').first().text());
-        }else{
-            qty=extractLargestNumber(qty);
-        }
-       
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed= parseFloat(await calculateSimilarity($('.product-detail .prodName h1').first().text().toLowerCase(), nameOfMed.toLowerCase()));
+      
+        qty = parseFloat(qty);
 
-
-        var firstWordScore=0;
-        var firstWord= $('.prodName h1').first().text();
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-            firstWordScore=0;
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
 
-        var newSecondaryAnchor=$('.prodName h1').first().text().toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
-        
-        var newTempStringForExtractingSecondaryAnchor='';
-        
-        var fullNewMedicineName=$('.prodName h1').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
-        if(firstWordScore==100){
+        var smed = parseFloat(await calculateSimilarity($('.product-detail .prodName h1').first().text().toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var firstWordScore = 0;
+        var firstWord = $('.prodName h1').first().text();
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = $('.prodName h1').first().text().toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = $('.prodName h1').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
 
 
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        if (secondaryAnchor != '@') {
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
-       
+
         return {
             name: 'NetMeds',
             item: $('.prodName h1').first().text(),
@@ -2614,32 +2705,34 @@ var releaseMechScore=0;
             offer: '',
             deliveryCharge: dc,
             finalCharge: (parseFloat(pric) + parseFloat(dc)).toFixed(2),
-         
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
 
-            secondaryAnchor:secondaryAnchor,
-            tempnewanchor:tempnewanchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            lson:lson,
-            deliveryTime:delTime,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            secondaryAnchor: secondaryAnchor,
+            tempnewanchor: tempnewanchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            lson: lson,
+            deliveryTime: delTime,
 
             manufacturerName: $('span[class=drug-manu] > a').first().text(),
-            medicineAvailability:$('.os-txt').text() == "" ? true:false,
-            minQty:parseFloat(($('.min_qty_alert').first().text().split(':')[1])?($('.min_qty_alert').first().text().split(':')[1]):1),
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: $('.os-txt').text() == "" ? true : false,
+            minQty: parseFloat(($('.min_qty_alert').first().text().split(':')[1]) ? ($('.min_qty_alert').first().text().split(':')[1]) : 1),
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
 
         };
-        
+
     } catch (error) {
         // res.sendFile(__dirname + '/try.html');
         // res.sendFile(__dirname + '/error.html');
@@ -2777,15 +2870,20 @@ extractDataOfApollo = async (url, final, presReq, nameOfMed) => {
 function extractNumbersWithDecimalPoints(text) {
     // Regex to match numbers with decimal points
     const regex = /[-+]?\d*\.?\d+/g;
-  
+
     // Use match() to find all numbers in the string
     const matches = text.match(regex);
-  
+
     // Convert matches to numbers
     const numbers = matches ? matches.map(Number) : [];
-  
+
+    if (numbers.length === 1) {
+        numbers.unshift(1);
+    }
+
+
     return numbers;
-  }
+}
 
 /*-----------------------------------------------------------------------------------------------*/
 
@@ -2796,77 +2894,77 @@ function extractNumbersWithDecimalPoints(text) {
 
 
 
-  function normalizeString(str) {
+function normalizeString(str) {
     // Extract only alphanumeric characters and convert to lowercase
     return str.replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
-  }
-  
+}
 
-  function extractSearchName(medicineName) {
+
+function extractSearchName(medicineName) {
     // Split the input by spaces to get individual wordssea
     let words = medicineName.split(' ');
-    
-  
+
+
     // Check if the first word is a single character or a number
     if (!isNaN(words[0])) {
-      // Return the first two words if the first word is a single character or a number
-      return words[0].toLowerCase() + ' ' + words[1].toLowerCase();
+        // Return the first two words if the first word is a single character or a number
+        return words[0].toLowerCase() + ' ' + words[1].toLowerCase();
     }
 
     if (words[0].toLowerCase() === 'dr') {
         // Return the second word if the first word is 'Dr'
         return words[1].toLowerCase();
-      }
-  
+    }
+
     // Return only the first word if it is not a single character or a number
     return words[0].toLowerCase();
-  }
+}
 
-  function compareFirstWords(word1, word2) {
+function compareFirstWords(word1, word2) {
     // Normalize both words
     const normalizedWord1 = normalizeString(word1);
     const normalizedWord2 = normalizeString(word2);
 
     // console.log(normalizedWord1+" "+word1+"From Apolo")
     // console.log(normalizedWord2+"From Apolo")
-  
+
     // If exact match fails, search for normalizedWord2 in word1
     if (normalizedWord1 === normalizedWord2) {
-      return true;
-    }else {
-        var newnormalizedWord1=normalizeString(word1).replace(/\s+/g, ' ').toLowerCase();
-        console.log("***"+newnormalizedWord1)
-        console.log(word2+"*****")
-        
-      return newnormalizedWord1.includes(normalizedWord2);
+        return true;
+    } else {
+        var newnormalizedWord1 = normalizeString(word1).replace(/\s+/g, ' ').toLowerCase();
+        console.log("***" + newnormalizedWord1)
+        console.log(word2 + "*****")
+
+        return newnormalizedWord1.includes(normalizedWord2);
     }
-  }
+}
 
 
 
 
 
 
-FastextractDataOfApollo = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+FastextractDataOfApollo = async (url, meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
         console.log(cfnie + " Apollp")
-        var filterCount=600;
+        var filterCount = 600;
 
-        var a=url;
+        var a = url;
         const lastPart = a.replace(/\?doNotTrack=true$/, '').split('/').pop();
 
 
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data, { xmlMode: false });
         // const apolloData = JSON.parse($('#__NEXT_DATA__').text());       
         const apolloData = await JSON.parse($('script[class="structured-data-list"]').html());
         // console.log("apollo data "+$.html())
-        
 
-       var cp =0;
+
+        var cp = 0;
         //     $('#PDP\\ price\\ banner\\ Mweb span').each((i, el) => {
         // const text = $(el).text().trim();
         // if (text.startsWith('₹') || text.includes('MRP')) {
@@ -2877,24 +2975,24 @@ FastextractDataOfApollo = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfn
 
 
 
-    var apolloDataFromFirstApi;
-    const apollourl = 'https://api.apollo247.com/';
-    const apollofirstheaders = {
-      Accept: '*/*',
-      Authorization: 'Bearer 1',
-    };
-    
-    
-    const apollofirstbody = {
-      operationName: 'getPDPV4',
-      variables: {
-        sku: lastPart,
-        targetLanguage: '',
-        pincode: `${pincode}`,
-        lat: 1,
-        lng: 1,
-      },
-      query: `query getPDPV4($lat: Float, $lng: Float, $pincode: String, $sku: String!, $targetLanguage: String) {
+        var apolloDataFromFirstApi;
+        const apollourl = 'https://api.apollo247.com/';
+        const apollofirstheaders = {
+            Accept: '*/*',
+            Authorization: 'Bearer 1',
+        };
+
+
+        const apollofirstbody = {
+            operationName: 'getPDPV4',
+            variables: {
+                sku: lastPart,
+                targetLanguage: '',
+                pincode: `${pincode}`,
+                lat: 1,
+                lng: 1,
+            },
+            query: `query getPDPV4($lat: Float, $lng: Float, $pincode: String, $sku: String!, $targetLanguage: String) {
         getPDPV4(
             lng: $lng
             lat: $lat
@@ -2903,68 +3001,116 @@ FastextractDataOfApollo = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfn
             targetLanguage: $targetLanguage
         )
       }`,
-    };
-    
-    try {
-        apolloDataFromFirstApi = await axios.post(apollourl, apollofirstbody, {
-        headers: apollofirstheaders, // Use 'headers' here
-      });
-      console.log(apolloData.data); // Log the response data
-    } catch (error) {
-      console.error('Error fetching data:', error.response ? error.response.data : error.message);
-    }
+        };
 
-
-
-
-
-
-
-
-        var saltSection=($('h3:contains("Composition")').next('a').find('div').text()||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
-        }
-        
-        var cfnieScore=0;
-    try{
-
-        var newcfnie=apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
-
-        if(cfnie){
-            var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
+        try {
+            apolloDataFromFirstApi = await axios.post(apollourl, apollofirstbody, {
+                headers: apollofirstheaders, // Use 'headers' here
             });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            console.log(apolloData.data); // Log the response data
+        } catch (error) {
+            console.error('Error fetching data:', error.response ? error.response.data : error.message);
+        }
+
+
+
+
+
+
+
+
+        var saltSection = ($('h3:contains("Composition")').next('a').find('div').text() || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
+
+
+        
+
+
+        var qty = apolloDataFromFirstApi.data.data.getPDPV4.productdp.pack_size;
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = (getPackSize(apolloDataFromFirstApi.data.data.getPDPV4.productdp.name));
+        } else {
+            qty = extractLargestNumber(qty);
+        }
+
+     
+
+
+        var cfnieScore = 0;
+        try {
+
+            var newcfnie = apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = qty.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
-            }
-            
-            }else{
-            filterCount-=100;;
+                console.log("AAAA apollo")
+                if (newcfnie) {
+                    console.log("AAAA inside apollo")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    console.log("AAAA inside apollo " + foundCount + "  " + newcfnie.length)
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
 
-    } catch (error) {
-        filterCount-=100;;
-    }
+        } catch (error) {
+            filterCount -= 100;;
+        }
 
         console.log("FIlter Count in APollo" + filterCount)
+
+
+        qty = parseFloat(qty);
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
 
 
         // console.log("price from apollo-> " + $('.MedicineInfoWeb_medicinePrice__HPf1s').text())
@@ -2980,27 +3126,27 @@ FastextractDataOfApollo = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfn
         //     dc = 0;
         // }
 
-        var lson= await axios.get(`https://apigateway.apollo247.in/serviceability-api//v1/geocode/serviceable?pincode=${pincode}`);
+        var lson = await axios.get(`https://apigateway.apollo247.in/serviceability-api//v1/geocode/serviceable?pincode=${pincode}`);
         // lson = Pincode Serviceable or not
 
-        var delTime='';
+        var delTime = '';
 
-        if(lson.data.data.data.isServiceable){
-            if(lson.data.data.data.isCourierServiceable){
-                delTime="2 - 4 days"
+        if (lson.data.data.data.isServiceable) {
+            if (lson.data.data.data.isCourierServiceable) {
+                delTime = "2 - 4 days"
             }
-            if(lson.data.data.data.isHyperlocalServiceable){
-                delTime="3 - 24 hours"
+            if (lson.data.data.data.isHyperlocalServiceable) {
+                delTime = "3 - 24 hours"
             }
-            if(lson.data.data.data.instantAvailableStore){
-                delTime="1 - 3 hours"
+            if (lson.data.data.data.instantAvailableStore) {
+                delTime = "1 - 3 hours"
             }
         }
 
         if (lson.data.data.data.isServiceable) {
-            lson="Pincode Serviceable"
-        }else{
-            lson="Pincode Not Serviceable"
+            lson = "Pincode Serviceable"
+        } else {
+            lson = "Pincode Not Serviceable"
         }
 
 
@@ -3008,78 +3154,67 @@ FastextractDataOfApollo = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfn
 
 
 
-        var qty= apolloDataFromFirstApi.data.data.getPDPV4.productdp.pack_size;
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty = getPackSize(apolloDataFromFirstApi.data.data.getPDPV4.productdp.name);
-        }else{
-            qty=extractLargestNumber(qty);
+
+
+        var smed = parseFloat(await calculateSimilarity(apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+
+        var firstWordScore = 0;
+        var firstWord = apolloDataFromFirstApi.data.data.getPDPV4.productdp.name;
+
+        console.log("Apollo Data -> " + extractSearchName(nameOfMed));
+
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
 
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){      
-              spack=100;
-        }
-        
+        var newSecondaryAnchor = apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.replace(/-/g, ' ').toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
 
-        var smed=parseFloat(await calculateSimilarity(apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.toLowerCase(), nameOfMed.toLowerCase()));
+        var newTempStringForExtractingSecondaryAnchor = '';
 
-
-
-        var firstWordScore=0;
-        var firstWord= apolloDataFromFirstApi.data.data.getPDPV4.productdp.name;
-       
-        console.log("Apollo Data -> "+extractSearchName(nameOfMed));
-
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
-        }
-
-        var newSecondaryAnchor=apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.replace(/-/g, ' ').toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
-
-        var newTempStringForExtractingSecondaryAnchor='';
-
-        var fullNewMedicineName=apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var fullNewMedicineName = apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
 
 
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
 
-       
 
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
@@ -3087,30 +3222,30 @@ FastextractDataOfApollo = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfn
         var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
 
@@ -3118,27 +3253,27 @@ var releaseMechScore=0;
         var apolloDataFromSecondSkuIdDetailApi;
         const apollsecondourl = 'https://api.apollo247.com/';
         const apollosecondheaders = {
-          Accept: '*/*',
-          Authorization: 'Bearer 1',
+            Accept: '*/*',
+            Authorization: 'Bearer 1',
         };
-        
+
         const sku = apolloDataFromFirstApi.data.data.getPDPV4.productdp.sku; // SKU value
         console.log(sku)
-        
+
         const apollosecondbody = {
-          operationName: 'getSkuInfo',
-          variables: {
-            skuInfoInput: {
-              sku: `${sku}`,
-              qty: 1,
-              addressInfo: {
-                pincode: `${pincode}`,
-                lat: 1,
-                lng: 7,
-              },
+            operationName: 'getSkuInfo',
+            variables: {
+                skuInfoInput: {
+                    sku: `${sku}`,
+                    qty: 1,
+                    addressInfo: {
+                        pincode: `${pincode}`,
+                        lat: 1,
+                        lng: 7,
+                    },
+                },
             },
-          },
-          query: `query getSkuInfo($skuInfoInput: SkuInfoInput!) {
+            query: `query getSkuInfo($skuInfoInput: SkuInfoInput!) {
             getSkuInfo(skuInfoInput: $skuInfoInput) {
               stat
               previouslyBought
@@ -3228,13 +3363,13 @@ var releaseMechScore=0;
             }
           }`,
         };
-        
+
         try {
-           apolloDataFromSecondSkuIdDetailApi = await axios.post(apollsecondourl, apollosecondbody, {
-            headers: apollosecondheaders,
-          });
+            apolloDataFromSecondSkuIdDetailApi = await axios.post(apollsecondourl, apollosecondbody, {
+                headers: apollosecondheaders,
+            });
         } catch (error) {
-          console.error('Error fetching data:', error.response ? error.response.data : error.message);
+            console.error('Error fetching data:', error.response ? error.response.data : error.message);
         }
 
 
@@ -3242,48 +3377,49 @@ var releaseMechScore=0;
 
 
 
-        
+
         if (cp < 200) {
             dc = 49;
-        }else if (cp>200 && cp<500){
+        } else if (cp > 200 && cp < 500) {
             dc = 9;
-        }else if(cp>=500){
-            dc=0;
+        } else if (cp >= 500) {
+            dc = 0;
         }
-     
+
 
         return {
             name: 'Apollo',
             item: apolloDataFromFirstApi.data.data.getPDPV4.productdp.name,
             link: url,
-            imgLink: 'https://images.apollo247.in/pub/media'+apolloDataFromFirstApi.data.data.getPDPV4.productdp.image[0].imageUrl,
+            imgLink: 'https://images.apollo247.in/pub/media' + apolloDataFromFirstApi.data.data.getPDPV4.productdp.image[0].imageUrl,
             price: cp,
             offer: '',
             deliveryCharge: dc,
-            finalCharge:(cp+ dc).toFixed(2),
-      
-            smed:  smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            finalCharge: (cp + dc).toFixed(2),
 
-            
-            secondaryAnchor:secondaryAnchor,
-            tempnewanchor:tempnewanchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            lson:lson,
-            deliveryTime:delTime,
-      
+
+            secondaryAnchor: secondaryAnchor,
+            tempnewanchor: tempnewanchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            lson: lson,
+            deliveryTime: delTime,
+
             manufacturerName: apolloDataFromFirstApi.data.data.getPDPV4.productdp.manufacturer,
-            medicineAvailability:apolloDataFromSecondSkuIdDetailApi.data.data.getSkuInfo.tatInfo.tatResponse.items[0].exist,
-            minQty:1,
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: apolloDataFromSecondSkuIdDetailApi.data.data.getSkuInfo.tatInfo.tatResponse.items[0].exist,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
 
         };
 
@@ -3348,124 +3484,265 @@ function getDeliveryChargeForTrueMeds(totalMedPrice) {
     return dc;
 }
 //newely added TRUEMEDS
-extractDataOfTruemeds = async (url, nameOfMed,medicinePackSize,cfnie,pincode) => {
+extractDataOfTruemeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var filterCount=4;
+        var filterCount = 600;
 
-        var {data}='';
+        var { data } = '';
         try {
             // Make the request and wait for it to complete
-              data  = await axios.get(url, {
+            data = await axios.get(url, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
                     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
                 }
             });
-            data=data.data;
-    
+            data = data.data;
+
             // Log the response data once it's received
             // console.log(data);
         } catch (error) {
             // Handle any errors
             if (error.response) {
-              data=error.response.data;
+                data = error.response.data;
                 // console.log('Error response HTML:', error.response.data);
             } else {
                 // console.log('Error:', error.message);
             }
         }
-        const $=cheerio.load(data);
+        const $ = cheerio.load(data);
 
         var dc = '';
 
         if (parseFloat($('.medSelling').first().text().split('₹')[1]) < 400) {
-            dc = 39+11;
-        } else if (parseFloat($('.medSelling').first().text().split('₹')[1]) >= 400 && parseFloat($('.medSelling').first().text().split('₹')[1]) < 550) {   
-            dc = 29+11;
-        }else if(parseFloat($('.medSelling').first().text().split('₹')[1]) >= 550){
-            dc=11;
+            dc = 39 + 11;
+        } else if (parseFloat($('.medSelling').first().text().split('₹')[1]) >= 400 && parseFloat($('.medSelling').first().text().split('₹')[1]) < 550) {
+            dc = 29 + 11;
+        } else if (parseFloat($('.medSelling').first().text().split('₹')[1]) >= 550) {
+            dc = 11;
         }
 
-      
+
 
         var a = JSON.parse($('script[type=application/ld+json]:contains("availability")').first().text());
-    
 
-        var qty=$('.medStrips button').first().text();
+
+        var qty = $('.medStrips button').first().text();
         console.log(qty)
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty = getPackSize( $('.medName').first().text());
-            console.log("if   "+qty)
-        }else{
-            console.log("else  "+qty)
-            qty=getPackSize(qty);
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = getPackSize($('.medName').first().text());
+            console.log("if " + qty)
+        } else {
+            console.log("else " + qty)
+            qty = getPackSize(qty);
         }
 
-        var newcfnie=$('.medName').first().text().match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        var newcfnie = $('.medName').first().text().match(/\d+/g);
+        newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
         var exists = cfnie.every(num => newcfnie.includes(num));
-        var cfnieScore=0;
-        if(cfnie){
-            if(exists){
-                cfnieScore=100;
-            }else{
-                cfnieScore=0;
+        var cfnieScore = 0;
+
+        try {
+            var newcfnie = $('.medName').first().text().match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+            var foundCount = 0;
+
+
+            if (cfnie.length) {
+
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = $('.compositionDescription').first().text().split("+").join(' ').includes(num.toString());
+
+                    var inPackSize = $('.medStrips button').first().text().includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-        }else{
-            filterCount-=100;;
-        }
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+
+
+        } catch (error) {
+            console.log(error)
+            filterCount -= 100;;
         }
 
-        console.log("truemeds pincode "+pincode)
-        try{
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        console.log("truemeds pincode " + pincode)
+        try {
             var lson = await axios.get(`https://nal.tmmumbai.in/ThirdPartyService/checkPincodeServiceability?pincode=${pincode}`);
-            if(lson.data.isServicable){
-                lson="Pincode Serviceable";
+            if (lson.data.isServicable) {
+                lson = "Pincode Serviceable";
             }
-        }catch(e){
+        } catch (e) {
             console.log(e)
-            lson="Pincode Not Serviceable";
+            lson = "Pincode Not Serviceable";
         }
-        
-        
-        var delTime='';
-        try{
+
+
+
+
+        var newSecondaryAnchor = $('.medName').first().text().replace(/-/g, ' ').toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = $('.medName').first().text().replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
+            newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
+        }
+        //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
+
+
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
+
+
+
+
+
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
+            }
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
+            }
+        }
+
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.replace(/[^a-zA-Z0-9]/g, ' ');
+        const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
+        const releaseMechanisms = [
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
+            "xt", "zok",
+            "dt", "md", "iu", "nmg", "dpi", "sf"
+        ];
+        const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
+
+        var releaseMechScore = 0;
+        // Return the found word or '@' if not found
+        const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
+
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
+                }
+            }
+        } else {
+            filterCount -= 100;
+        }
+
+
+
+
+
+
+        var delTime = '';
+        try {
             var delTimeData = await axios.get(`https://nal.tmmumbai.in/CustomerService/getEstimatedDeliveryDateBasedOnPincode?pincode=${pincode}`);
-            if(delTimeData.data.surface){
+            if (delTimeData.data.surface) {
                 delTime = Math.ceil((new Date(delTimeData.data.surface) - new Date()) / (1000 * 60 * 60 * 24));
-                
 
-                if(delTime>2){
-                    delTime=`${delTime-2} - ${delTime} days`;
-                }else{
-                    delTime=`${delTime-1} - ${delTime} days`;
+
+                if (delTime > 2) {
+                    delTime = `${delTime - 2} - ${delTime} days`;
+                } else {
+                    delTime = `${delTime - 1} - ${delTime} days`;
                 }
 
 
-                if(delTime==0){
-                    delTime="Within 24 hours";
+                if (delTime == 0) {
+                    delTime = "Within 24 hours";
                 }
             }
-        }catch(e){
+        } catch (e) {
             console.log(e)
-            delTime ="Pincode Not Serviceable";
+            delTime = "Pincode Not Serviceable";
         }
-        
 
-        var smed=parseFloat(await calculateSimilarity($('.medName').first().text().toLowerCase(), nameOfMed.toLowerCase()));
 
-        var firstWordScore=0;
-        var firstWord= $('.medName').first().text();
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var smed = parseFloat(await calculateSimilarity($('.medName').first().text().toLowerCase(), nameOfMed.toLowerCase()));
+
+        var firstWordScore = 0;
+        var firstWord = $('.medName').first().text();
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
 
         return {
@@ -3477,22 +3754,30 @@ extractDataOfTruemeds = async (url, nameOfMed,medicinePackSize,cfnie,pincode) =>
             offer: '',
             deliveryCharge: dc,
             finalCharge: (parseFloat($('.medSelling').first().text().split('₹')[1]) + parseFloat(dc)).toFixed(2),
-      
-            smed:  smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            sfinalAvg: 100,
-            filterCount:filterCount,
 
-            lson:lson,
-            deliveryTime:delTime,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+
+            secondaryAnchor: secondaryAnchor,
+            tempnewanchor: tempnewanchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            lson: lson,
+            deliveryTime: delTime,
 
             manufacturerName: $('#manufacturer').first().text(),
-            medicineAvailability:a.offers.availability.includes('InStock')?a.offers.availability.includes('InStock'):false,
-            minQty:1,
-            saltName:$('.compositionDescription').first().text().split("+"),
-            qtyItContainsDesc:qty,
+            medicineAvailability: a.offers.availability.includes('InStock') ? a.offers.availability.includes('InStock') : false,
+            minQty: 1,
+            saltName: $('.compositionDescription').first().text().split("+"),
+            qtyItContainsDesc: qty,
         };
 
     } catch (error) {
@@ -3614,12 +3899,12 @@ extractDataOf3Meds = async (url, nameOfMed) => {
 
 function getDeliveryChargeForTata1mg(m) {
     var dc = 0;
-    if (parseFloat(m) > 0 && parseFloat(m) < 100) { 
-        dc = 81; 
-    } else if(parseFloat(m) >= 100 && parseFloat(m) < 200) {
+    if (parseFloat(m) > 0 && parseFloat(m) < 100) {
+        dc = 81;
+    } else if (parseFloat(m) >= 100 && parseFloat(m) < 200) {
         dc = 75;
-    }else if(parseFloat(m)>=200){
-        dc=0;
+    } else if (parseFloat(m) >= 200) {
+        dc = 0;
     }
 
     return dc;
@@ -3633,95 +3918,95 @@ function getDeliveryChargeForTata1mg(m) {
 function extractDateComponents(dateString) {
     // Define a regular expression to match the format
     const dateRegex = /(\w+),\s*(\d{1,2})\s*(\w+)/;
-  
+
     // Match the string against the regular expression
     const match = dateString.match(dateRegex);
     if (match) {
-      const dayOfWeek = match[1]; // Day of the week
-      const day = parseInt(match[2], 10); // Day of the month
-      const month = match[3]; // Month name
-  
-      return [dayOfWeek, month, day];
+        const dayOfWeek = match[1]; // Day of the week
+        const day = parseInt(match[2], 10); // Day of the month
+        const month = match[3]; // Month name
+
+        return [dayOfWeek, month, day];
     }
-  
+
     // Return null if no match is found
     return null;
-  }
+}
 
 function calculateDeliveryRange(delTimeInMs) {
     let timeInMinutes = Math.ceil(delTimeInMs / (1000 * 60));
-  
+
     if (timeInMinutes < 60) {
-      // If time is in minutes
-      return `${timeInMinutes} - ${timeInMinutes * 2} mins`;
-    } 
-  
+        // If time is in minutes
+        return `${timeInMinutes} - ${timeInMinutes * 2} mins`;
+    }
+
     let timeInHours = Math.ceil(timeInMinutes / 60);
-  
+
     if (timeInHours < 24) {
-      // If time is in hours
-      return `${timeInHours} - ${timeInHours * 2} hours`;
-    } 
-  
+        // If time is in hours
+        return `${timeInHours} - ${timeInHours * 2} hours`;
+    }
+
     let timeInDays = Math.ceil(timeInHours / 24);
-  
+
     // If time is in days
     return `${timeInDays}  - ${timeInDays * 2} days`;
-  }
-  function parseDeliveryTime(input) {
-    var input=input.toLowerCase();
+}
+function parseDeliveryTime(input) {
+    var input = input.toLowerCase();
     const now = new Date();
     let deliveryTime = new Date();
-  
+
     if (input.includes('mins') || input.includes('hours')) {
-      // Extract minutes or hours
-      const timeMatch = input.match(/\d+/);
-      if (timeMatch) {
-        const timeValue = parseInt(timeMatch[0], 10);
-        if (input.includes('mins')) {
-          deliveryTime = new Date(now.getTime() + timeValue * 60000); // Adding minutes
-        } else if (input.includes('hours')) {
-          deliveryTime = new Date(now.getTime() + timeValue * 3600000); // Adding hours
+        // Extract minutes or hours
+        const timeMatch = input.match(/\d+/);
+        if (timeMatch) {
+            const timeValue = parseInt(timeMatch[0], 10);
+            if (input.includes('mins')) {
+                deliveryTime = new Date(now.getTime() + timeValue * 60000); // Adding minutes
+            } else if (input.includes('hours')) {
+                deliveryTime = new Date(now.getTime() + timeValue * 3600000); // Adding hours
+            }
         }
-      }
-      const timeInMs = deliveryTime - now;
-      return calculateDeliveryRange(timeInMs);
-  
+        const timeInMs = deliveryTime - now;
+        return calculateDeliveryRange(timeInMs);
+
     } else if (input.includes('Tomorrow')) {
-      // Handle "Tomorrow"
-      const hoursUntilTomorrow = 24 - now.getHours() + 4; // Add 4 hours for range
-      return `${hoursUntilTomorrow} - ${hoursUntilTomorrow + 4} hours`;
-  
-    } else if (input.includes('monday')||input.includes('tuesday')||input.includes('wednesday')||input.includes('thursday')
-       || input.includes('friday')||input.includes('saturday')||input.includes('sunday')) {
-      // Handle specific date
-      const [dayOfWeek, month, day] = extractDateComponents(input);
-      deliveryTime = new Date(`${month} ${day}, ${now.getFullYear()}`);
-      
-      // If the date is in the past, assume it's for next year
-      if (deliveryTime < now) {
-        deliveryTime.setFullYear(now.getFullYear() + 1);
-      }
-  
-      const timeInMs = deliveryTime - now;
-      const timeInDays = Math.ceil(timeInMs / (1000 * 60 * 60 * 24));
-      return `${timeInDays} - ${timeInDays + 2} days`;
-  
+        // Handle "Tomorrow"
+        const hoursUntilTomorrow = 24 - now.getHours() + 4; // Add 4 hours for range
+        return `${hoursUntilTomorrow} - ${hoursUntilTomorrow + 4} hours`;
+
+    } else if (input.includes('monday') || input.includes('tuesday') || input.includes('wednesday') || input.includes('thursday')
+        || input.includes('friday') || input.includes('saturday') || input.includes('sunday')) {
+        // Handle specific date
+        const [dayOfWeek, month, day] = extractDateComponents(input);
+        deliveryTime = new Date(`${month} ${day}, ${now.getFullYear()}`);
+
+        // If the date is in the past, assume it's for next year
+        if (deliveryTime < now) {
+            deliveryTime.setFullYear(now.getFullYear() + 1);
+        }
+
+        const timeInMs = deliveryTime - now;
+        const timeInDays = Math.ceil(timeInMs / (1000 * 60 * 60 * 24));
+        return `${timeInDays} - ${timeInDays + 2} days`;
+
     } else {
-      throw new Error('Unknown format');
+        throw new Error('Unknown format');
     }
-  }
+}
 
 
 
-extractDataOfTata = async (url, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor) => {
+extractDataOfTata = async (url, nameOfMed, medicinePackSize, cfnie, pincode, secondaryAnchor) => {
     try {
         // Fetching HTML
-        var filterCount=4;
-        var prodId=url.match(/\d+$/)[0];
+        var filterCount = 4;
+        var prodId = url.match(/\d+$/)[0];
 
         console.log(url);
-        var { data } =  await axios.get(url);
+        var { data } = await axios.get(url);
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data);
@@ -3731,90 +4016,92 @@ extractDataOfTata = async (url, nameOfMed,medicinePackSize,cfnie,pincode,seconda
 
         t = $('h1[class=l3SemiBold]').first().html();
 
-        m =$('.l4Regular').html().match(/\d+(\.\d+)?/)[0];
-       
-        var qty=$('#content .marginTop-16.col-6.smallRegular.textSecondary').first().text();
+        m = $('.l4Regular').html().match(/\d+(\.\d+)?/)[0];
+
+        var qty = $('#content .marginTop-16.col-6.smallRegular.textSecondary').first().text();
         // console.log(qty)
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
             qty = getPackSize(t);
-            console.log("if   "+qty)
-        }else{
-            console.log("else  "+qty)
-            qty=getPackSize(qty);
+            console.log("if   " + qty)
+        } else {
+            console.log("else  " + qty)
+            qty = getPackSize(qty);
         }
 
 
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
-        
-        var smed=parseFloat(await calculateSimilarity(t.toLowerCase(), nameOfMed.toLowerCase()));
+
+        var smed = parseFloat(await calculateSimilarity(t.toLowerCase(), nameOfMed.toLowerCase()));
 
         var dc = 0;
-        if (parseFloat(m) > 0 && parseFloat(m) < 150) { 
-            dc = 79; 
-        } else if(parseFloat(m) >= 150 && parseFloat(m) < 200) {
+        if (parseFloat(m) > 0 && parseFloat(m) < 150) {
+            dc = 79;
+        } else if (parseFloat(m) >= 150 && parseFloat(m) < 200) {
             dc = 29;
-        }else if(parseFloat(m)>=200){
-            dc=0;
+        } else if (parseFloat(m) >= 200) {
+            dc = 0;
         }
 
-        var cfnieScore=0;
-        try{
-        var newcfnie=t.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        var cfnieScore = 0;
+        try {
+            var newcfnie = t.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
-var exists = cfnie.every(num => newcfnie.includes(num));
-        if(cfnie){
-            if(exists){
-                cfnieScore=100;
-            }else{
-                cfnieScore=0;
+            var exists = cfnie.every(num => newcfnie.includes(num));
+            if (cfnie.length) {
+                if (exists) {
+                    cfnieScore = 100;
+                } else {
+                    cfnieScore = 0;
+                }
+            } else {
+                filterCount -= 100;;
             }
-        }else{
-            filterCount-=100;;
+        } catch (error) {
+            filterCount -= 100;;
         }
-    } catch (error) {
-        filterCount-=100;;
-    }
 
-        var {data} =  await axios.post(`https://www.1mg.com/pharmacy_api_gateway/v4/skus/${prodId}/eta`, {
+        var { data } = await axios.post(`https://www.1mg.com/pharmacy_api_gateway/v4/skus/${prodId}/eta`, {
             sku_id: prodId,
             pincode: `${pincode}`
-          })
-          
-         
-
-          console.log("atatimgsds  "+data.data.ga_data.info.eta_text)
-          if(data.data.ga_data.info.eta_text.includes("not")){
-            lson="Pincode Not Serviceable";
-          }else{
-            lson="Pincode Servicaeble";
-          }
+        })
 
 
 
-          var firstWordScore=0;
-          var firstWord= t.split(' ')[0];
-          if(firstWord.toLowerCase()==(nameOfMed.split(' ')[0]).toLowerCase()){
-              firstWordScore=100;
-          }else{
-              firstWordScore=0;
-          }
+        console.log("atatimgsds  " + data.data.ga_data.info.eta_text)
+        if (data.data.ga_data.info.eta_text.includes("not")) {
+            lson = "Pincode Not Serviceable";
+        } else {
+            lson = "Pincode Servicaeble";
+        }
 
-          var newSecondaryAnchor=t.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-          var secondAnchorSearchScore=0;
-          if(secondaryAnchor!='@'){
-  
-              if(newSecondaryAnchor.includes(secondaryAnchor)){
-                  secondAnchorSearchScore=100;
-              }else{
-                  secondAnchorSearchScore=0;
-              }
-          }else{
-              filterCount-=100;;
-          }
+
+
+        var firstWordScore = 0;
+        var firstWord = t.split(' ')[0];
+        if (firstWord.toLowerCase() == (nameOfMed.split(' ')[0]).toLowerCase()) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = t.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+        if (secondaryAnchor != '@') {
+
+            if (newSecondaryAnchor.includes(secondaryAnchor)) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+            }
+        } else {
+            filterCount -= 100;;
+        }
 
 
         return {
@@ -3828,26 +4115,28 @@ var exists = cfnie.every(num => newcfnie.includes(num));
             offer: '',
             deliveryCharge: dc,
             finalCharge: parseFloat(m) + parseFloat(dc),
-      
-            smed:  smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            sfinalAvg: (parseFloat(smed + spack+cfnieScore+firstWordScore) / filterCount).toFixed(2),
-            filterCount:filterCount,
 
-            lson:lson,
-            deliveryTime:data.data.ga_data.info.eta_text.includes('not')?"":parseDeliveryTime(data.data.ga_data.info.eta_text),
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore + firstWordScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            lson: lson,
+            deliveryTime: data.data.ga_data.info.eta_text.includes('not') ? "" : parseDeliveryTime(data.data.ga_data.info.eta_text),
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: newSecondaryAnchor,
+            secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: '',
-            medicineAvailability:true,
-            minQty:1,
-            saltName:'',
-            qtyItContainsDesc:qty,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
         };
 
     } catch (error) {
@@ -3867,7 +4156,7 @@ function getDeliveryChargeForPulsePlus(totalMedPrice) {
         dc = 15;
     }
 
-    
+
     return dc;
 }
 getNameOfPulsePlus = async (url) => {
@@ -3884,7 +4173,7 @@ getNameOfPulsePlus = async (url) => {
     return temp;
 }
 
-extractDataOfmedplusMart = async (url, nameOfMed,medicinePackSize) => {
+extractDataOfmedplusMart = async (url, nameOfMed, medicinePackSize) => {
     try {
         // Fetching HTML
         const { data } = await axios.get(url, { timeout: 5000 });
@@ -3908,29 +4197,30 @@ extractDataOfmedplusMart = async (url, nameOfMed,medicinePackSize) => {
         } else if (t >= 1000) {
             dc = 15;
         }
-        
+
         var a = JSON.parse($('script[type=text/javascript]:contains("Packing")').first().text().split("=")[1].split(";")[0]);
 
-        var qty=a['Packing'];
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty = await getPackSize( $('#divProductTitle>h1').text());
-        }else{
-            qty=getPackSize(qty);
+        var qty = a['Packing'];
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = await getPackSize($('#divProductTitle>h1').text());
+        } else {
+            qty = getPackSize(qty);
         }
 
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-            spack=100;
-        }
-        
-        
-        //after 2 verification steps , IF still qty is not available , only focus on name similarity
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
+
+        qty = parseFloat(qty);
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
             spack = 100;
         }
-        
-        var smed=parseFloat(await calculateSimilarity($('#divProductTitle>h1').text().toLowerCase(), nameOfMed.toLowerCase())) ;
+
+
+        //after 2 verification steps , IF still qty is not available , only focus on name similarity
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity($('#divProductTitle>h1').text().toLowerCase(), nameOfMed.toLowerCase()));
 
         return {
             name: 'PulsePlus',
@@ -3943,16 +4233,16 @@ extractDataOfmedplusMart = async (url, nameOfMed,medicinePackSize) => {
             offer: '',
             deliveryCharge: dc,
             finalCharge: parseFloat(t) + parseFloat(dc),
-        
+
             smed: smed,
-            spack:spack,
-            sfinalAvg:(parseFloat(smed+spack)/2).toFixed(2),
+            spack: spack,
+            sfinalAvg: (parseFloat(smed + spack) / 2).toFixed(2),
 
             manufacturerName: $('#divProductTitle>div').text(),
-            medicineAvailability:$('.text-primary2').text() =="In Stock" ? true:false,
-            minQty:1,
-            saltName:'NA',
-            qtyItContainsDesc:qty,
+            medicineAvailability: $('.text-primary2').text() == "In Stock" ? true : false,
+            minQty: 1,
+            saltName: 'NA',
+            qtyItContainsDesc: qty,
 
         };
 
@@ -3985,13 +4275,13 @@ getOffersOfMyUpChar = async () => {
     });
     return offers;
 }
-extractDataOfMyUpChar = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism) => {
+extractDataOfMyUpChar = async (url, meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var filterCount=600;
+        var filterCount = 600;
 
-        console.log("Myupchar link -> "+url)
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        console.log("Myupchar link -> " + url)
+        const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data, { xmlMode: false });
@@ -4019,189 +4309,221 @@ extractDataOfMyUpChar = async (url,ogNameOfMed, nameOfMed,medicinePackSize,cfnie
 
         if (b < 100) {
             dc = 49;
-        } else if (b >=100) {
+        } else if (b >= 100) {
             dc = 0;
         }
 
-      
 
-        var qty=$('.pack_size').first().text();
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty=$('.pack_qty').first().text();
+
+        var qty = $('.pack_size').first().text();
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = $('.pack_qty').first().text();
         }
 
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty=await getPackSize($('#med_details h1[class=container_margin]').first().text());
-        }else{
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = await getPackSize($('#med_details h1[class=container_margin]').first().text());
+        } else {
             qty = extractLargestNumber(qty);
         }
 
 
 
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+
+      
+        var smed = parseFloat(await calculateSimilarity(a.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var saltSection = ($('#manu_details li:contains("Contains / Salt")').text().split(":")[1] || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
-        
-        var smed=parseFloat(await calculateSimilarity(a.toLowerCase(), nameOfMed.toLowerCase()));
 
 
-        var saltSection=($('#manu_details li:contains("Contains / Salt")').text().split(":")[1]||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
-        }
-    
-
-        var cfnieScore=0;
+        var cfnieScore = 0;
         try {
-            var newcfnie=$('#med_details h1[class=container_margin]').first().text().match(/\d+/g);
-            newcfnie=newcfnie?newcfnie.map(Number):[];
+            var newcfnie = $('#med_details h1[class=container_margin]').first().text().match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
-            if(cfnie){
-                var foundCount = 0;
-                
+            var foundCount = 0;
+            if (cfnie.length) {
                 // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
                 cfnie.forEach(num => {
-                // Check if the number is in apolloData.name
-                var inName = newcfnie.includes(num);
-                
-                // Check if the number is in saltSection (join saltSection to a string and check)
-                var inSalt = saltSection.join(' ').includes(num.toString());
-                
-                // If found in either apolloData.name or saltSection, increment the counter
-                if (inName || inSalt) {
-                foundCount++;
-                }
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = qty.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
                 });
-                
+
                 // Update cfnieScore based on how many cfnie numbers were found
                 if (foundCount === cfnie.length) {
-                cfnieScore = 100; // All numbers found
+                    cfnieScore = 100; // All numbers found
                 } else {
-                cfnieScore = 0; // No numbers found
+                    cfnieScore = 0; // No numbers found
                 }
-                
-                }else{
-                filterCount-=100;;
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
                 }
+            }
+
         } catch (error) {
-            filterCount-=100;;
-        }
-    
-          var firstWordScore=0;
-          var firstWord=$('#med_details h1[class=container_margin]').first().text();
-
-          if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-             }else{
-        firstWordScore=0;
+            filterCount -= 100;;
         }
 
-          var newSecondaryAnchor=$('#med_details h1[class=container_margin]').first().text().toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-          var secondAnchorSearchScore=0;
+        qty = parseFloat(qty);
 
-        var newTempStringForExtractingSecondaryAnchor='';
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
 
-        var fullNewMedicineName=$('#med_details h1[class=container_margin]').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+
+        
+        var firstWordScore = 0;
+        var firstWord = $('#med_details h1[class=container_margin]').first().text();
+
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = $('#med_details h1[class=container_margin]').first().text().toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = $('#med_details h1[class=container_margin]').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
 
 
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-      
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
-     
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf",
+            "dt", "md", "iu", "nmg", "dpi", "sf",
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
         return {
             name: 'myupchar',
             item: $('#med_details h1[class=container_margin]').first().text(),
             link: url,
-            imgLink: $('.image_slide').attr('src'), 
+            imgLink: $('.image_slide').attr('src'),
             price: b,
             offer: '',
-            deliveryCharge: parseFloat(b)<100?49:0,
-            finalCharge: (parseFloat(b) + (parseFloat(b)<100?49:0)).toFixed(2),
-         
+            deliveryCharge: parseFloat(b) < 100 ? 49 : 0,
+            finalCharge: (parseFloat(b) + (parseFloat(b) < 100 ? 49 : 0)).toFixed(2),
+
             smed: smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            lson:"Pincode Serviceable",
-            deliveryTime:"4 - 5 days",
+            lson: "Pincode Serviceable",
+            deliveryTime: "4 - 5 days",
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: $('#manu_details li:contains("Manufactured") a').first().text(),
-            medicineAvailability:true,
-            minQty:1,
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
         };
 
     } catch (error) {
@@ -4225,16 +4547,16 @@ function getDeliveryChargeForTabletShablet(totalMedPrice) {
     }
     return dc;
 }
-extractDataOfOBP = async (url, nameOfMed,medicinePackSize) => {
+extractDataOfOBP = async (url, nameOfMed, medicinePackSize) => {
     try {
         // Fetching HTML
         const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data);
-        var a=JSON.parse($('script[type=application/ld+json]').html());
+        var a = JSON.parse($('script[type=application/ld+json]').html());
         // console.log($.html());
-        var p =a['@graph'][a['@graph'].length-1].offers.price;
+        var p = a['@graph'][a['@graph'].length - 1].offers.price;
         // if (!p) {
         //     p = $('.price').first().text()
         // }
@@ -4277,10 +4599,10 @@ extractDataOfOBP = async (url, nameOfMed,medicinePackSize) => {
             dc = 0;
         }
 
-        var simIndex=parseFloat(
+        var simIndex = parseFloat(
             parseFloat(await calculateSimilarity($('.entry-title').text().toLowerCase(), nameOfMed.toLowerCase())) +
-           parseFloat( await calculateSimilarity($('.woocommerce-product-attributes-item__value > p').first().text().toLowerCase(), manufacturer.toLowerCase()))
-        )/2;
+            parseFloat(await calculateSimilarity($('.woocommerce-product-attributes-item__value > p').first().text().toLowerCase(), manufacturer.toLowerCase()))
+        ) / 2;
 
 
         return {
@@ -4292,11 +4614,11 @@ extractDataOfOBP = async (url, nameOfMed,medicinePackSize) => {
             offer: '',
             deliveryCharge: dc,
             finalCharge: parseFloat(p) + parseFloat(dc),
-            smed:parseFloat(await calculateSimilarity($('.entry-title').text().toLowerCase(), nameOfMed.toLowerCase())) ,
-            sman: parseFloat( await calculateSimilarity($('.woocommerce-product-attributes-item__value > p').first().text().toLowerCase(), manufacturer.toLowerCase())),
+            smed: parseFloat(await calculateSimilarity($('.entry-title').text().toLowerCase(), nameOfMed.toLowerCase())),
+            sman: parseFloat(await calculateSimilarity($('.woocommerce-product-attributes-item__value > p').first().text().toLowerCase(), manufacturer.toLowerCase())),
             manufacturerName: $('.woocommerce-product-attributes-item__value > p').first().text(),
-            medicineAvailability:true,
-            minQty:1,
+            medicineAvailability: true,
+            minQty: 1,
 
         };
 
@@ -4308,12 +4630,12 @@ extractDataOfOBP = async (url, nameOfMed,medicinePackSize) => {
     }
 };
 
-extractDataOfPP = async (url, nameOfMed,medicinePackSize,cfnie) => {
+extractDataOfPP = async (url, nameOfMed, medicinePackSize, cfnie) => {
     try {
         // Fetching HTML
-        var filterCount=3;
+        var filterCount = 3;
 
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data);
@@ -4333,31 +4655,33 @@ extractDataOfPP = async (url, nameOfMed,medicinePackSize,cfnie) => {
         }
         // console.log($.html());
 
-        var cfnieScore=0;
-        if(cfnie){
-            if(dataOfPP.name.includes(cfnie)){
-                cfnieScore=100;
+        var cfnieScore = 0;
+        if (cfnie.length) {
+            if (dataOfPP.name.includes(cfnie)) {
+                cfnieScore = 100;
             }
-        }else{
-            filterCount-=100;;
-        }
-     
-
-
-        var qty=$('.panel-content div:contains("Packing")').next('div').find('span').text();
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty = await getPackSize( dataOfPP.name);
-        }else{
-            qty=getPackSize(qty);
+        } else {
+            filterCount -= 100;;
         }
 
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+
+
+        var qty = $('.panel-content div:contains("Packing")').next('div').find('span').text();
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = await getPackSize(dataOfPP.name);
+        } else {
+            qty = getPackSize(qty);
         }
-        
-        var smed=parseFloat(await calculateSimilarity(dataOfPP.name.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(dataOfPP.name.toLowerCase(), nameOfMed.toLowerCase()));
 
         return {
             name: 'Pasumai Pharmacy',
@@ -4368,22 +4692,24 @@ extractDataOfPP = async (url, nameOfMed,medicinePackSize,cfnie) => {
             offer: '',
             deliveryCharge: dc,
             finalCharge: parseFloat(dataOfPP.offers.price) + parseFloat(dc),
-         
-            smed: smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            sfinalAvg: (parseFloat(smed + spack+cfnieScore) / filterCount).toFixed(2),
-            filterCount:filterCount,
 
-            lson:"Pincode Serviceable",
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+
+            lson: "Pincode Serviceable",
 
 
             manufacturerName: $('#divProductTitle > label[class=text-muted]').text(),
-            medicineAvailability:dataOfPP.offers.availability=='http://schema.org/InStock'?true:false,
-            minQty:1,
-            saltName:($('.item-header').first().text().split("+")),
-            qtyItContainsDesc:qty,
-            
+            medicineAvailability: dataOfPP.offers.availability == 'http://schema.org/InStock' ? true : false,
+            minQty: 1,
+            saltName: ($('.item-header').first().text().split("+")),
+            qtyItContainsDesc: qty,
+
         };
 
     } catch (error) {
@@ -4396,26 +4722,26 @@ extractDataOfPP = async (url, nameOfMed,medicinePackSize,cfnie) => {
 
 function getDeliveryChargeForPasumai(price) {
     var dc = 0;
-    
-    if (price < 280) {
-            dc = 68;
-        } else if (price >= 280 && price < 1000) {
-            dc = 58;
-        } else if (price >= 1000) {
-            dc = 8;
-        }
 
-        
+    if (price < 280) {
+        dc = 68;
+    } else if (price >= 280 && price < 1000) {
+        dc = 58;
+    } else if (price >= 1000) {
+        dc = 8;
+    }
+
+
     return dc;
 }
 
 function getDeliveryChargeForMedPlusMart(price) {
     var dc = 0;
-      if (price > 0 && price < 350) {
-    dc = 40;
-} else if (price >= 350) {
-    dc = 20;
-}
+    if (price > 0 && price < 350) {
+        dc = 40;
+    } else if (price >= 350) {
+        dc = 20;
+    }
     return dc;
 }
 
@@ -4451,19 +4777,19 @@ extractDataOfEgmedi = async (url, nameOfMed) => {
 function getDeliveryChargeForOgMedPlusMart(totalMedPrice) {
     var dc = 0;
     if (price > 0 && price < 350) {
-    dc = 40;
-} else if (price >= 350) {
-    dc = 20;
-}
+        dc = 40;
+    } else if (price >= 350) {
+        dc = 20;
+    }
     return dc;
 }
 
 //added new 
 
-extractDataOfOgMPM = async (url, nameOfMed,medicinePackSize,cfnie) => {
+extractDataOfOgMPM = async (url, nameOfMed, medicinePackSize, cfnie) => {
     try {
         // Fetching HTML
-        var filterCount=4;
+        var filterCount = 4;
 
         const { data } = await axios.get(url, { timeout: 5000 });
 
@@ -4471,7 +4797,7 @@ extractDataOfOgMPM = async (url, nameOfMed,medicinePackSize,cfnie) => {
         const $ = cheerio.load(data);
         try {
             var a = await JSON.parse($('script[type="application/ld+json"]:contains("productID")').text());
-            
+
         } catch (error) {
             return {
                 name: 'MedplusMart',
@@ -4491,38 +4817,40 @@ extractDataOfOgMPM = async (url, nameOfMed,medicinePackSize,cfnie) => {
         } else if (parseFloat(a[0].offers.price ? a[0].offers.price : 0) >= 350) {
             dc = 20;
         }
-       
 
-        var qty='';
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
+
+        var qty = '';
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
             qty = await getPackSize(a[0].name);
-        }else{
-            qty=getPackSize(qty);
+        } else {
+            qty = getPackSize(qty);
         }
 
-        var cfnieScore=0;
-        if(cfnie){
-            if(a[0].name.includes(cfnie)){
-                cfnieScore=100;
+        var cfnieScore = 0;
+        if (cfnie.length) {
+            if (a[0].name.includes(cfnie)) {
+                cfnieScore = 100;
             }
-        }else{
-            filterCount-=100;;
+        } else {
+            filterCount -= 100;;
         }
 
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(a[0].name.toLowerCase(), nameOfMed.toLowerCase())) ;
 
-        var firstWordScore=0;
-        var firstWord= a[0].name.split(' ')[0];
-        if(firstWord.toLowerCase()==(nameOfMed.split(' ')[0]).toLowerCase()){
-            firstWordScore=100;
-        }else{
-            firstWordScore=0;
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(a[0].name.toLowerCase(), nameOfMed.toLowerCase()));
+
+        var firstWordScore = 0;
+        var firstWord = a[0].name.split(' ')[0];
+        if (firstWord.toLowerCase() == (nameOfMed.split(' ')[0]).toLowerCase()) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
 
         return {
@@ -4534,20 +4862,22 @@ extractDataOfOgMPM = async (url, nameOfMed,medicinePackSize,cfnie) => {
             deliveryCharge: dc,
             offer: '',
             finalCharge: parseFloat(a[0].offers.price ? a[0].offers.price : 0).toFixed(2),
-         
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            sfinalAvg: (parseFloat(smed + spack+cfnieScore+firstWordScore) / filterCount).toFixed(2),
-            filterCount:filterCount,
-            lson:"Pincode Serviceable",
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore + firstWordScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+            lson: "Pincode Serviceable",
 
             manufacturerName: a[0].brand.name,
-            medicineAvailability:true,
-            minQty:1,
-            saltName:'',
-            qtyItContainsDesc:qty,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
 
         };
 
@@ -4573,73 +4903,77 @@ extractDataOfOgMPM = async (url, nameOfMed,medicinePackSize,cfnie) => {
 
 
 function getDeliveryChargeForKauveryMeds(totalMedPrice) {
-    var dc=totalMedPrice;
+    var dc = totalMedPrice;
 
     return 75;
 }
 
 
 
-extractDataOfKauveryMeds = async (url, nameOfMed,medicinePackSize,cfnie) => {
+extractDataOfKauveryMeds = async (url, nameOfMed, medicinePackSize, cfnie) => {
     try {
         // Fetching HTML
-        var filterCount=3;
+        var filterCount = 3;
 
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data);
         var a = await JSON.parse($('script[type="application/ld+json"]').first().text());
 
         var dc = 75;
-        
-        var qty='';
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
+
+        var qty = '';
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
             qty = await getPackSize($('.productdetail_title').first().text());
-        }else{
-            qty=getPackSize(qty);
+        } else {
+            qty = getPackSize(qty);
         }
 
-        
-        var cfnieScore=0;
-        if(cfnie){
-            if($('.productdetail_title').first().text().includes(cfnie)){
-                cfnieScore=100;
+
+        var cfnieScore = 0;
+        if (cfnie.length) {
+            if ($('.productdetail_title').first().text().includes(cfnie)) {
+                cfnieScore = 100;
             }
-        }else{
-            filterCount-=100;;
+        } else {
+            filterCount -= 100;;
         }
 
 
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
-        
-        var smed=parseFloat(await calculateSimilarity(a.name.toLowerCase(), nameOfMed.toLowerCase())) ;
+
+        var smed = parseFloat(await calculateSimilarity(a.name.toLowerCase(), nameOfMed.toLowerCase()));
 
         return {
             name: 'Kauverymeds',
             item: ($('.productdetail_title').first().text()),
             link: url,
-            imgLink:'https://www.kauverymeds.com/uploads/product/main/thumb.png',
+            imgLink: 'https://www.kauverymeds.com/uploads/product/main/thumb.png',
             price: parseFloat(a.offers.price),
             deliveryCharge: dc,
             offer: '',
             finalCharge: 0,
-            
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            sfinalAvg: (parseFloat(smed + spack+cfnieScore) / filterCount).toFixed(2),
-            filterCount:filterCount,
-            lson:"Pincode Serviceable",
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+            lson: "Pincode Serviceable",
 
             manufacturerName: a.manufacturer,
-            medicineAvailability:a.offers.availability.toLowerCase().includes('instock')?true:false,
-            minQty:1,
-            saltName:'',
-            qtyItContainsDesc:qty,
+            medicineAvailability: a.offers.availability.toLowerCase().includes('instock') ? true : false,
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
 
         };
 
@@ -4651,49 +4985,49 @@ extractDataOfKauveryMeds = async (url, nameOfMed,medicinePackSize,cfnie) => {
             name: 'Kauverymeds',
             item: 'NA',
             link: url,
-            imgLink:'https://www.kauverymeds.com/uploads/product/main/thumb.png',
+            imgLink: 'https://www.kauverymeds.com/uploads/product/main/thumb.png',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
 
-extractDataOfIndiMedo = async (url, nameOfMed,medicinePackSize) => {
+extractDataOfIndiMedo = async (url, nameOfMed, medicinePackSize) => {
     try {
         // Fetching HTML
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data);
-        
-        var simIndex=parseFloat(
+
+        var simIndex = parseFloat(
             parseFloat(await calculateSimilarity($('.product-title').text().toLowerCase(), nameOfMed.toLowerCase())) +
-           parseFloat( await calculateSimilarity($('.d-block').find('strong:contains("Manufacturer")').parent().text().split(':')[1].trim().toLowerCase(), manufacturer.toLowerCase()))
-        )/2;
+            parseFloat(await calculateSimilarity($('.d-block').find('strong:contains("Manufacturer")').parent().text().split(':')[1].trim().toLowerCase(), manufacturer.toLowerCase()))
+        ) / 2;
 
         return {
             name: 'Indi Medo',
             item: $('.product-title').text(),
             link: url,
-            imgLink:$('.single-image img').attr('src'),
+            imgLink: $('.single-image img').attr('src'),
             price: parseFloat($('.discounted-price').text()),
             deliveryCharge: 'Login',
             offer: '',
             finalCharge: 0,
             similarityIndex: simIndex,
-            smed:parseFloat(await calculateSimilarity($('.product-title').text().toLowerCase(), nameOfMed.toLowerCase())) ,
-            sman: parseFloat( await calculateSimilarity($('.d-block').find('strong:contains("Manufacturer")').parent().text().split(':')[1].trim().toLowerCase(), manufacturer.toLowerCase())),
+            smed: parseFloat(await calculateSimilarity($('.product-title').text().toLowerCase(), nameOfMed.toLowerCase())),
+            sman: parseFloat(await calculateSimilarity($('.d-block').find('strong:contains("Manufacturer")').parent().text().split(':')[1].trim().toLowerCase(), manufacturer.toLowerCase())),
             manufacturerName: $('.d-block').find('strong:contains("Manufacturer")').parent().text().split(':')[1].trim(),
-            medicineAvailability:true,
-            minQty:1,
+            medicineAvailability: true,
+            minQty: 1,
 
         };
 
@@ -4705,17 +5039,17 @@ extractDataOfIndiMedo = async (url, nameOfMed,medicinePackSize) => {
             name: 'IndiMedi',
             item: 'NA',
             link: url,
-            imgLink:$('.single-image img').attr('src'),
+            imgLink: $('.single-image img').attr('src'),
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
@@ -4737,7 +5071,7 @@ extractDataOfIndiMedo = async (url, nameOfMed,medicinePackSize) => {
 //         } else {
 //             dc = 0;
 //         }
-        
+
 //         var simIndex=parseFloat(
 //             parseFloat(await calculateSimilarity(a.name.toLowerCase(), nameOfMed.toLowerCase())) +
 //            parseFloat( await calculateSimilarity(a.brand.name.toLowerCase(), manufacturer.toLowerCase()))
@@ -4785,58 +5119,61 @@ extractDataOfIndiMedo = async (url, nameOfMed,medicinePackSize) => {
 // };
 
 function extractLargestNumber(inputString) {
-    if (!inputString) return 0; // Return 0 if text is undefined or empty
+    if (!inputString) return 0; // Return 0 if the input is undefined or empty
     const numbers = inputString.match(/\d+(\.\d+)?/g);
-    if (!numbers) return null; // Or return 0 or another value if preferred
-    
-    return Math.max(...numbers.map(Number));
-  }
+    if (!numbers) return 0; // Return 0 if no numbers are found
 
-extractDataOfChemistBox = async (url, nameOfMed,medicinePackSize) => {
+    return Math.max(...numbers.map(Number));
+}
+
+
+extractDataOfChemistBox = async (url, nameOfMed, medicinePackSize) => {
     try {
         // Fetching HTML
-        const { data } =  await axios.get(url, { timeout: 5000 });
+        const { data } = await axios.get(url, { timeout: 5000 });
 
         // Using cheerio to extract <a> tags
         const $ = cheerio.load(data);
 
-        var dc=125;
-        
-        var qty=$('.pro-details-sku-info').first().text();
-        if(qty==''||qty=="NA"||qty==" "||qty==null){
+        var dc = 125;
+
+        var qty = $('.pro-details-sku-info').first().text();
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
             qty = await extractLargestNumber($('h2').first().text());
-        }else{
-            qty=extractLargestNumber(qty);
+        } else {
+            qty = extractLargestNumber(qty);
         }
 
 
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
-        
-        var smed=parseFloat(await calculateSimilarity( $('h2').first().text().toLowerCase(), nameOfMed.toLowerCase())) ;
+
+        var smed = parseFloat(await calculateSimilarity($('h2').first().text().toLowerCase(), nameOfMed.toLowerCase()));
 
         return {
             name: 'Chemit Box',
             item: $('h2').first().text(),
             link: url,
-            imgLink:$('.swiper-wrapper img').first().attr('src'),
+            imgLink: $('.swiper-wrapper img').first().attr('src'),
             price: parseFloat($('.old-price.not-cut').html().split('<del')[0].split('₹')[1].trim()),
             deliveryCharge: dc,
             offer: '',
             finalCharge: 0,
-           
-            smed:smed,
-            spack:spack,
-            sfinalAvg:(parseFloat(smed+spack)/2).toFixed(2),
 
-            manufacturerName:$('.pro-details-sku-info:contains("Brand") ul li').first().text(),
-            medicineAvailability:($('.product-details-content .new.hide.text-danger').html()?true:false),
-            minQty:1,
-            saltName:'',
-            qtyItContainsDesc:qty,
+            smed: smed,
+            spack: spack,
+            sfinalAvg: (parseFloat(smed + spack) / 2).toFixed(2),
+
+            manufacturerName: $('.pro-details-sku-info:contains("Brand") ul li').first().text(),
+            medicineAvailability: ($('.product-details-content .new.hide.text-danger').html() ? true : false),
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
 
         };
 
@@ -4848,22 +5185,22 @@ extractDataOfChemistBox = async (url, nameOfMed,medicinePackSize) => {
             name: 'Chemist Box',
             item: 'NA',
             link: url,
-            imgLink:'',
+            imgLink: '',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
 
-extractDataOfChemistsWorld = async (url, nameOfMed,medicinePackSize) => {
+extractDataOfChemistsWorld = async (url, nameOfMed, medicinePackSize) => {
     try {
         // Fetching HTML
         const { data } = await axios.get(url)
@@ -4872,33 +5209,33 @@ extractDataOfChemistsWorld = async (url, nameOfMed,medicinePackSize) => {
         const $ = cheerio.load(data);
 
 
-        var dc=55;
-        var simIndex=parseFloat(
+        var dc = 55;
+        var simIndex = parseFloat(
             parseFloat(await calculateSimilarity($('h1[itemprop="name"]').first().text().toLowerCase(), nameOfMed.toLowerCase())) +
-           parseFloat( await calculateSimilarity($('.marketer__sec a').first().text().trim().toLowerCase(), manufacturer.toLowerCase()))
-        )/2;
+            parseFloat(await calculateSimilarity($('.marketer__sec a').first().text().trim().toLowerCase(), manufacturer.toLowerCase()))
+        ) / 2;
 
-        var p=$('.product_cart_area__1 li').first().text();
+        var p = $('.product_cart_area__1 li').first().text();
 
-        if(!p){
-            p=$('span[itemprop="price"]').first().text();
+        if (!p) {
+            p = $('span[itemprop="price"]').first().text();
         }
 
         return {
             name: 'Chemists World',
             item: $('h1[itemprop="name"]').first().text(),
             link: url,
-            imgLink:$('.img_area img').attr('src'),
+            imgLink: $('.img_area img').attr('src'),
             price: parseFloat(p),
             deliveryCharge: 55,
             offer: '',
             finalCharge: 0,
             similarityIndex: simIndex,
-            smed:parseFloat(await calculateSimilarity($('h1[itemprop="name"]').first().text().toLowerCase(), nameOfMed.toLowerCase())) ,
+            smed: parseFloat(await calculateSimilarity($('h1[itemprop="name"]').first().text().toLowerCase(), nameOfMed.toLowerCase())),
             sman: parseFloat(await calculateSimilarity($('.marketer__sec a').first().text().trim().toLowerCase(), manufacturer.toLowerCase())),
             manufacturerName: $('.marketer__sec a').first().text().trim(),
-            medicineAvailability:true,
-            minQty:1,
+            medicineAvailability: true,
+            minQty: 1,
 
         };
 
@@ -4910,17 +5247,17 @@ extractDataOfChemistsWorld = async (url, nameOfMed,medicinePackSize) => {
             name: 'Chemists World',
             item: 'NA',
             link: url,
-            imgLink:$('.img_area img').attr('src'),
+            imgLink: $('.img_area img').attr('src'),
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
@@ -4929,31 +5266,31 @@ extractDataOfChemistsWorld = async (url, nameOfMed,medicinePackSize) => {
 function extractWordsForApis(inputString) {
     // Regex to match the first word and the second word if the first word is a number
     const regex = /^(\w+)(?:\s+(\w+))?/;
-  
+
     // Execute the regex on the input string
     const match = inputString.match(regex);
-  
+
     // Check if the first word is a number and extract accordingly
     if (match) {
-      const firstWord = match[1];
-      const secondWord = match[2];
-  
-      // Check if the first word is a number
-      if (!isNaN(firstWord) || firstWord.length==1) {
-        // Return the first and second word if the first word is a number
-        return [firstWord, secondWord];
-      } else {
-        // Return only the first word
-        return [firstWord];
-      }
+        const firstWord = match[1];
+        const secondWord = match[2];
+
+        // Check if the first word is a number
+        if (!isNaN(firstWord) || firstWord.length == 1) {
+            // Return the first and second word if the first word is a number
+            return [firstWord, secondWord];
+        } else {
+            // Return only the first word
+            return [firstWord];
+        }
     }
-  
+
     // Return an empty array if no match is found
     return [];
-  }
-  
- 
-  
+}
+
+
+
 
 
 // extractDataFromApiOfPracto = async (nameOfMed, medicinePackSize) => {
@@ -4967,20 +5304,20 @@ function extractWordsForApis(inputString) {
 //         { timeout: 5000 }
 //       );
 //       const products = response.data.data; // Adjusted based on Practo's response structure
-  
+
 //       // Filter products by pack size
 //       const filteredProducts = products.filter((product) =>
 //         parseFloat(product.pack_size) === parseFloat(medicinePackSize)
 //       );
-  
+
 //       // Log the filtered products
 //       // console.log(filteredProducts);
-  
+
 //       const targetString = nameOfMed;
-  
+
 //       let mostSimilarProduct = null;
 //       let highestSimilarityScore = 0;
-  
+
 //       filteredProducts.forEach((product) => {
 //         const similarityScore = stringSimilarity.compareTwoStrings(
 //           product.name,
@@ -4991,7 +5328,7 @@ function extractWordsForApis(inputString) {
 //           mostSimilarProduct = product;
 //         }
 //       });
-  
+
 //       let finalProd;
 //       if (mostSimilarProduct) {
 //         finalProd = mostSimilarProduct;
@@ -4999,18 +5336,18 @@ function extractWordsForApis(inputString) {
 //       } else {
 //         console.log("No products found with that package size");
 //       }
-  
+
 //       const qty = getPackSize(finalProd.pack_size);
-  
+
 //       let spack = 0;
 //       if (parseFloat(qty) === parseFloat(medicinePackSize)) {
 //         spack = 100;
 //       }
-  
+
 //       const smed = parseFloat(
 //         await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase())
 //       );
-  
+
 //       return {
 //         name: "Practo",
 //         item: finalProd.name,
@@ -5020,11 +5357,11 @@ function extractWordsForApis(inputString) {
 //         deliveryCharge: 100, // You can update this if delivery charges differ
 //         offer: finalProd.discount || '', // Use Practo's discount field
 //         finalCharge: 0, // Calculate final charge if needed
-  
+
 //         smed: smed,
 //         spack: spack,
 //         sfinalAvg: (parseFloat(smed + spack) / 2).toFixed(2),
-  
+
 //         manufacturerName: finalProd.manufacturer_name, // Adjusted field names
 //         medicineAvailability: finalProd.stock_status === "In Stock",
 //         minQty: finalProd.minimum_order_quantity || 1,
@@ -5054,35 +5391,36 @@ function extractWordsForApis(inputString) {
 //       };
 //     }
 //   };
-  
 
 
 
-extractDataFromApiOfChemist180 = async (ogNameOfMed,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism) => {
+
+extractDataFromApiOfChemist180 = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var searchName=extractWordsForApis(nameOfMed)+" "+medicinePackSize;
+        var searchName = extractWordsForApis(nameOfMed);
         console.log(searchName)
-        var filterCount=600;
+        var filterCount = 600;
 
 
-        const response= (await axios.get(`https://api.chemist180.com/api/list/autocomplete?limit=20&offset=0&name=${searchName}&count=false`,{ timeout: 5000 }));
+        const response = (await axios.get(`https://api.chemist180.com/api/list/productlist?limit=20&keyword=${searchName}&count=false&offset=0`, { timeout: 5000 }));
         const products = (response.data.data.suggestedProductList);
         console.log(products)
 
         // console.log(products)
 
 
-        const filteredProducts = products.filter(product => parseFloat(product.packSize) === parseFloat(medicinePackSize));
-
+        const filteredProducts = products.filter(product =>
+            medicinePackSize.includes(parseFloat(product.packSize))
+        );
         // Log the filtered products
-      //   console.log(filteredProducts);
-        
+        //   console.log(filteredProducts);
+
         const targetString = nameOfMed.toLowerCase();
-  
+
         let mostSimilarProduct = null;
         let highestSimilarityScore = 0;
-  
+
         filteredProducts.forEach(product => {
             const similarityScore = stringSimilarity.compareTwoStrings(product.name.toLowerCase(), targetString);
             if (similarityScore > highestSimilarityScore) {
@@ -5090,183 +5428,211 @@ extractDataFromApiOfChemist180 = async (ogNameOfMed,nameOfMed,medicinePackSize,c
                 mostSimilarProduct = product;
             }
         });
-  
+
         var finalProd;
         if (mostSimilarProduct) {
-              finalProd=mostSimilarProduct; 
-              // console.log(mostSimilarProduct)     
-      } else {
+            finalProd = mostSimilarProduct;
+            // console.log(mostSimilarProduct)     
+        } else {
             console.log('No products found with that package size');
             return {};
         }
 
 
-        var saltSection=(finalProd.productComposition[0].compositionName||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
+        var saltSection = (finalProd.productComposition[0].compositionName || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
 
-        var cfnieScore=0;
-        try{
-        var newcfnie=finalProd.name.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.name.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
-        if(cfnie){
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.packSize.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
 
-    } catch (error) {
-        filterCount-=100;;
-    }
-
-
-        var qty=getPackSize(finalProd.packSize);
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase())) ;
-
-
-        var firstWordScore=0;
-        var firstWord= finalProd.name;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        } catch (error) {
+            filterCount -= 100;;
         }
 
-        var newSecondaryAnchor=finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var qty = getPackSize(finalProd.packSize);
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.name;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-      
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
         return {
             name: 'Chemist180',
             item: finalProd.name,
-            link: "https://chemist180.com/products/productdetails/"+finalProd.slug,
-            imgLink:'./public/NoImageAv.png',
+            link: "https://chemist180.com/products/productdetails/" + finalProd.slug,
+            imgLink: './public/NoImageAv.png',
             price: parseFloat(finalProd.price),
             deliveryCharge: 100,
             offer: '',
             finalCharge: (parseFloat(finalProd.price) + 100).toFixed(2),
-            
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            lson:"Pincode Serviceable",
-            deliveryTime:"1 - 4 days",
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            lson: "Pincode Serviceable",
+            deliveryTime: "1 - 4 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: finalProd['manufacture']['name'],
-            medicineAvailability:finalProd.stockStatusId==2?true:false,
-            minQty:1,
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: finalProd.stockStatusId == 2 ? true : false,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
 
         };
 
@@ -5278,60 +5644,60 @@ var releaseMechScore=0;
             name: 'Chemist180',
             item: 'NA',
             link: '',
-            imgLink:'',
+            imgLink: '',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
 
-extractDataFromApiOfOneBharatPharmacy = async (ogNameOfMed,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiOfOneBharatPharmacy = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var searchName=extractWordsForApis(nameOfMed);
-        var filterCount=600;
+        var searchName = extractWordsForApis(nameOfMed);
+        var filterCount = 600;
 
-        if(typeof(searchName)=='object'){
-            searchName=JSON.stringify(searchName);
+        if (typeof (searchName) == 'object') {
+            searchName = JSON.stringify(searchName);
         }
-        console.log(typeof(searchName))
+        console.log(typeof (searchName))
 
-        const {data}= await axios.get(`https://www.onebharatpharmacy.com/searchproduct/indexget?keyword=${searchName}&category=all`,{ timeout: 5000 });
+        const { data } = await axios.get(`https://www.onebharatpharmacy.com/searchproduct/indexget?keyword=${searchName}&category=all`, { timeout: 5000 });
         const products = (data.result_data);
-        console.log( products)
+        console.log(products)
 
-        var fprod=[];
+        var fprod = [];
 
-            const filteredProducts = products.filter(product => {
-              // Check if text_msg is defined and not empty
-              if (product.type=="product_name") {
+        const filteredProducts = products.filter(product => {
+            // Check if text_msg is defined and not empty
+            if (product.type == "product_name") {
                 // Extract the largest number from text_msg
                 const extractedNumber = parseFloat(extractLargestNumber(product.text_msg));
                 // Compare it with medicinePackSize
-                if(extractedNumber === parseFloat(medicinePackSize)){
+                if (medicinePackSize.includes(extractedNumber)) {
                     fprod.push(product);
                 }
-              }
-            });
-          
-        
+            }
+        });
+
+
 
         // Log the filtered products
-      //   console.log(filteredProducts);
-        
+        //   console.log(filteredProducts);
+
         const targetString = nameOfMed.toLowerCase();
-  
+
         let mostSimilarProduct = null;
         let highestSimilarityScore = 0;
-  
+
         fprod.forEach(product => {
             const similarityScore = stringSimilarity.compareTwoStrings(product.product_name.toLowerCase(), targetString);
             if (similarityScore > highestSimilarityScore) {
@@ -5339,185 +5705,213 @@ extractDataFromApiOfOneBharatPharmacy = async (ogNameOfMed,nameOfMed,medicinePac
                 mostSimilarProduct = product;
             }
         });
-  
+
         var finalProd;
         if (mostSimilarProduct) {
-              finalProd=mostSimilarProduct; 
-              console.log(mostSimilarProduct)     
-      } else {
+            finalProd = mostSimilarProduct;
+            console.log(mostSimilarProduct)
+        } else {
             console.log('No products found with that package size');
             return {};
         }
 
-        var saltSection=(finalProd.pro_compos||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
+        var saltSection = (finalProd.pro_compos || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
-        var cfnieScore=0;
-        try{
-        var newcfnie=finalProd.product_name.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.product_name.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
-        if(cfnie){
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.text_msg.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
 
-    } catch (error) {
-        filterCount-=100;;
-    }
-
-        var qty=extractLargestNumber(finalProd.text_msg);
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.product_name.toLowerCase(), nameOfMed.toLowerCase())) ;
-
-
-        var deliPrice=0;
-        if(parseFloat(finalProd.product_discount_price)<=700){
-            deliPrice=50;
+        } catch (error) {
+            filterCount -= 100;;
         }
 
-        var firstWordScore=0;
-        var firstWord= finalProd.product_name;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var qty = extractLargestNumber(finalProd.text_msg);
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
 
-        var newSecondaryAnchor=finalProd.product_name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
+        var smed = parseFloat(await calculateSimilarity(finalProd.product_name.toLowerCase(), nameOfMed.toLowerCase()));
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.product_name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+
+        var deliPrice = 0;
+        if (parseFloat(finalProd.product_discount_price) <= 700) {
+            deliPrice = 50;
+        }
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.product_name;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.product_name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.product_name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
-      
+
         return {
             name: 'One Bharat Pharmacy',
             item: finalProd.product_name,
             link: finalProd.url,
-            imgLink:'./public/NoImageAv.png',
+            imgLink: './public/NoImageAv.png',
             price: parseFloat(finalProd.product_discount_price),
             deliveryCharge: deliPrice,
             offer: '',
             finalCharge: (parseFloat(finalProd.product_discount_price) + deliPrice).toFixed(2),
-            
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            lson:"Pincode Serviceable",
-            deliveryTime:"4 - 5 days",
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            lson: "Pincode Serviceable",
+            deliveryTime: "4 - 5 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: finalProd.cmp_nm,
-            medicineAvailability:finalProd.in_out_stock=='0'?true:false,
-            minQty:1,
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: finalProd.in_out_stock == '0' ? true : false,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
 
         };
 
@@ -5529,588 +5923,614 @@ var releaseMechScore=0;
             name: 'Chemist180',
             item: 'NA',
             link: '',
-            imgLink:'',
+            imgLink: '',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
 
-extractDataFromApiOfMediBuddy = async (nameOfMed, medicinePackSize,cfnie) => {
+extractDataFromApiOfMediBuddy = async (nameOfMed, medicinePackSize, cfnie) => {
     try {
-      // Fetching words for API
-      let searchName = extractWordsForApis(nameOfMed).toString();
-      var filterCount=4;
+        // Fetching words for API
+        let searchName = extractWordsForApis(nameOfMed).toString();
+        var filterCount = 4;
 
-      
-      const params = {
-        key: searchName, // Use extracted search name
-        source: 'medibuddy',
-        to: 20,
-      };
-  
-      // Perform the POST request to Medibuddy API
-      const { data } = await axios.post('https://meds-service.medibuddy.in/app/medicine/search', params, { timeout: 5000 });
-      
-      // Extract products from response
-      const products = data.message;
-  
-      // Filter products based on text_msg and medicinePackSize
-      const filteredProducts = products.filter(product => parseFloat(product.size) === parseFloat(medicinePackSize));
 
-  
-      // Find the most similar product
-      const targetString = nameOfMed;
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      filteredProducts.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.name, targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        return {};
-      }
-  
-      var cfnieScore=0;
-        if(cfnie){
-            if(finalProd.name.includes(cfnie)){
-                cfnieScore=100;
+        const params = {
+            key: searchName, // Use extracted search name
+            source: 'medibuddy',
+            to: 20,
+        };
+
+        // Perform the POST request to Medibuddy API
+        const { data } = await axios.post('https://meds-service.medibuddy.in/app/medicine/search', params, { timeout: 5000 });
+
+        // Extract products from response
+        const products = data.message;
+
+        // Filter products based on text_msg and medicinePackSize
+        const filteredProducts = products.filter(product => parseFloat(product.size) === parseFloat(medicinePackSize));
+
+
+        // Find the most similar product
+        const targetString = nameOfMed;
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.name, targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
             }
-        }else{
-            filterCount-=100;;
+        });
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            return {};
         }
 
-      // Extract the necessary details from the most similar product
-      var qty=finalProd.size;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase())) ;
-
-  
-      var firstWordScore=0;
-        var firstWord= finalProd.name.split(' ')[0];
-        if(firstWord.toLowerCase()==(nameOfMed.split(' ')[0]).toLowerCase()){
-            firstWordScore=100;
-        }else{
-            firstWordScore=0;
-        }
-  
-      return {
-        name: 'Medibuddy',
-        item: finalProd.name,
-        link: `https://www.medibuddy.in/about/${finalProd.drugCode}`, // Construct a link based on the drug code
-        imgLink: finalProd.productImageSlug.length > 0 ? finalProd.productImageSlug[0] : finalProd.productImageSlug, // Use the first image if available
-        price: parseFloat(finalProd.discountPrice),
-        deliveryCharge: 0,
-        offer: finalProd.discountPercentageText,
-        finalCharge: 0,
-  
-        smed: smed,
-        spack: spack,
-         cfnie:cfnieScore,
-         firstWordScore:firstWordScore,
-         sfinalAvg: (parseFloat(smed + spack+cfnieScore+firstWordScore) / filterCount).toFixed(2),
-        filterCount:filterCount,
-        lson:"Pincode Serviceable",
-
-  
-        manufacturerName: finalProd.brand,
-        medicineAvailability: finalProd.availableStatus =='A'?true:false,
-        minQty: 1,
-        saltName: finalProd.composition,
-        qtyItContainsDesc: qty,
-      };
-    } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'Medibuddy',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
-    }
-  };
-
- 
-extractDataFromApiOfDawaaDost = async (nameOfMed, medicinePackSize,cfnie,pincode) => {
-    try {
-      // Fetching words for API
-      let searchName = extractWordsForApis(nameOfMed).toString();
-  
-      var filterCount=4;
-
-
-      const params = {
-        query: searchName,
-      };
-  
-      const { data } = await axios.post("https://api.dawaadost.com/api/medicine/vertexSearch",params)
-  
-      const products = data.data;
-    //   console.log(products[0].dd_skupackaging.stringValue)
-    
-      // Filter products based on text_msg and medicinePackSize
-      const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.dd_skupackaging.stringValue)) === parseFloat(medicinePackSize));
-  
-    //   console.log(filteredProducts)
-  
-      // Find the most similar product
-      const targetString = nameOfMed;
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      filteredProducts.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.dd_name.stringValue, targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        return {};
-      }
-
-      var cfnieScore=0;
-      if(cfnie){
-          if(finalProd.dd_name.stringValue.includes(cfnie)){
-              cfnieScore=100;
-          }
-      }else{
-          filterCount-=100;;
-      }
-  
-      // Extract the necessary details from the most similar product
-      var qty=parseFloat(extractLargestNumber(finalProd.dd_skupackaging.stringValue));
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.dd_name.stringValue.toLowerCase(), nameOfMed.toLowerCase())) ;
-
-        var firstWordScore=0;
-        var firstWord= finalProd.dd_name.stringValue.split(' ')[0];
-        if(firstWord.toLowerCase()==(nameOfMed.split(' ')[0]).toLowerCase()){
-            firstWordScore=100;
-        }else{
-            firstWordScore=0;
-        }
-      
-  
-      return {
-        name: 'DawaaDost',
-        item: finalProd.dd_name.stringValue,
-        link: `https://www.dawaadost.com/medicine/${finalProd.dd_route_name.stringValue}`, // Construct a link based on the drug code
-        imgLink: finalProd.dd_image_url.stringValue?finalProd.dd_image_url.stringValue:'./public/NoImageAv.png',
-        price: (Math.ceil(finalProd.dd_price.numberValue-(0.1*finalProd.dd_price.numberValue))),
-        deliveryCharge: (Math.ceil(finalProd.dd_price.numberValue-(0.1*finalProd.dd_price.numberValue))) <850?75:0,
-        offer: '',
-        finalCharge: 0,
-  
-        smed: smed,
-        spack: spack,
-        firstWordScore:firstWordScore,
-        sfinalAvg: (parseFloat(smed + spack+cfnieScore+firstWordScore) / filterCount).toFixed(2),
-        filterCount:filterCount,
-        lson:"Pincode Serviceable",
-        deliveryTime:"4 - 5 days",
-
-        manufacturerName: finalProd.dd_company.stringValue,
-        medicineAvailability: true,
-        minQty: 1,
-        saltName: finalProd.dd_composition.stringValue,
-        qtyItContainsDesc: qty,
-      };
-    } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'DawaaDost',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
-    }
-  }; //pending
-
-  extractDataFromApiTata1mg = async (nameOfMed,searchNameForApi,medicinePackSize,cfnie,pincode) => {
-    try {
-      // Fetching words for API
-      const filterCount=3;
-      console.log("Tata 1mg SKU "+ searchNameForApi)
-      const { data } = await axios.get(`https://www.1mg.com/api/v1/search/autocomplete?pageSize=12&types=all&name=${searchNameForApi}`)
-  
-      const products = data.results;    
-
-      
-
-    //   console.log(products)
-    
-      // Filter products based on text_msg and medicinePackSize
-      const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.pack_size_label)) === parseFloat(medicinePackSize));
-  
-    //   console.log(filteredProducts)
-  
-      // Find the most similar product
-      const targetString = nameOfMed;
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      filteredProducts.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.label, targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        return {};
-      }
-
-      var cfnieScore=0;
-        if(cfnie){
-            if(finalProd.label.includes(cfnie)){
-                cfnieScore=100;
+        var cfnieScore = 0;
+        if (cfnie.length) {
+            if (finalProd.name.includes(cfnie)) {
+                cfnieScore = 100;
             }
-        }else{
-            filterCount-=100;;
+        } else {
+            filterCount -= 100;;
         }
-  
-      // Extract the necessary details from the most similar product
-      var qty=parseFloat(extractLargestNumber(finalProd.pack_size_label))
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.label.toLowerCase(), nameOfMed.toLowerCase())) ;
+
+        // Extract the necessary details from the most similar product
+        var qty = finalProd.size;
 
 
-      
-      
-        var lson =  await axios.post(`https://www.1mg.com/pharmacy_api_gateway/v4/skus/${finalProd.id}/eta`, {
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.name.split(' ')[0];
+        if (firstWord.toLowerCase() == (nameOfMed.split(' ')[0]).toLowerCase()) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        return {
+            name: 'Medibuddy',
+            item: finalProd.name,
+            link: `https://www.medibuddy.in/about/${finalProd.drugCode}`, // Construct a link based on the drug code
+            imgLink: finalProd.productImageSlug.length > 0 ? finalProd.productImageSlug[0] : finalProd.productImageSlug, // Use the first image if available
+            price: parseFloat(finalProd.discountPrice),
+            deliveryCharge: 0,
+            offer: finalProd.discountPercentageText,
+            finalCharge: 0,
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore + firstWordScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+            lson: "Pincode Serviceable",
+
+
+            manufacturerName: finalProd.brand,
+            medicineAvailability: finalProd.availableStatus == 'A' ? true : false,
+            minQty: 1,
+            saltName: finalProd.composition,
+            qtyItContainsDesc: qty,
+        };
+    } catch (error) {
+        console.error('Error:', error);
+        return {
+            name: 'Medibuddy',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
+    }
+};
+
+
+extractDataFromApiOfDawaaDost = async (nameOfMed, medicinePackSize, cfnie, pincode) => {
+    try {
+        // Fetching words for API
+        let searchName = extractWordsForApis(nameOfMed).toString();
+
+        var filterCount = 4;
+
+
+        const params = {
+            query: searchName,
+        };
+
+        const { data } = await axios.post("https://api.dawaadost.com/api/medicine/vertexSearch", params)
+
+        const products = data.data;
+        //   console.log(products[0].dd_skupackaging.stringValue)
+
+        // Filter products based on text_msg and medicinePackSize
+        const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.dd_skupackaging.stringValue)) === parseFloat(medicinePackSize));
+
+        //   console.log(filteredProducts)
+
+        // Find the most similar product
+        const targetString = nameOfMed;
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.dd_name.stringValue, targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            return {};
+        }
+
+        var cfnieScore = 0;
+        if (cfnie.length) {
+            if (finalProd.dd_name.stringValue.includes(cfnie)) {
+                cfnieScore = 100;
+            }
+        } else {
+            filterCount -= 100;;
+        }
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber(finalProd.dd_skupackaging.stringValue));
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.dd_name.stringValue.toLowerCase(), nameOfMed.toLowerCase()));
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.dd_name.stringValue.split(' ')[0];
+        if (firstWord.toLowerCase() == (nameOfMed.split(' ')[0]).toLowerCase()) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+
+        return {
+            name: 'DawaaDost',
+            item: finalProd.dd_name.stringValue,
+            link: `https://www.dawaadost.com/medicine/${finalProd.dd_route_name.stringValue}`, // Construct a link based on the drug code
+            imgLink: finalProd.dd_image_url.stringValue ? finalProd.dd_image_url.stringValue : './public/NoImageAv.png',
+            price: (Math.ceil(finalProd.dd_price.numberValue - (0.1 * finalProd.dd_price.numberValue))),
+            deliveryCharge: (Math.ceil(finalProd.dd_price.numberValue - (0.1 * finalProd.dd_price.numberValue))) < 850 ? 75 : 0,
+            offer: '',
+            finalCharge: 0,
+
+            smed: smed,
+            spack: spack,
+            firstWordScore: firstWordScore,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore + firstWordScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+            lson: "Pincode Serviceable",
+            deliveryTime: "4 - 5 days",
+
+            manufacturerName: finalProd.dd_company.stringValue,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: finalProd.dd_composition.stringValue,
+            qtyItContainsDesc: qty,
+        };
+    } catch (error) {
+        console.error('Error:', error);
+        return {
+            name: 'DawaaDost',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
+    }
+}; //pending
+
+extractDataFromApiTata1mg = async (nameOfMed, searchNameForApi, medicinePackSize, cfnie, pincode) => {
+    try {
+        // Fetching words for API
+        const filterCount = 3;
+        console.log("Tata 1mg SKU " + searchNameForApi)
+        const { data } = await axios.get(`https://www.1mg.com/api/v1/search/autocomplete?pageSize=12&types=all&name=${searchNameForApi}`)
+
+        const products = data.results;
+
+
+
+        //   console.log(products)
+
+        // Filter products based on text_msg and medicinePackSize
+        const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.pack_size_label)) === parseFloat(medicinePackSize));
+
+        //   console.log(filteredProducts)
+
+        // Find the most similar product
+        const targetString = nameOfMed;
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.label, targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            return {};
+        }
+
+        var cfnieScore = 0;
+        if (cfnie.length) {
+            if (finalProd.label.includes(cfnie)) {
+                cfnieScore = 100;
+            }
+        } else {
+            filterCount -= 100;;
+        }
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber(finalProd.pack_size_label))
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.label.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+
+
+        var lson = await axios.post(`https://www.1mg.com/pharmacy_api_gateway/v4/skus/${finalProd.id}/eta`, {
             "sku_id": finalProd.id,
             "pincode": `${pincode}`
-          }, {
+        }, {
             headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
-          });
-          
-    
-          if(lson.data.data.ga_data.info.eta_text.includes("not")){
-            lson="Pincode Not Serviceable";
-          }else{
-            lson="Pincode Servicaeble";
-          }
-  
-      
-  
-      return {
-        name: 'Tata 1mg',
-        item: finalProd.label,
-        link: `https://1mg.com${finalProd.url_path}`, // Construct a link based on the drug code
-        imgLink: finalProd.image_urls[0],
-        price: parseFloat(finalProd.price),
-        deliveryCharge: 0,
-        offer: '',
-        finalCharge: 0,
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        sfinalAvg: (parseFloat(smed + spack+cfnieScore) / filterCount).toFixed(2),
-        filterCount:filterCount,
+        });
 
-        lson:lson,
-  
-        manufacturerName: finalProd.marketer_name,
-        medicineAvailability: finalProd.available,
-        minQty: 1,
-        saltName: '',
-        qtyItContainsDesc: qty,
-      };
+
+        if (lson.data.data.ga_data.info.eta_text.includes("not")) {
+            lson = "Pincode Not Serviceable";
+        } else {
+            lson = "Pincode Servicaeble";
+        }
+
+
+
+        return {
+            name: 'Tata 1mg',
+            item: finalProd.label,
+            link: `https://1mg.com${finalProd.url_path}`, // Construct a link based on the drug code
+            imgLink: finalProd.image_urls[0],
+            price: parseFloat(finalProd.price),
+            deliveryCharge: 0,
+            offer: '',
+            finalCharge: 0,
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+
+            lson: lson,
+
+            manufacturerName: finalProd.marketer_name,
+            medicineAvailability: finalProd.available,
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'Tata 1mg',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'Tata 1mg',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
-  extractDataFromApiMyupchar= async (nameOfMed, medicinePackSize,cfnie,pincode) => {
+extractDataFromApiMyupchar = async (nameOfMed, medicinePackSize, cfnie, pincode) => {
     try {
-      // Fetching words for API
-      var filterCount=3;
+        // Fetching words for API
+        var filterCount = 3;
 
 
-      let searchName = extractWordsForApis(nameOfMed).toString();
-  
-      const { data } = await axios.get(`https://www.myupchar.com/en/search/autocomplete_v2?query=${searchName} ${medicinePackSize}`)
-  
-      const products = data;
-    //   console.log(products)
-    
-      // Filter products based on text_msg and medicinePackSize
-      const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.form)) === parseFloat(medicinePackSize));
-    
-      // Find the most similar product
-      const targetString = nameOfMed;
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      filteredProducts.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.text, targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        // return {};
-      }
+        let searchName = extractWordsForApis(nameOfMed).toString();
 
-      var cfnieScore=0;
-      console.log("Myupchar "+ finalProd)
-        if(cfnie){
-            if(finalProd.text.includes(cfnie)){
-                cfnieScore=100;
+        const { data } = await axios.get(`https://www.myupchar.com/en/search/autocomplete_v2?query=${searchName} ${medicinePackSize}`)
+
+        const products = data;
+        //   console.log(products)
+
+        // Filter products based on text_msg and medicinePackSize
+        const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.form)) === parseFloat(medicinePackSize));
+
+        // Find the most similar product
+        const targetString = nameOfMed;
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.text, targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
             }
-        }else{
-            filterCount-=100;;
-        }
-  
-      // Extract the necessary details from the most similar product
-      var qty=parseFloat(extractLargestNumber(finalProd.form)) ;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.text, nameOfMed.toLowerCase())) ;
+        });
 
-  
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            // return {};
+        }
+
+        var cfnieScore = 0;
+        console.log("Myupchar " + finalProd)
+        if (cfnie.length) {
+            if (finalProd.text.includes(cfnie)) {
+                cfnieScore = 100;
+            }
+        } else {
+            filterCount -= 100;;
+        }
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber(finalProd.form));
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.text, nameOfMed.toLowerCase()));
+
+
         const lson = await axios.post(
             'https://www.myupchar.com/orders/city_and_locality',
             { pincode, locale }, // JSON payload
             { headers: { 'Content-Type': 'application/json' } } // Set the appropriate headers
-          );
-          
-          if(lson.data.status==200){
-            lson="Pincode Serviceable";
-        }else{
-              lson="Pincode Not Serviceable";
-          }
-      
-  
-      return {
-        name: 'MyUpChar',
-        item: finalProd.text,
-        link: `https://www.myupchar.com/${finalProd["website-link"]}`, // Construct a link based on the drug code
-        imgLink: finalProd.image,
-        price: parseFloat(finalProd.sp),
-        deliveryCharge:parseFloat(finalProd.sp)<100?49:0,
-        offer: '',
-        finalCharge: 0,
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        
-        sfinalAvg: (parseFloat(smed + spack+cfnieScore) / filterCount).toFixed(2),
-        filterCount:filterCount,
+        );
 
-        lson:lson,
-        deliveryTime:"4 - 5 days",
-  
-        manufacturerName: finalProd.mfr,
-        medicineAvailability: true,
-        minQty: 1,
-        saltName: '',
-        qtyItContainsDesc: qty,
-      };
+        if (lson.data.status == 200) {
+            lson = "Pincode Serviceable";
+        } else {
+            lson = "Pincode Not Serviceable";
+        }
+
+
+        return {
+            name: 'MyUpChar',
+            item: finalProd.text,
+            link: `https://www.myupchar.com/${finalProd["website-link"]}`, // Construct a link based on the drug code
+            imgLink: finalProd.image,
+            price: parseFloat(finalProd.sp),
+            deliveryCharge: parseFloat(finalProd.sp) < 100 ? 49 : 0,
+            offer: '',
+            finalCharge: 0,
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+
+            sfinalAvg: (parseFloat(smed + spack + cfnieScore) / filterCount).toFixed(2),
+            filterCount: filterCount,
+
+            lson: lson,
+            deliveryTime: "4 - 5 days",
+
+            manufacturerName: finalProd.mfr,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'MyUpChar',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'MyUpChar',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
-  extractDataFromApiPulseplus= async (ogNameOfMed,nameOfMed, medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiPulseplus = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
-      var filterCount=600;
+        var filterCount = 600;
 
-      let searchName = extractWordsForApis(nameOfMed).toString();
-  
-      const { data } = await axios.get(`https://www.pulseplus.in/Pulse/SearchProduct?searchText=${searchName}&searchLength=30`,{timeout:5000})
-  
-      const products = data;
-    //   console.log(products)
-    
-      
-      // Filter products based on text_msg and medicinePackSize
-    //   const filteredProducts = products.filter(
-    //       product => 
-            
-    //         var qty=parseFloat(extractLargestNumber(product.Packing))
-    //         if(qty==''||qty=="NA"||qty==" "||qty==null){
-    //             qty =parseFloat(extractLargestNumber(product.ProductName));
-    //         }
-    //         parseFloat(extractLargestNumber(qty)) === parseFloat(medicinePackSize)
-    // );
-    
-    var fprod=[];
+        let searchName = extractWordsForApis(nameOfMed).toString();
 
-    const filteredProducts = products.filter(product => {
-        // Check if text_msg is defined and not empty
+        const { data } = await axios.get(`https://www.pulseplus.in/Pulse/SearchProduct?searchText=${searchName}&searchLength=30`, { timeout: 5000 })
 
-        var qty=parseFloat(extractLargestNumber(product.Packing))
-                if(qty==''||qty=="NA"||qty==" "||qty==null){
-                    qty =parseFloat(getPackSize(product.ProductName));
+        const products = data;
+        //   console.log(products)
+
+
+        // Filter products based on text_msg and medicinePackSize
+        //   const filteredProducts = products.filter(
+        //       product => 
+
+        //         var qty=parseFloat(extractLargestNumber(product.Packing))
+        //         if(qty==''||qty=="NA"||qty==" "||qty==null){
+        //             qty =parseFloat(extractLargestNumber(product.ProductName));
+        //         }
+        //         parseFloat(extractLargestNumber(qty)) === parseFloat(medicinePackSize)
+        // );
+
+        var fprod = [];
+
+        const filteredProducts = products.filter(product => {
+            // Extract the largest number from Packing
+            let qty = parseFloat(extractLargestNumber(product.Packing));
+
+            // If qty is not a valid number, try extracting from ProductName
+            if (!qty || isNaN(qty)) {
+                qty = parseFloat(getPackSize(product.ProductName));
+            }
+
+            // Check if qty matches any value in medicinePackSize (if medicinePackSize is an array)
+            if (Array.isArray(medicinePackSize)) {
+                if (medicinePackSize.includes(qty)) {
+                    fprod.push(product);
                 }
+            } else {
+                // Compare with medicinePackSize if it's a single value
+                if (qty === parseFloat(medicinePackSize)) {
+                    fprod.push(product);
+                }
+            }
 
-          // Compare it with medicinePackSize
-          if(parseFloat(qty) === parseFloat(medicinePackSize)){
-              fprod.push(product);
-          }
-          qty='';
-      });
+            qty = ''; // Reset qty
+        });
 
-      // Find the most similar product
-      const targetString = nameOfMed.toLowerCase();
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      fprod.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
+
+        // Find the most similar product
+        const targetString = nameOfMed.toLowerCase();
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        fprod.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            // return {};
         }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        // return {};
-      }
-      var cfnieScore=0;
+        var cfnieScore = 0;
 
-  
-  
-      // Extract the necessary details from the most similar product
-      var qty= parseFloat(extractLargestNumber(finalProd.Packing)) ;
-      if(qty==''||qty=="NA"||qty==" "||qty==null){
-            qty =parseFloat(extractLargestNumber(finalProd.ProductName));
-       }
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber(finalProd.Packing));
+        if (qty == '' || qty == "NA" || qty == " " || qty == null) {
+            qty = parseFloat(extractLargestNumber(finalProd.ProductName));
         }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.ProductName, nameOfMed.toLowerCase())) ;
 
-  
-        if(finalProd.MRP<999){
-            dc=57;
-        }else{
-            dc=15;
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.ProductName, nameOfMed.toLowerCase()));
+
+
+        if (finalProd.MRP < 999) {
+            dc = 57;
+        } else {
+            dc = 15;
         }
 
 
@@ -6118,1373 +6538,1531 @@ extractDataFromApiOfDawaaDost = async (nameOfMed, medicinePackSize,cfnie,pincode
         //Offers Section
 
 
-        var firstWordScore=0;
-        var firstWord= finalProd.ProductName;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var firstWordScore = 0;
+        var firstWord = finalProd.ProductName;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
 
 
-        var newSecondaryAnchor=finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
+        var newSecondaryAnchor = finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
         var checkForSaltName = await axios.get(`https://www.pulseplus.in${finalProd["ProductLinkUrl"]}`)
-        var $$= cheerio.load(checkForSaltName.data);
-        var saltSection=($$('.prod-uses-label.mt-2').first().next('div').text()||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
+        var $$ = cheerio.load(checkForSaltName.data);
+        var saltSection = ($$('.prod-uses-label.mt-2').first().next('div').text() || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
 
-        try{
-            var newcfnie=finalProd.ProductName.match(/\d+/g);
-            newcfnie=newcfnie?newcfnie.map(Number):[];
-    
-            if(cfnie){
-                var foundCount = 0;
-                
+        try {
+            var newcfnie = finalProd.ProductName.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
                 // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
                 cfnie.forEach(num => {
-                // Check if the number is in apolloData.name
-                var inName = newcfnie.includes(num);
-                
-                // Check if the number is in saltSection (join saltSection to a string and check)
-                var inSalt = saltSection.join(' ').includes(num.toString());
-                
-                // If found in either apolloData.name or saltSection, increment the counter
-                if (inName || inSalt) {
-                foundCount++;
-                }
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.Packing.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
                 });
-                
+
                 // Update cfnieScore based on how many cfnie numbers were found
                 if (foundCount === cfnie.length) {
-                cfnieScore = 100; // All numbers found
+                    cfnieScore = 100; // All numbers found
                 } else {
-                cfnieScore = 0; // No numbers found
-                }
-                
-                }else{
-                filterCount-=100;;
+                    cfnieScore = 0; // No numbers found
                 }
 
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
+
         } catch (error) {
-            filterCount-=100;;
+            filterCount -= 100;;
         }
 
 
-        var lson = await axios.post('https://www.pulseplus.in/Pulse/UpdateDetectedLocation', 
+        var lson = await axios.post('https://www.pulseplus.in/Pulse/UpdateDetectedLocation',
             new URLSearchParams({
-              PinCode: pincode
+                PinCode: pincode
             }), // Format the data as URLSearchParams
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } // Set the appropriate headers
-          );
+        );
 
         var delTime;
-        if(lson.data.EstimatedDeliveryInfo){
-            delTime=lson.data.EstimatedDeliveryInfo;
-            lson="Pincode Serviceable";
-        }else{
-            lson="Pincode Not Serviceable";
+        if (lson.data.EstimatedDeliveryInfo) {
+            delTime = lson.data.EstimatedDeliveryInfo;
+            lson = "Pincode Serviceable";
+        } else {
+            lson = "Pincode Not Serviceable";
         }
 
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
 
-      return {
-        name: 'PulsePlus',
-        item: finalProd.ProductName,
-        link: `https://www.pulseplus.in${finalProd["ProductLinkUrl"]}`, // Construct a link based on the drug code
-        imgLink: './public/NoImageAv.png',
-        price: parseFloat(finalProd.MRP),
-        deliveryCharge: dc,
-        offer: '',
-        finalCharge: (parseFloat(finalProd.MRP) + dc).toFixed(2),
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        firstWordScore:firstWordScore,
-        releaseMechScore:releaseMechScore,
+        return {
+            name: 'PulsePlus',
+            item: finalProd.ProductName,
+            link: `https://www.pulseplus.in${finalProd["ProductLinkUrl"]}`, // Construct a link based on the drug code
+            imgLink: './public/NoImageAv.png',
+            price: parseFloat(finalProd.MRP),
+            deliveryCharge: dc,
+            offer: '',
+            finalCharge: (parseFloat(finalProd.MRP) + dc).toFixed(2),
 
-        sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-        filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-        lson:lson,
-        deliveryTime:delTime,
-       
-        secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
-  
-        manufacturerName: finalProd.MfgName,
-        medicineAvailability: true,
-        minQty: 1,
-        saltName: saltSection,
-        qtyItContainsDesc: qty,
-      };
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: lson,
+            deliveryTime: delTime,
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: finalProd.MfgName,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'PulsePlus',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'PulsePlus',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
-  extractDataFromApiChemistBox= async (ogNameOfMed,nameOfMed, medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiChemistBox = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
 
-      var filterCount=600;
-  
-            let searchName = extractWordsForApis(nameOfMed).toString();
+        var filterCount = 600;
 
-          var {data} =(await axios.get(`https://chemistbox.in/ajax/ProductSearch?SearchKey=${searchName}`,{timeout:5000}))
-          const $=cheerio.load(data);
+        let searchName = extractWordsForApis(nameOfMed).toString();
 
-        var products=JSON.parse($.html().split(/<\/?body>/)[1].trim())
+        var { data } = (await axios.get(`https://chemistbox.in/ajax/ProductSearch?SearchKey=${searchName}`, { timeout: 5000 }))
+        const $ = cheerio.load(data);
+
+        var products = JSON.parse($.html().split(/<\/?body>/)[1].trim())
         // console.log(products)
 
-    
-      // Filter products based on text_msg and medicinePackSize
-      const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.Strength)) === parseFloat(medicinePackSize));
-    
-    //   console.log(filteredProducts)
-      // Find the most similar product
-      const targetString = nameOfMed.toLowerCase();
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      filteredProducts.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      console.log(mostSimilarProduct)
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size In ChemistBox');
-        return {};
-      }
 
-      var cfnieScore=0;
-  
-    
-      // Extract the necessary details from the most similar product
-      var qty=parseFloat(extractLargestNumber(finalProd.Strength)) ;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.ProductName, nameOfMed.toLowerCase())) ;
+        // Filter products based on text_msg and medicinePackSize
+        const filteredProducts = products.filter(product => {
+            const largestNumber = extractLargestNumber(product.Strength);
+            return medicinePackSize.includes(parseFloat(largestNumber));
+        });
 
 
-        var {data} = await axios.get(`https://chemistbox.in/Ajax/SearchPincode?pincode=${pincode}`)
-        var chemLocData=JSON.parse(data.replace(/^\[\s*|\s*\]$/g, ''));
 
+        //   console.log(filteredProducts)
+        // Find the most similar product
+        const targetString = nameOfMed.toLowerCase();
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
 
-        if(chemLocData.isDeliverables){
-              lson="Pincode Serviceable";
-        }else{
-              lson="Pincode Not Servicaeble";
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        console.log(mostSimilarProduct)
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size In ChemistBox');
+            return {};
         }
 
-        var dc=parseFloat(chemLocData.DeliveryCharge);
-        var maxOrderAmt_ForFreeCharge=parseFloat(chemLocData.MaxOrderAmt_FreeDelivery);
+        var cfnieScore = 0;
 
-        if(parseFloat(finalProd.SalePrice)>maxOrderAmt_ForFreeCharge){
-            dc=0;
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber(finalProd.Strength));
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.ProductName, nameOfMed.toLowerCase()));
+
+
+        var { data } = await axios.get(`https://chemistbox.in/Ajax/SearchPincode?pincode=${pincode}`)
+        var chemLocData = JSON.parse(data.replace(/^\[\s*|\s*\]$/g, ''));
+
+
+        if (chemLocData.isDeliverables) {
+            lson = "Pincode Serviceable";
+        } else {
+            lson = "Pincode Not Servicaeble";
+        }
+
+        var dc = parseFloat(chemLocData.DeliveryCharge);
+        var maxOrderAmt_ForFreeCharge = parseFloat(chemLocData.MaxOrderAmt_FreeDelivery);
+
+        if (parseFloat(finalProd.SalePrice) > maxOrderAmt_ForFreeCharge) {
+            dc = 0;
         }
 
 
-        var firstWordScore=0;
-        var firstWord= finalProd.ProductName;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var firstWordScore = 0;
+        var firstWord = finalProd.ProductName;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
-        
-        var newSecondaryAnchor=finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var newSecondaryAnchor = finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-      
 
-        try{
-            var saltSection=(finalProd.GenericName||"NA");
-            if(typeof(saltSection)=='string'){
-                saltSection=[saltSection];
+
+        try {
+            var saltSection = (finalProd.GenericName || "NA");
+            if (typeof (saltSection) == 'string') {
+                saltSection = [saltSection];
             }
 
-            var newcfnie=finalProd.ProductName.match(/\d+/g);
-            newcfnie=newcfnie?newcfnie.map(Number):[];
-    
-     if(cfnie){
+            var newcfnie = finalProd.ProductName.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    var inPackSize = finalProd.Strength.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
+
         } catch (error) {
-            filterCount-=100;;
+            filterCount -= 100;;
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
-        
-
-      return {
-        name: 'ChemistBox',
-        item: finalProd.ProductName,
-        link: `https://chemistbox.in/Search/${finalProd.ProductURL}-${finalProd.RefID}`, // Construct a link based on the drug code
-        imgLink: finalProd.ProdImage,
-        price: parseFloat(finalProd.SalePrice),
-        deliveryCharge: dc,
-        offer: '',
-        finalCharge: (parseFloat(finalProd.SalePrice) + dc).toFixed(2),
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        firstWordScore:firstWordScore,
-        releaseMechScore:releaseMechScore,
 
 
-        sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-        filterCount:filterCount,
+        return {
+            name: 'ChemistBox',
+            item: finalProd.ProductName,
+            link: `https://chemistbox.in/Search/${finalProd.ProductURL}-${finalProd.RefID}`, // Construct a link based on the drug code
+            imgLink: finalProd.ProdImage,
+            price: parseFloat(finalProd.SalePrice),
+            deliveryCharge: dc,
+            offer: '',
+            finalCharge: (parseFloat(finalProd.SalePrice) + dc).toFixed(2),
 
-        lson:lson,
-        deliveryTime:"4 - 5 days",
-       
-        secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
-  
-        manufacturerName: finalProd.MrkGroupName,
-        medicineAvailability: true,
-        minQty: 1,
-        saltName: finalProd.GenericName||"NA",
-        qtyItContainsDesc: qty,
-      };
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: lson,
+            deliveryTime: "4 - 5 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: finalProd.MrkGroupName,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: finalProd.GenericName || "NA",
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'ChemistBox',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'ChemistBox',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
-  extractDataFromApiChemistsWorld= async (ogNameOfMed,nameOfMed, medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiChemistsWorld = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
 
-      var filterCount=600;
+        var filterCount = 600;
 
-      let searchName = extractWordsForApis(nameOfMed).toString();
-  
-      var { data } = await axios.get(`https://www.chemistsworld.com/ajax/common2.php?term=${searchName}`,{timeout:5000})
-      const products = (data);
-  
+        let searchName = extractWordsForApis(nameOfMed).toString();
 
-    //   console.log(products)      
+        var { data } = await axios.get(`https://www.chemistsworld.com/ajax/common2.php?term=${searchName}`, { timeout: 5000 })
+        const products = (data);
 
-    var fprod=[];
 
-   
+        //   console.log(products)      
 
-      const formData = new URLSearchParams();
-    formData.append('action', 'CheckDeliveryPincodePre');
-    formData.append('pincode', pincode);
+        var fprod = [];
 
-    // Make a POST request with form data
-    var lson = await axios.post('https://www.chemistsworld.com/ajax/AddToCart.php', formData.toString(), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
 
-      if(lson.data.includes("not")){
-        lson="Pincode Not Serviceable";
-      }else{
-        lson="Pincode Servicaeble";
-      }
 
-    const filteredProducts = products.filter(product => {
-        // Check if text_msg is defined and not empty
+        const formData = new URLSearchParams();
+        formData.append('action', 'CheckDeliveryPincodePre');
+        formData.append('pincode', pincode);
 
-        var emContent = product.desc.match(/<em>(.*?)<\/em>/); //pack size
+        // Make a POST request with form data
+        var lson = await axios.post('https://www.chemistsworld.com/ajax/AddToCart.php', formData.toString(), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        if (lson.data.includes("not")) {
+            lson = "Pincode Not Serviceable";
+        } else {
+            lson = "Pincode Servicaeble";
+        }
+
+        const filteredProducts = products.filter(product => {
+            // Check if text_msg is defined and not empty
+
+            var emContent = product.desc.match(/<em>(.*?)<\/em>/); //pack size
+            emContent = emContent ? emContent[1] : null;
+
+            var fontContent = product.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
+            fontContent = fontContent ? parseFloat(fontContent[1]) : null;
+
+
+
+            if (medicinePackSize.includes(extractLargestNumber(emContent))) {
+                fprod.push(product);
+            }
+        });
+
+
+        // Filter products based on text_msg and medicinePackSize
+        //   const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.Strength)) === parseFloat(medicinePackSize));
+
+        //   console.log(filteredProducts)
+        // Find the most similar product
+        const targetString = nameOfMed.toLowerCase();
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        fprod.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.value.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            return {};
+        }
+
+
+        var fprice = await axios.get(finalProd.id);
+        var $$ = cheerio.load(fprice.data);
+        var sprice = ($$('span[itemprop=price]').first().text().trim())
+
+        if (!sprice) {
+            sprice = ($$('#qty_1 option').first().text().trim())
+            let cleanedPrice = sprice.replace(/,/g, '');
+            let matches = cleanedPrice.match(/\d+(\.\d+)?/g);
+            let price = matches ? parseFloat(matches[matches.length - 1]) : null;
+            sprice = price
+        }
+
+        var saltSection = ($$('.salt_composition__sec p').first().text().trim() || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
+        var avail = $$('.product_cart_area').first().html().toLowerCase().includes("add to cart") ? true : false;
+
+
+
+        var emContent = finalProd.desc.match(/<em>(.*?)<\/em>/); //pack size
         emContent = emContent ? emContent[1] : null;
-    
-        var fontContent = product.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
+
+        var fontContent = finalProd.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
         fontContent = fontContent ? parseFloat(fontContent[1]) : null;
 
+        console.log("Font Content : " + fontContent)
+
+        var qty = parseFloat(extractLargestNumber(emContent));
+
+
+
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.value.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = emContent.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
+
+        } catch (error) {
+            console.log(error)
+            filterCount -= 100;;
+        }
+
+
+        // Extract the necessary details from the most similar product
 
        
-          if(parseFloat(extractLargestNumber(emContent)) === parseFloat(medicinePackSize)){
-              fprod.push(product);
-          }
-      });
-
-    
-      // Filter products based on text_msg and medicinePackSize
-    //   const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.Strength)) === parseFloat(medicinePackSize));
-    
-    //   console.log(filteredProducts)
-      // Find the most similar product
-      const targetString = nameOfMed.toLowerCase();
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      fprod.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.value.toLowerCase(), targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        return {};
-      }
 
 
-      var fprice = await axios.get(finalProd.id);
-      var $$=cheerio.load(fprice.data);
-      var sprice = ($$('span[itemprop=price]').first().text().trim())
-      
-      if(!sprice){
-        sprice = ($$('#qty_1 option').first().text().trim())
-        let cleanedPrice = sprice.replace(/,/g, '');
-        let matches = cleanedPrice.match(/\d+(\.\d+)?/g);
-        let price = matches ? parseFloat(matches[matches.length - 1]) : null;
-        sprice=price
-      }
+        qty = parseFloat(qty);
 
-      var saltSection=($$('.salt_composition__sec p').first().text().trim()||"NA");
-      if(typeof(saltSection)=='string'){
-          saltSection=[saltSection];
-      }
-      var avail=$$('.product_cart_area').first().html().toLowerCase().includes("add to cart")?true:false;
-
-
-
-
-
-      var cfnieScore=0;
-      try{
-        var newcfnie=finalProd.value.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
-        
-        if(cfnie){
-            var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
-            } else {
-            cfnieScore = 0; // No numbers found
-            }
-            
-            }else{
-            filterCount-=100;;
-            }
-    } catch (error) {
-        console.log(error)
-        filterCount-=100;;
-    }
-
-
-      // Extract the necessary details from the most similar product
-
-      var emContent = finalProd.desc.match(/<em>(.*?)<\/em>/); //pack size
-      emContent = emContent ? emContent[1] : null;
-  
-      var fontContent = finalProd.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
-      fontContent = fontContent ? parseFloat(fontContent[1]) : null;
-
-      console.log("Font Content : "+fontContent)
-
-      var qty=parseFloat(extractLargestNumber(emContent)) ;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.value, nameOfMed.toLowerCase())) ;
-
-        var firstWordScore=0;
-        var firstWord= finalProd.value;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
 
-        var newSecondaryAnchor=finalProd.value.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
+        var smed = parseFloat(await calculateSimilarity(finalProd.value, nameOfMed.toLowerCase()));
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.value.replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var firstWordScore = 0;
+        var firstWord = finalProd.value;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.value.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.value.replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
-      
-  
-      return {
-        name: 'ChemistsWorld',
-        item: finalProd.value,
-        link: finalProd.id, // Construct a link based on the drug code
-        imgLink: './public/NoImageAv.png',
-        price: parseFloat(sprice),
-        deliveryCharge: parseFloat(sprice)<2000?55:0,
-        offer: '',
-        finalCharge: (parseFloat(sprice) + (parseFloat(sprice)<2000?55:0)).toFixed(2),
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        firstWordScore:firstWordScore,
-        releaseMechScore:releaseMechScore,
 
-        sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-        filterCount:filterCount,
 
-        lson:lson,
-        deliveryTime:"2 - 4 days",
+        return {
+            name: 'ChemistsWorld',
+            item: finalProd.value,
+            link: finalProd.id, // Construct a link based on the drug code
+            imgLink: './public/NoImageAv.png',
+            price: parseFloat(sprice),
+            deliveryCharge: parseFloat(sprice) < 2000 ? 55 : 0,
+            offer: '',
+            finalCharge: (parseFloat(sprice) + (parseFloat(sprice) < 2000 ? 55 : 0)).toFixed(2),
 
-        secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
-  
-        manufacturerName: '',
-        medicineAvailability: avail,
-        minQty: 1,
-        saltName: saltSection,
-        qtyItContainsDesc: qty,
-      };
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: lson,
+            deliveryTime: "2 - 4 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor,
+            secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: '',
+            medicineAvailability: avail,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'ChemistsWorld',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'ChemistsWorld',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
-  extractDataFromApiMchemist= async (ogNameOfMed,nameOfMed, medicinePackSize,cfnie,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiMchemist = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
 
-      var filterCount=600;
+        var filterCount = 600;
 
-      let searchName = extractWordsForApis(nameOfMed).toString();
-  
-      const { data } = await axios.get(`https://frontapi.mchemist.com/api/searchData?q=${searchName}`,{timeout:5000})
-  
-    var fprod=data.data;
+        let searchName = extractWordsForApis(nameOfMed).toString();
 
-      const targetString = nameOfMed.toLowerCase();
-      var mostSimilarProduct = null;
-      var highestSimilarityScore = 0;
-  
-      fprod.forEach(product => {
-        console.log(product.medicine_name_full)
-        const similarityScore = stringSimilarity.compareTwoStrings(product.medicine_name_full.toLowerCase(), targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
+        const { data } = await axios.get(`https://frontapi.mchemist.com/api/searchData?q=${searchName}`, { timeout: 5000 })
 
-      var finalLink=mostSimilarProduct.link;
+        var fprod = data.data;
 
-      var searchId=mostSimilarProduct.id;
+        const targetString = nameOfMed.toLowerCase();
+        var mostSimilarProduct = null;
+        var highestSimilarityScore = 0;
 
-    
-   
-    const url = `https://frontapi.mchemist.com/api/getDetail?q=${searchId}`;
-    var medData ='';
-    
-    await axios.get(url)
-      .then(response => {
-        if (response.status === 200) {
-          medData = response.data.data;
-       } else {
-          console.log(`Failed to fetch data. Status code: ${response.status}`);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error.message);
-      });
-
-
-    let finalProd;
-
-    console.log("tpbro")
-    console.log(medData.attributes[0].packing_qty)
-    if(extractLargestNumber(medData.attributes[0].packing_qty)==medicinePackSize){
-        finalProd=medData;
-      }
-    
-
-     
-      if (finalProd) {
-        console.log("Yes Available In MChemist");
-      } else {
-        console.log('No products found with that package size');
-        // return {};
-      }
-
-  
-      // Extract the necessary details from the most similar product
-
-    
-      var qty=parseFloat(extractLargestNumber(finalProd.packing_qty)) ;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(mostSimilarProduct.medicine_name_full, nameOfMed.toLowerCase())) ;
-
-
-        var saltSection=(finalProd.salt||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
-        }
-        var cfnieScore=0;
-  
-        try{
-        var newcfnie=mostSimilarProduct.medicine_name_full.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
-
-        if(cfnie){
-            var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
+        fprod.forEach(product => {
+            console.log(product.medicine_name_full)
+            const similarityScore = stringSimilarity.compareTwoStrings(product.medicine_name_full.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
             }
+        });
+
+        var finalLink = mostSimilarProduct.link;
+
+        var searchId = mostSimilarProduct.id;
+
+
+
+        const url = `https://frontapi.mchemist.com/api/getDetail?q=${searchId}`;
+        var medData = '';
+
+        await axios.get(url)
+            .then(response => {
+                if (response.status === 200) {
+                    medData = response.data.data;
+                } else {
+                    console.log(`Failed to fetch data. Status code: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error.message);
             });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
-            } else {
-            cfnieScore = 0; // No numbers found
-            }
-            
-            }else{
-            filterCount-=100;;
-            }
 
 
-    } catch (error) {
-        filterCount-=100;;
-    }
+        let finalProd;
 
-  
-        var firstWordScore=0;
-        var firstWord= mostSimilarProduct.medicine_name_full;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        console.log("tpbro")
+        console.log(medData.attributes[0].packing_qty)
+        if (medicinePackSize.includes(extractedQty)) {
+            finalProd = medData;
         }
 
-        var newSecondaryAnchor=mostSimilarProduct.medicine_name_full.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=mostSimilarProduct.medicine_name_full.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+
+        if (finalProd) {
+            console.log("Yes Available In MChemist");
+        } else {
+            console.log('No products found with that package size');
+            // return {};
+        }
+
+
+        // Extract the necessary details from the most similar product
+
+
+        var qty = parseFloat(extractLargestNumber(finalProd.packing_qty));
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(mostSimilarProduct.medicine_name_full, nameOfMed.toLowerCase()));
+
+
+        var saltSection = (finalProd.salt || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
+        var cfnieScore = 0;
+
+        try {
+            var newcfnie = mostSimilarProduct.medicine_name_full.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.packing_qty.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
+
+
+        } catch (error) {
+            filterCount -= 100;;
+        }
+
+
+        var firstWordScore = 0;
+        var firstWord = mostSimilarProduct.medicine_name_full;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = mostSimilarProduct.medicine_name_full.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = mostSimilarProduct.medicine_name_full.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
 
-       console.log(finalProd.sale_rate+"From Mchemists")
-     
-       if(secondaryAnchor!='@'){
-
-        const allPresent = secondaryAnchor.every(anchor => 
-            newTempStringForExtractingSecondaryAnchor.includes(anchor.toLowerCase())
-        ); // this checks if all Og secondary anchors , are present in the new string or not
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
 
-        if(allPresent){
-            secondAnchorSearchScore=100;
-        }else{
-            secondAnchorSearchScore=0;
-            
-        }
-    }else{
-        if(tempnewanchor==secondaryAnchor){
-            filterCount-=100;
-        }else{
-            secondAnchorSearchScore=0;
-        }
-    }
+        console.log(finalProd.sale_rate + "From Mchemists")
 
-    var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
-    const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
-    const releaseMechanisms = [
-        "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-        "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-        "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
-        "xt", "zok"
-    ];
-    const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
+        if (secondaryAnchor != '@') {
 
-var releaseMechScore=0;
-    // Return the found word or '@' if not found
-    const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
+            const allPresent = secondaryAnchor.every(anchor =>
+                newTempStringForExtractingSecondaryAnchor.includes(anchor.toLowerCase())
+            ); // this checks if all Og secondary anchors , are present in the new string or not
 
-    if(releaseMechanism!='@'){   
-        if(newreleaseMechanism==releaseMechanism){
-            releaseMechScore=100;
-        }else{
-            if(newreleaseMechanism=='@'){
-                releaseMechScore=100;
-            }else{
-                releaseMechScore=0;
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
+            }
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
-    }else{
-        filterCount-=100;
-    }
-      
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
+        const releaseMechanisms = [
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
+            "xt", "zok"
+        ];
+        const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
+
+        var releaseMechScore = 0;
+        // Return the found word or '@' if not found
+        const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
+
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
+                }
+            }
+        } else {
+            filterCount -= 100;
+        }
 
 
-      return {
-        name: 'M Chemist',
-        item: mostSimilarProduct.medicine_name_full,
-        link:"https://www.mchemist.com/"+finalLink, // Construct a link based on the drug code
-        imgLink: finalProd.variation_image?finalProd.variation_image.split(',')[0]:'./public/NoImageAv.png',
-        price: parseFloat(finalProd.sale_rate),
-        deliveryCharge: dc.data.charge,
-        offer: '',
-        finalCharge: (parseFloat(finalProd.sale_rate) + parseFloat(dc.data.charge)).toFixed(2),
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        firstWordScore:firstWordScore,
-        releaseMechScore:releaseMechScore,
 
-        sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-        filterCount:filterCount,
+        return {
+            name: 'M Chemist',
+            item: mostSimilarProduct.medicine_name_full,
+            link: "https://www.mchemist.com/" + finalLink, // Construct a link based on the drug code
+            imgLink: finalProd.variation_image ? finalProd.variation_image.split(',')[0] : './public/NoImageAv.png',
+            price: parseFloat(finalProd.sale_rate),
+            deliveryCharge: dc.data.charge,
+            offer: '',
+            finalCharge: (parseFloat(finalProd.sale_rate) + parseFloat(dc.data.charge)).toFixed(2),
 
-        lson:"Pincode Serviceable",
-        deliveryTime:"1 - 3 days",
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-        secondaryAnchor:secondaryAnchor,
-        newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-        secondAnchorSearchScore:secondAnchorSearchScore,
-  
-        manufacturerName: '',
-        medicineAvailability: true,
-        minQty: 1,
-        saltName: saltSection,
-        qtyItContainsDesc: qty,
-      };
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: "Pincode Serviceable",
+            deliveryTime: "1 - 3 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: '',
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'M Chemist',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'M Chemist',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
-  extractDataFromApiWellnessForever= async (nameOfMed, medicinePackSize) => {
+extractDataFromApiWellnessForever = async (nameOfMed, medicinePackSize) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
-      let searchName = extractWordsForApis(nameOfMed).toString();
-  
-      const { data } = await axios.get(`https://www.chemistsworld.com/ajax/common2.php?term=${searchName}`)
-  
-      const products = (data);
-    //   console.log(products)
+        let searchName = extractWordsForApis(nameOfMed).toString();
 
-    // var nps=
+        const { data } = await axios.get(`https://www.chemistsworld.com/ajax/common2.php?term=${searchName}`)
 
-      
+        const products = (data);
+        //   console.log(products)
 
-    var fprod=[];
+        // var nps=
 
-    const filteredProducts = products.filter(product => {
-        // Check if text_msg is defined and not empty
 
-        var emContent = product.desc.match(/<em>(.*?)<\/em>/); //pack size
+
+        var fprod = [];
+
+        const filteredProducts = products.filter(product => {
+            // Check if text_msg is defined and not empty
+
+            var emContent = product.desc.match(/<em>(.*?)<\/em>/); //pack size
+            emContent = emContent ? emContent[1] : null;
+
+            var fontContent = product.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
+            fontContent = fontContent ? parseFloat(fontContent[1]) : null;
+
+
+
+            if (parseFloat(extractLargestNumber(emContent)) === parseFloat(medicinePackSize)) {
+                fprod.push(product);
+            }
+        });
+
+
+        // Filter products based on text_msg and medicinePackSize
+        //   const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.Strength)) === parseFloat(medicinePackSize));
+
+        //   console.log(filteredProducts)
+        // Find the most similar product
+        const targetString = nameOfMed;
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        fprod.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.value, targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size');
+            return {};
+        }
+
+
+        // Extract the necessary details from the most similar product
+
+        var emContent = finalProd.desc.match(/<em>(.*?)<\/em>/); //pack size
         emContent = emContent ? emContent[1] : null;
-    
-        var fontContent = product.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
+
+        var fontContent = finalProd.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
         fontContent = fontContent ? parseFloat(fontContent[1]) : null;
 
+        console.log("Font Content : " + fontContent)
 
-       
-          if(parseFloat(extractLargestNumber(emContent)) === parseFloat(medicinePackSize)){
-              fprod.push(product);
-          }
-      });
+        var qty = parseFloat(extractLargestNumber(emContent));
 
-    
-      // Filter products based on text_msg and medicinePackSize
-    //   const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.Strength)) === parseFloat(medicinePackSize));
-    
-    //   console.log(filteredProducts)
-      // Find the most similar product
-      const targetString = nameOfMed;
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      fprod.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.value, targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
-      });
-  
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size');
-        return {};
-      }
 
-  
-      // Extract the necessary details from the most similar product
+        var smed = parseFloat(await calculateSimilarity(finalProd.value, nameOfMed.toLowerCase()));
 
-      var emContent = finalProd.desc.match(/<em>(.*?)<\/em>/); //pack size
-      emContent = emContent ? emContent[1] : null;
-  
-      var fontContent = finalProd.desc.match(/<font>(?:<i.*?<\/i>)(.*?)<\/font>/); //price
-      fontContent = fontContent ? parseFloat(fontContent[1]) : null;
 
-      console.log("Font Content : "+fontContent)
 
-      var qty=parseFloat(extractLargestNumber(emContent)) ;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.value, nameOfMed.toLowerCase())) ;
 
-  
-      
-  
-      return {
-        name: 'Wellness Forever',
-        item: finalProd.value,
-        link: finalProd.id, // Construct a link based on the drug code
-        imgLink: './public/NoImageAv.png',
-        price: parseFloat(fontContent),
-        deliveryCharge: 0,
-        offer: '',
-        finalCharge: 0,
-  
-        smed: smed,
-        spack: spack,
-        sfinalAvg: (parseFloat(smed + spack) / 2).toFixed(2),
-  
-        manufacturerName: '',
-        medicineAvailability: true,
-        minQty: 1,
-        saltName: '',
-        qtyItContainsDesc: qty,
-      };
+        return {
+            name: 'Wellness Forever',
+            item: finalProd.value,
+            link: finalProd.id, // Construct a link based on the drug code
+            imgLink: './public/NoImageAv.png',
+            price: parseFloat(fontContent),
+            deliveryCharge: 0,
+            offer: '',
+            finalCharge: 0,
+
+            smed: smed,
+            spack: spack,
+            sfinalAvg: (parseFloat(smed + spack) / 2).toFixed(2),
+
+            manufacturerName: '',
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: '',
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'Wellness Forever',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'Wellness Forever',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  }; //pending
-  
-  extractDataFromApiOfPasumaiPharmacy = async (ogNameOfMed,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+}; //pending
+
+extractDataFromApiOfPasumaiPharmacy = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var searchName=extractWordsForApis(nameOfMed)+" "+medicinePackSize;
-        var filterCount=600;
+        var searchName = extractWordsForApis(nameOfMed) + " " + medicinePackSize;
+        var filterCount = 600;
 
 
-        const {data}= (await axios.get(`https://www.pasumaipharmacy.com/api/Order/SearchProduct?searchText=${searchName}&fullSearch=true`,{timeout:5000}));
+        const { data } = (await axios.get(`https://www.pasumaipharmacy.com/api/Order/SearchProduct?searchText=${searchName}&fullSearch=true`, { timeout: 5000 }));
         const products = data;
 
         // console.log(products)
 
 
-        var fprod=[];
+        var fprod = [];
 
-            const filteredProducts = products.filter(product => {
-              // Check if text_msg is defined and not empty
-                // Extract the largest number from text_msg
-                if(parseFloat(product.SaleUnit) == parseFloat(medicinePackSize)){
-                    fprod.push(product);
-                }else{
+        const filteredProducts = products.filter(product => {
+            // Check if SaleUnit matches any value in medicinePackSize
+            if (medicinePackSize.includes(parseFloat(product.SaleUnit))) {
+                fprod.push(product);
+            } else {
+                // Extract the largest number from ProductName
                 const extractedNumber = parseFloat(getPackSize(product.ProductName));
-                // Compare it with medicinePackSize
-                if(extractedNumber == parseFloat(medicinePackSize)){
+                // Compare it with any value in medicinePackSize
+                if (medicinePackSize.includes(extractedNumber)) {
                     fprod.push(product);
                 }
             }
-              
-            });
+        });
+
 
         // Log the filtered products
-      //   console.log(filteredProducts);
-        
-      const targetString = nameOfMed.toLowerCase();
-      var mostSimilarProduct = null;
-      var highestSimilarityScore = 0;
-  
-      fprod.forEach(product => {
-        var similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString.toLowerCase());
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
+        //   console.log(filteredProducts);
+
+        const targetString = nameOfMed.toLowerCase();
+        var mostSimilarProduct = null;
+        var highestSimilarityScore = 0;
+
+        fprod.forEach(product => {
+            var similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString.toLowerCase());
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
         var finalProd;
         console.log(mostSimilarProduct)
         if (mostSimilarProduct) {
-              finalProd=mostSimilarProduct; 
-              // console.log(mostSimilarProduct)     
-      } else {
+            finalProd = mostSimilarProduct;
+            // console.log(mostSimilarProduct)     
+        } else {
             console.log('No products found with that package size Pasumai');
             return {};
         }
-        var cfnieScore=0;
+        var cfnieScore = 0;
 
-        try{
-        var newcfnie=finalProd.ProductName.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        try {
+            var newcfnie = finalProd.ProductName.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+            console.log(newcfnie + "Pasumaiaaa")
+            console.log(cfnie.length + "Pasumaiaaa")
 
-        if(cfnie){
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = 0;
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    var inPackSize = finalProd.SaleUnit.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
 
-    } catch (error) {
-        filterCount-=100;;
-    }
-
-        var qty=(finalProd.SaleUnit);
-        if(parseFloat(qty)!=parseFloat(medicinePackSize)){
-            qty=getPackSize(finalProd.ProductName)
+        } catch (error) {
+            console.log(error)
+            filterCount -= 100;
         }
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.ProductName.toLowerCase(), nameOfMed.toLowerCase())) ;
+
+        var qty = (finalProd.SaleUnit);
 
 
-        var image =finalProd.ProfilePictureUrl;
-        if(image.includes("pasumai")){
-        }else{
-            image="https://www.pasumaipharmacy.com"+image.replace(/[^a-zA-Z0-9/.-]/g, '')
+        if (medicinePackSize.includes(qty)) {
+        } else {
+            qty = getPackSize(finalProd.ProductName)
         }
 
 
-        var dc=0;
-        if(parseFloat(finalProd.SalePrice)>=0 && parseFloat(finalProd.SalePrice)<1000){
-            dc=63;
-        }else{
-            dc=13;
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
 
-        var firstWordScore=0;
-        var firstWord= finalProd.ProductName;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var smed = parseFloat(await calculateSimilarity(finalProd.ProductName.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var image = finalProd.ProfilePictureUrl;
+        if (image.includes("pasumai")) {
+        } else {
+            image = "https://www.pasumaipharmacy.com" + image.replace(/[^a-zA-Z0-9/.-]/g, '')
         }
 
-        var newSecondaryAnchor=finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var dc = 0;
+        if (parseFloat(finalProd.SalePrice) >= 0 && parseFloat(finalProd.SalePrice) < 1000) {
+            dc = 63;
+        } else {
+            dc = 13;
+        }
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.ProductName;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var lson = await axios.post('https://www.pasumaipharmacy.com/Pasumai/UpdateDetectedLocation', 
+        var lson = await axios.post('https://www.pasumaipharmacy.com/Pasumai/UpdateDetectedLocation',
             new URLSearchParams({
-              Location: '',
-              PinCode: pincode
+                Location: '',
+                PinCode: pincode
             }), // Format the data as URLSearchParams
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } // Set the appropriate headers
-          );
+        );
 
-        var delTime='';
-        if(lson.data.EstimatedDeliveryInfo){
-            delTime=lson.data.EstimatedDeliveryInfo;
-            lson="Pincode Serviceable";
-        }else{
-            lson="Pincode Not Serviceable";
+        var delTime = '';
+        if (lson.data.EstimatedDeliveryInfo) {
+            delTime = lson.data.EstimatedDeliveryInfo;
+            lson = "Pincode Serviceable";
+        } else {
+            lson = "Pincode Not Serviceable";
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
 
-      
+
         return {
             name: 'Pasumai Pharmacy',
             item: finalProd.ProductName,
-            link: "https://www.pasumaipharmacy.com"+finalProd.ProductLinkUrl,
-            imgLink:image,
+            link: "https://www.pasumaipharmacy.com" + finalProd.ProductLinkUrl,
+            imgLink: image,
             price: parseFloat(finalProd.SalePriceMax),
             deliveryCharge: dc,
             offer: '',
             finalCharge: (parseFloat(finalProd.SalePriceMax) + dc).toFixed(2),
-            
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            lson:lson,
-            deliveryTime:delTime,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            lson: lson,
+            deliveryTime: delTime,
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: finalProd.Mfg,
-            medicineAvailability:finalProd.IsAvailable==1?true:false,
-            minQty:1,
-            saltName:'NA',
-            qtyItContainsDesc:qty,
+            medicineAvailability: finalProd.IsAvailable == 1 ? true : false,
+            minQty: 1,
+            saltName: 'NA',
+            qtyItContainsDesc: qty,
 
         };
 
@@ -7496,253 +8074,285 @@ var releaseMechScore=0;
             name: 'Pasumai Pharmacy',
             item: 'NA',
             link: '',
-            imgLink:'',
+            imgLink: '',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
-  };
+};
 
 
-  extractDataFromApiOfPracto = async (ogNameOfMed,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiOfPracto = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var searchName=extractWordsForApis(nameOfMed);
-        console.log("Ptacto   "+searchName)
-        var filterCount=600;
+        var searchName = extractWordsForApis(nameOfMed);
+        console.log("Ptacto   " + searchName)
+        var filterCount = 600;
 
 
-        const {data}= (await axios.get(`https://www.practo.com/practopedia/api/v1/search?query=${searchName}&pincode=${pincode}`,{ timeout: 5000 }));
+        const { data } = (await axios.get(`https://www.practo.com/practopedia/api/v1/search?query=${searchName}&pincode=${pincode}`, { timeout: 5000 }));
         const products = data;
 
         // console.log(products)
 
 
-        var fprod=[];
+        var fprod = [];
 
         const filteredProducts = products.filter(product => {
-          // Check if text_msg is defined and not empty
+            // Check if text_msg is defined and not empty
             // Extract the largest number from text_msg
-            if(parseFloat(product.drug.pack) == parseFloat(medicinePackSize)){
+            if (parseFloat(product.drug.pack) == parseFloat(medicinePackSize)) {
                 fprod.push(product);
-            }else{
-            const extractedNumber = parseFloat(getPackSize(product.display_text));
-            // Compare it with medicinePackSize
-            if(extractedNumber == parseFloat(medicinePackSize)){
-                fprod.push(product);
+            } else {
+                const extractedNumber = parseFloat(getPackSize(product.display_text));
+                // Compare it with medicinePackSize
+                if (medicinePackSize.includes(extractedNumber)) {
+                    fprod.push(product);
+                }
             }
-        }
-          
+
         });
 
 
         const targetString = nameOfMed.toLowerCase();
         var mostSimilarProduct = null;
         var highestSimilarityScore = 0;
-    
+
         fprod.forEach(product => {
-          var similarityScore = stringSimilarity.compareTwoStrings(product.display_text.toLowerCase(), targetString.toLowerCase());
-          if (similarityScore > highestSimilarityScore) {
-            highestSimilarityScore = similarityScore;
-            mostSimilarProduct = product;
-          }
+            var similarityScore = stringSimilarity.compareTwoStrings(product.display_text.toLowerCase(), targetString.toLowerCase());
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
         });
         // Log the filtered products
-      //   console.log(filteredProducts);
-        
-  
+        //   console.log(filteredProducts);
+
+
         var finalProd;
         if (mostSimilarProduct) {
-              finalProd=mostSimilarProduct; 
-              // console.log(mostSimilarProduct)     
-      } else {
+            finalProd = mostSimilarProduct;
+            // console.log(mostSimilarProduct)     
+        } else {
             console.log('No products found with that package size');
             return {};
         }
 
 
-        var saltSection=(finalProd.drug.product_name||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
+        var saltSection = (finalProd.drug.product_name || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
-        var cfnieScore=0;
-        try{
-        var newcfnie=finalProd.display_text.match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.display_text.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
-        if(cfnie){
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.drug.pack.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
-    } catch (error) {
-        filterCount-=100;;
-    }
 
-
-        var qty=(finalProd.drug.pack);
-        if(parseFloat(qty)!=parseFloat(medicinePackSize)){
-            qty=getPackSize(finalProd.display_text)
-        }
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.display_text.toLowerCase(), nameOfMed.toLowerCase())) ;
-
-
-        if(finalProd.drug.is_available){
-            lson="Pincode Serviceable";
-        }else{
-            lson="Pincode Not Serviceable";
+        } catch (error) {
+            filterCount -= 100;;
         }
 
-        var firstWordScore=0;
-        var firstWord= finalProd.display_text;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+
+        var qty = (finalProd.drug.pack);
+
+
+        if (medicinePackSize.includes(qty)) {
+        } else {
+            qty = getPackSize(finalProd.display_text)
         }
 
-        var newSecondaryAnchor=finalProd.display_text.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.display_text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.display_text.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        if (finalProd.drug.is_available) {
+            lson = "Pincode Serviceable";
+        } else {
+            lson = "Pincode Not Serviceable";
+        }
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.display_text;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.display_text.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.display_text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-    
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
 
 
         return {
             name: 'Practo',
             item: finalProd.display_text,
-            link: "https://www.practo.com/medicine-info/"+finalProd.drug.slug,
-            imgLink:finalProd.drug.images?finalProd.drug.images[0]['res-750']:'./public/NoImageAv.png',
+            link: "https://www.practo.com/medicine-info/" + finalProd.drug.slug,
+            imgLink: finalProd.drug.images ? finalProd.drug.images[0]['res-750'] : './public/NoImageAv.png',
             price: parseFloat(finalProd.drug.mrp),
             deliveryCharge: 0,
             offer: '',
             finalCharge: (parseFloat(finalProd.drug.mrp) + 0).toFixed(2),
-            
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            lson:"Pincode Serviceable",
-            deliveryTime:"2 - 3 days",
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            lson: "Pincode Serviceable",
+            deliveryTime: "2 - 3 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: finalProd.drug.manufacturer_name,
-            medicineAvailability:(finalProd.is_available)?true:false,
-            minQty:1,
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: (finalProd.is_available) ? true : false,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
 
         };
 
@@ -7754,511 +8364,576 @@ var releaseMechScore=0;
             name: 'Practo',
             item: 'NA',
             link: '',
-            imgLink:'',
+            imgLink: '',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
 
 
 
-extractDataFromExpressMed= async (url,ogNameOfMed,nameOfMed, medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataFromExpressMed = async (url, meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
 
-      var filterCount=600;
-  
-          var {data} =(await axios.get(url))
-          const $=cheerio.load(data);
+        var filterCount = 600;
+
+        var { data } = (await axios.get(url))
+        const $ = cheerio.load(data);
 
         // var products=JSON.parse($.html().split(/<\/?body>/)[1].trim())
         // console.log(products)
 
-    
-      // Filter products based on text_msg and medicinePackSize
-     
-      var price=parseFloat($('.item-price').first().clone().children().remove().end().text().trim().replace(',',''))
-      
-      var saltSection=($('.detail-key-incre ul li').text().split('+') || 'NA');
-      if(typeof(saltSection)=='string'){
-          saltSection=[saltSection];
-      }
 
-      var cfnieScore=0;
-        try{
-        var newcfnie=$('h2').first().text().match(/\d+/g);
-        newcfnie=newcfnie?newcfnie.map(Number):[];
+        // Filter products based on text_msg and medicinePackSize
+
+        var price = parseFloat($('.item-price').first().clone().children().remove().end().text().trim().replace(',', ''))
+
+        var saltSection = ($('.detail-key-incre ul li').text().split('+') || 'NA');
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
+
+        var cfnieScore = 0;
+        try {
+            var newcfnie = $('h2').first().text().match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
 
 
-        if(cfnie){
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = $('.item-qty').first().text().includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
 
-    } catch (error) {
-        console.log(error)  
-        filterCount-=100;;
-    }
 
-      // Extract the necessary details from the most similar product
-      var qty=parseFloat(extractLargestNumber($('.item-qty').first().text())) ;
-      console.log("Express Med +"+$('.item-qty').first().text())
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-              qty=medicinePackSize;
-            }else if(parseFloat(getPackSize($('h2').first().text()))==parseFloat(medicinePackSize)){
-                spack=100;
-                qty=medicinePackSize;
-        }else{
-            spack=0;
+        } catch (error) {
+            console.log(error)
+            filterCount -= 100;;
         }
-        
-        var smed=parseFloat(await calculateSimilarity($('h2').first().text().toLowerCase(), nameOfMed.toLowerCase())) ;
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber($('.item-qty').first().text()));
+        console.log("Express Med +" + $('.item-qty').first().text())
 
 
-       
-        var dc=0;
 
-        if(price<150){
-            dc=150;
-        }else if(price>=150 && price<500){
-            dc=100;
-        }else if(price>=500){
-            dc=0;
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+            qty = medicinePackSize;
+        } else if (medicinePackSize.includes(parseFloat(getPackSize($('h2').first().text())))) {
+            spack = 100;
+            qty = medicinePackSize;
+        } else {
+            spack = 0;
+        }
+
+        var smed = parseFloat(await calculateSimilarity($('h2').first().text().toLowerCase(), nameOfMed.toLowerCase()));
+
+
+
+        var dc = 0;
+
+        if (price < 150) {
+            dc = 150;
+        } else if (price >= 150 && price < 500) {
+            dc = 100;
+        } else if (price >= 500) {
+            dc = 0;
         }
 
 
-        var firstWordScore=0;
-        var firstWord= $('h2').first().text();
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        var firstWordScore = 0;
+        var firstWord = $('h2').first().text();
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
-        
+
         // var newSecondaryAnchor=await getSecondaryAnchorValueFromString($('h2').first().text().toLowerCase());
-        var newSecondaryAnchor=$('h2').first().text().toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
+        var newSecondaryAnchor = $('h2').first().text().toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=$('h2').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = $('h2').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
-      
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
-    
-
-      return {
-        name: 'ExpressMed',
-        item: $('h2').first().text(),
-        link: url, // Construct a link based on the drug code
-        imgLink: $('#exzoom img').first().attr('src'),
-        price: price,
-        deliveryCharge: dc,
-        offer: '',
-        finalCharge: (price+dc).toFixed(2),
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        firstWordScore:firstWordScore,
-        releaseMechScore:releaseMechScore,
 
 
-        sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-        filterCount:filterCount,
+        return {
+            name: 'ExpressMed',
+            item: $('h2').first().text(),
+            link: url, // Construct a link based on the drug code
+            imgLink: $('#exzoom img').first().attr('src'),
+            price: price,
+            deliveryCharge: dc,
+            offer: '',
+            finalCharge: (price + dc).toFixed(2),
 
-        lson:"Pincode Serviceable",
-        deliveryTime:"2 - 3 days",
-       
-        tempnewanchor:tempnewanchor,
-        secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
-  
-        manufacturerName: $('.product-description p').first().text(),
-        medicineAvailability: $('.product-detail-content .add-cart').html()?true:false,
-        minQty: 1,
-        saltName: saltSection,
-        qtyItContainsDesc: qty,
-      };
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: "Pincode Serviceable",
+            deliveryTime: "2 - 3 days",
+
+            tempnewanchor: tempnewanchor,
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: $('.product-description p').first().text(),
+            medicineAvailability: $('.product-detail-content .add-cart').html() ? true : false,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'ExpressMed',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'ExpressMed',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
-  };
+};
 
 
-  extractDataFromApiOfHealthmug = async (ogNameOfMed,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+extractDataFromApiOfHealthmug = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var searchName=extractWordsForApis(nameOfMed);
-        var filterCount=600;
+        var searchName = extractWordsForApis(nameOfMed);
+        var filterCount = 600;
 
 
-        const {data}= (await axios.post(`https://api.healthmug.com/productlist/getproductlist`,{
-                "atts": "",
-                "price": "",
-                "brand": "",
-                "sortby": "0",
-                "keywords": searchName[0],
-                "delivery": "",
-                "pagetype": "search",
-                "pageno": 1,
-                "disease_id": "",
-                "categoryid": "",
-                "appstring": "Desktop - v2.0",
-                "rating": "",
-                "weight": ""
-        },{ timeout: 5000 }));
+        const { data } = (await axios.post(`https://api.healthmug.com/productlist/getproductlist`, {
+            "atts": "",
+            "price": "",
+            "brand": "",
+            "sortby": "0",
+            "keywords": searchName[0],
+            "delivery": "",
+            "pagetype": "search",
+            "pageno": 1,
+            "disease_id": "",
+            "categoryid": "",
+            "appstring": "Desktop - v2.0",
+            "rating": "",
+            "weight": ""
+        }, { timeout: 5000 }));
         const products = data.itemlist.items;
 
-        // console.log(products)
 
 
-        var fprod=[];
+        var fprod = [];
 
         const filteredProducts = products.filter(product => {
-          // Check if text_msg is defined and not empty
+            // Check if text_msg is defined and not empty
             // Extract the largest number from text_msg
-            if(parseFloat(extractLargestNumber(product.variant_size)) == parseFloat(medicinePackSize)){
+            console.log(product)
+            console.log(extractLargestNumber(product.variant_size))
+            console.log(medicinePackSize)
+            if (medicinePackSize.includes(extractLargestNumber(product.variant_size))) {
+                console.log(product.variant_size);
                 fprod.push(product);
             }
-          
+
         });
 
 
         const targetString = nameOfMed.toLowerCase();
         var mostSimilarProduct = null;
         var highestSimilarityScore = 0;
-    
+
         fprod.forEach(product => {
-          var similarityScore = stringSimilarity.compareTwoStrings(product.name.toLowerCase(), targetString.toLowerCase());
-          if (similarityScore > highestSimilarityScore) {
-            highestSimilarityScore = similarityScore;
-            mostSimilarProduct = product;
-          }
+            var similarityScore = stringSimilarity.compareTwoStrings(product.name.toLowerCase(), targetString.toLowerCase());
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
         });
         // Log the filtered products
-      //   console.log(filteredProducts);
-        
-  
+        //   console.log(filteredProducts);
+
+
         var finalProd;
         if (mostSimilarProduct) {
-              finalProd=mostSimilarProduct; 
-              // console.log(mostSimilarProduct)     
-      } else {
+            finalProd = mostSimilarProduct;
+            // console.log(mostSimilarProduct)     
+        } else {
             console.log('No products found with that package size');
-            return {};
+            // return {};
         }
 
 
-        var cfnieScore=0;
-      
+        var cfnieScore = 0;
 
 
-        var qty=extractLargestNumber(finalProd.variant_size);
-        if(parseFloat(qty)!=parseFloat(medicinePackSize)){
-            qty=getPackSize(finalProd._medicine_name)
+
+        var qty = extractLargestNumber(finalProd.variant_size);
+
+
+        if (medicinePackSize.includes(qty)) {
+        } else {
+            qty = getPackSize(finalProd.name)
         }
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
         }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase())) ;
 
-        console.log("healthMug pincode "+ pincode)
-        console.log("healthMug pincode "+ finalProd.id)
+        var smed = parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase()));
 
-        var lson = await axios.post('https://api.healthmug.com/products/checkcourier', 
+        console.log("healthMug pincode " + pincode)
+        console.log("healthMug pincode " + finalProd.id)
+
+        var lson = await axios.post('https://api.healthmug.com/products/checkcourier',
             {
                 "pincode": pincode,
                 "idcode": finalProd.id,
             }
-          )
-          var delTime=`${lson.data.prepaid.time} - ${lson.data.prepaid.time +2 } days`
-
-      
-            if(lson.data.prepaid.time){
-                lson="Pincode Servicaeble";
-            }else{
-                lson="Pincode Not Serviceable";
-            }
+        )
+        var delTime = `${lson.data.prepaid.time} - ${lson.data.prepaid.time + 2} days`
 
 
-        var firstWordScore=0;
-        var firstWord= finalProd.name;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+        if (lson.data.prepaid.time) {
+            lson = "Pincode Servicaeble";
+        } else {
+            lson = "Pincode Not Serviceable";
         }
 
-        var newSecondaryAnchor=finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var firstWordScore = 0;
+        var firstWord = finalProd.name;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else if (firstWord.includes()) {
+
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
-        
-        var saltname=await axios.post(`https://api.healthmug.com/products/getproductdetails`,{
-            idcode:finalProd.id,
+
+        var saltname = await axios.post(`https://api.healthmug.com/products/getproductdetails`, {
+            idcode: finalProd.id,
         })
 
 
-        var saltSection=(saltname.data.productdetail.productinfo.salt||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
+        var saltSection = (saltname.data.productdetail.productinfo.salt || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
         }
-        try{
-            var newcfnie=finalProd.name.match(/\d+/g);
-            newcfnie=newcfnie?newcfnie.map(Number):[];
-    
-     if(cfnie){
+        try {
+            var newcfnie = finalProd.name.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
             var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.variant_size.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
             } else {
-            cfnieScore = 0; // No numbers found
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
             }
-            
-            }else{
-            filterCount-=100;;
-            }
+
 
         } catch (error) {
-            filterCount-=100;;
+            filterCount -= 100;;
         }
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
-      
+
 
         return {
             name: 'HealthMug',
             item: finalProd.name,
-            link: "https://www.healthmug.com"+finalProd.url,
-            imgLink:'./public/NoImageAv.png',
+            link: "https://www.healthmug.com" + finalProd.url,
+            imgLink: './public/NoImageAv.png',
             price: parseFloat(finalProd.price),
-            deliveryCharge: finalProd.price<500?50:0,
+            deliveryCharge: finalProd.price < 500 ? 50 : 0,
             offer: '',
-            finalCharge: (parseFloat(finalProd.price) + parseFloat(finalProd.price<500?50:0)).toFixed(2),
-            
-            smed:smed,
-            spack:spack,
-            cfnie:cfnieScore,
-            firstWordScore:firstWordScore,
-            releaseMechScore:releaseMechScore,
+            finalCharge: (parseFloat(finalProd.price) + parseFloat(finalProd.price < 500 ? 50 : 0)).toFixed(2),
 
-            sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-            filterCount:filterCount,
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
 
-            lson:"Pincode Serviceable",
-            deliveryTime:delTime,
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
 
-            secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
+            lson: "Pincode Serviceable",
+            deliveryTime: delTime,
+
+            secondaryAnchor: secondaryAnchor,
+            tempnewanchor: tempnewanchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
 
             manufacturerName: '',
-            medicineAvailability:finalProd.not_deliverable==false?true:false,
-            minQty:1,
-            saltName:saltSection,
-            qtyItContainsDesc:qty,
+            medicineAvailability: finalProd.not_deliverable == false ? true : false,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
 
         };
 
@@ -8270,335 +8945,668 @@ var releaseMechScore=0;
             name: 'HealthMug',
             item: 'NA',
             link: '',
-            imgLink:'',
+            imgLink: '',
             price: '',
             deliveryCharge: '',
             offer: '',
             finalCharge: 0,
             similarityIndex: '',
-            smed:'' ,
+            smed: '',
             sman: '',
             manufacturerName: '',
-            medicineAvailability:'',
-            minQty:1,
+            medicineAvailability: '',
+            minQty: 1,
         };
     }
 };
- 
 
 
-extractDataFromApiMedivik= async (ogNameOfMed,nameOfMed, medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism) => {
+
+extractDataFromApiMedivik = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
-      // Fetching words for API
+        // Fetching words for API
 
 
-      var filterCount=600;
-  
-            let searchName = extractWordsForApis(nameOfMed).toString();
+        var filterCount = 600;
 
-          var {data} =(await axios.get(`https://www.medivik.com/products/index?search=${searchName}`,{timeout:5000}))
-          const $=cheerio.load(data);
+        let searchName = extractWordsForApis(nameOfMed).toString();
+
+        var { data } = (await axios.get(`https://www.medivik.com/products/index?search=${searchName}`, { timeout: 5000 }))
+        const $ = cheerio.load(data);
 
         // console.log(products)
 
         const products = [];
 
-        
+
 
         // Iterate over each parent div (or section) that contains price information
         $('#category-products .col-md-3').each((i, column) => {
-          const section = $(column).find('.section-area');
-          const prices = [];
-        
-          // Find the price elements (look for ₹ or .fa-inr class) within the section-area
-          section.find('i.fa-inr').each((j, elem) => {
-            const priceText = $(elem).parent().text().trim(); // Get the price with the ₹ symbol
-            prices.push(priceText);
-          });
-        
-          // Fetch product name (h5) and packaging information (span[style=float:right]) if available
-          const productName = section.find('h5').first().text().trim(); // Use text() to avoid HTML tags
-          const packagingInfo = section.find('span[style=float:right]').first().text().trim(); // Use text() to avoid HTML tags
-        
-          const productLink = section.find('a').attr('href'); // Get the href for the product link
-          const imgLink = section.find('img').attr('src');    // Get the src for the image link
+            const section = $(column).find('.section-area');
+            const prices = [];
 
-          
-          // Check if the "Add to Cart" button is present in the next div
-          const isAvailable = $(column).find('div:nth-child(2) .add-card span').first().html().includes("Add");
-        
-          // Only proceed if there are at least two prices (MRP and sale price)
-          if (prices.length >= 2) {
-            const mrp = prices[0];
-            const salePrice = prices[1];
-        
-            // Store the product details along with availability status
-            products.push({
-                ProductName: productName,
-                Packaging: packagingInfo,
-                MRP: mrp,
-                SalePrice: salePrice,
-                ProductLink: productLink,
-                ImgLink: imgLink,
-                ProductAvailable: isAvailable
+            // Find the price elements (look for ₹ or .fa-inr class) within the section-area
+            section.find('i.fa-inr').each((j, elem) => {
+                const priceText = $(elem).parent().text().trim(); // Get the price with the ₹ symbol
+                prices.push(priceText);
             });
-          } else {
-            // Handle cases where prices are missing
-            const mrp = prices[0] || 'NA';
-            products.push({
-                ProductName: productName,
-                Packaging: packagingInfo,
-                MRP: mrp,
-                SalePrice: 'NA',
-                ProductLink: productLink,
-                ImgLink: imgLink,
-                ProductAvailable: isAvailable
-            });
-          }
-        });
-        
-    
-      // Filter products based on text_msg and medicinePackSize
-      const filteredProducts = products.filter(product => parseFloat(extractLargestNumber(product.Packaging)) === parseFloat(medicinePackSize));
-    
-    //   console.log(filteredProducts)
-      // Find the most similar product
-      const targetString = nameOfMed.toLowerCase();
-      let mostSimilarProduct = null;
-      let highestSimilarityScore = 0;
-  
-      filteredProducts.forEach(product => {
-        const similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString);
-        if (similarityScore > highestSimilarityScore) {
-          highestSimilarityScore = similarityScore;
-          mostSimilarProduct = product;
-        }
-      });
-  
-      console.log(mostSimilarProduct)
+
+            // Fetch product name (h5) and packaging information (span[style=float:right]) if available
+            const productName = section.find('h5').first().text().trim(); // Use text() to avoid HTML tags
+            const packagingInfo = section.find('span[style=float:right]').first().text().trim(); // Use text() to avoid HTML tags
+
+            const productLink = section.find('a').attr('href'); // Get the href for the product link
+            const imgLink = section.find('img').attr('src');    // Get the src for the image link
 
 
-      let finalProd;
-      if (mostSimilarProduct) {
-        finalProd = mostSimilarProduct;
-      } else {
-        console.log('No products found with that package size In ChemistBox');
-        return {};
-      }
+            // Check if the "Add to Cart" button is present in the next div
+            const isAvailable = $(column).find('div:nth-child(2) .add-card span').first().html().includes("Add");
 
-      var cfnieScore=0;
-  
-    
+            // Only proceed if there are at least two prices (MRP and sale price)
+            if (prices.length >= 2) {
+                const mrp = prices[0];
+                const salePrice = prices[1];
 
-      // Extract the necessary details from the most similar product
-      var qty=parseFloat(extractLargestNumber(finalProd.Packaging)) ;
-        
-        
-        var spack=0;
-        if(parseFloat(qty)==parseFloat(medicinePackSize)){
-              spack=100;
-        }
-        
-        var smed=parseFloat(await calculateSimilarity(finalProd.ProductName, nameOfMed.toLowerCase())) ;
-
-
-        var {data} = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
-
-
-        if(data[0].Status=="Success"){
-              lson="Pincode Serviceable";
-        }else{
-              lson="Pincode Not Servicaeble";
-        }
-
-
-
-        var saltName=await axios.get(`https://medivik.com${finalProd.ProductLink}`);
-        const $$=cheerio.load(saltName.data)
-        
-        var saltSection=($$('.col-md-2:contains("Composition")').first().next('div').text().trim()||"NA");
-        if(typeof(saltSection)=='string'){
-            saltSection=[saltSection];
-        }
-
-
-        try{
-            var newcfnie=finalProd.ProductName.match(/\d+/g);
-            newcfnie=newcfnie?newcfnie.map(Number):[];
-    
-    if(cfnie){
-            var foundCount = 0;
-            
-            // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
-            cfnie.forEach(num => {
-            // Check if the number is in apolloData.name
-            var inName = newcfnie.includes(num);
-            
-            // Check if the number is in saltSection (join saltSection to a string and check)
-            var inSalt = saltSection.join(' ').includes(num.toString());
-            
-            // If found in either apolloData.name or saltSection, increment the counter
-            if (inName || inSalt) {
-            foundCount++;
-            }
-            });
-            
-            // Update cfnieScore based on how many cfnie numbers were found
-            if (foundCount === cfnie.length) {
-            cfnieScore = 100; // All numbers found
+                // Store the product details along with availability status
+                products.push({
+                    ProductName: productName,
+                    Packaging: packagingInfo,
+                    MRP: mrp,
+                    SalePrice: salePrice,
+                    ProductLink: productLink,
+                    ImgLink: imgLink,
+                    ProductAvailable: isAvailable
+                });
             } else {
-            cfnieScore = 0; // No numbers found
+                // Handle cases where prices are missing
+                const mrp = prices[0] || 'NA';
+                products.push({
+                    ProductName: productName,
+                    Packaging: packagingInfo,
+                    MRP: mrp,
+                    SalePrice: 'NA',
+                    ProductLink: productLink,
+                    ImgLink: imgLink,
+                    ProductAvailable: isAvailable
+                });
             }
-            
-            }else{
-            filterCount-=100;;
+        });
+
+
+        // Filter products based on text_msg and medicinePackSize
+        const filteredProducts = products.filter(product => {
+            const extractedSize = parseFloat(extractLargestNumber(product.Packaging));
+
+            // Check if medicinePackSize is an array
+            if (Array.isArray(medicinePackSize)) {
+                // Return true if extractedSize matches any value in medicinePackSize
+                return medicinePackSize.includes(extractedSize);
+            } else {
+                // If medicinePackSize is a single value, directly compare it
+                return extractedSize === parseFloat(medicinePackSize);
             }
-            
+        });
+
+        //   console.log(filteredProducts)
+        // Find the most similar product
+        const targetString = nameOfMed.toLowerCase();
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        filteredProducts.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.ProductName.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        console.log(mostSimilarProduct)
+
+
+        let finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+        } else {
+            console.log('No products found with that package size In ChemistBox');
+            return {};
+        }
+
+        var cfnieScore = 0;
+
+
+
+        // Extract the necessary details from the most similar product
+        var qty = parseFloat(extractLargestNumber(finalProd.Packaging));
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.ProductName, nameOfMed.toLowerCase()));
+
+
+        var { data } = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
+
+
+        if (data[0].Status == "Success") {
+            lson = "Pincode Serviceable";
+        } else {
+            lson = "Pincode Not Servicaeble";
+        }
+
+
+
+        var saltName = await axios.get(`https://medivik.com${finalProd.ProductLink}`);
+        const $$ = cheerio.load(saltName.data)
+
+        var saltSection = ($$('.col-md-2:contains("Composition")').first().next('div').text().trim() || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
+
+
+        try {
+            var newcfnie = finalProd.ProductName.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    var inPackSize = finalProd.Packaging.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
+
         } catch (error) {
-            filterCount-=100;;
+            filterCount -= 100;;
         }
-     
 
-        var firstWordScore=0;
-        var firstWord= finalProd.ProductName;
-        if(compareFirstWords(firstWord,extractSearchName(nameOfMed))){
-            firstWordScore=100;
-        }else{
-        firstWordScore=0;
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.ProductName;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
         }
-        
-        var newSecondaryAnchor=finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
-       
-        var secondAnchorSearchScore=0;
 
-        var newTempStringForExtractingSecondaryAnchor='';
-     
-        var fullNewMedicineName=finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
-        if(firstWordScore==100){
+        var newSecondaryAnchor = finalProd.ProductName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
         // //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
-     
-     
-        var tempnewanchor=getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
-      
 
-        if(secondaryAnchor!='@'){
 
-           const allPresent = secondaryAnchor.every(anchor => {
-    // If the anchor length is 1, use the original method
-    if (anchor.length === 1) {
-        return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
-    } 
-    // Otherwise, check if the word is present anywhere in the string (case-insensitive)
-    else {
-        return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
-    }
-});
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
 
-    
-            if(allPresent){
-                secondAnchorSearchScore=100;
-            }else{
-                secondAnchorSearchScore=0;
-                
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
             }
-        }else{
-            if(tempnewanchor==secondaryAnchor){
-                filterCount-=100;
-            }else{
-                secondAnchorSearchScore=0;
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
             }
         }
 
-        var fp=parseFloat(finalProd.SalePrice=='NA'?finalProd.MRP:finalProd.SalePrice);
+        var fp = parseFloat(finalProd.SalePrice == 'NA' ? finalProd.MRP : finalProd.SalePrice);
 
 
-        var tempStringForCheckingRelease=newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
         const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
         const releaseMechanisms = [
-            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
             "xt", "zok",
-           "dt","md","iu","nmg","dpi","sf"
+            "dt", "md", "iu", "nmg", "dpi", "sf"
         ];
         const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-var releaseMechScore=0;
+        var releaseMechScore = 0;
         // Return the found word or '@' if not found
         const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
 
-        if(releaseMechanism!='@'){   
-            if(newreleaseMechanism==releaseMechanism){
-                releaseMechScore=100;
-            }else{
-                if(newreleaseMechanism=='@'){
-                    releaseMechScore=100;
-                }else{
-                    releaseMechScore=0;
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
                 }
             }
-        }else{
-            filterCount-=100;
+        } else {
+            filterCount -= 100;
         }
-     
-
-      return {
-        name: 'Medivik',
-        item: finalProd.ProductName,
-        link: `https://medivik.com${finalProd.ProductLink}`, // Construct a link based on the drug code
-        imgLink:"https://medivik.com"+finalProd.ImgLink,
-        price: fp,
-        deliveryCharge: fp<1000?45:0,
-        offer: '',
-        finalCharge: (fp + (fp<1000?45:0)).toFixed(2),
-  
-        smed: smed,
-        spack: spack,
-        cfnie:cfnieScore,
-        firstWordScore:firstWordScore,
-        releaseMechScore:releaseMechScore,
 
 
-        sfinalAvg:Math.round(parseFloat(parseFloat(smed+spack+cfnieScore+firstWordScore + secondAnchorSearchScore + releaseMechScore)/filterCount)*100),
-        filterCount:filterCount,
+        return {
+            name: 'Medivik',
+            item: finalProd.ProductName,
+            link: `https://medivik.com${finalProd.ProductLink}`, // Construct a link based on the drug code
+            imgLink: "https://medivik.com" + finalProd.ImgLink,
+            price: fp,
+            deliveryCharge: fp < 1000 ? 45 : 0,
+            offer: '',
+            finalCharge: (fp + (fp < 1000 ? 45 : 0)).toFixed(2),
 
-        lson:lson,
-        deliveryTime:"2 - 4 days",
-       
-        secondaryAnchor:secondaryAnchor,
-            newSecondaryAnchor:newTempStringForExtractingSecondaryAnchor,
-            secondAnchorSearchScore:secondAnchorSearchScore,
-  
-        manufacturerName: finalProd.MrkGroupName,
-        medicineAvailability: true,
-        minQty: 1,
-        saltName:  saltSection,
-        qtyItContainsDesc: qty,
-      };
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: lson,
+            deliveryTime: "2 - 4 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: finalProd.MrkGroupName,
+            medicineAvailability: true,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+        };
     } catch (error) {
-      console.error('Error:', error);
-      return {
-        name: 'Medivik',
-        item: 'NA',
-        link: '',
-        imgLink: '',
-        price: '',
-        deliveryCharge: '',
-        offer: '',
-        finalCharge: 0,
-        similarityIndex: '',
-        smed: '',
-        sman: '',
-        manufacturerName: '',
-        medicineAvailability: '',
-        minQty: 1,
-      };
+        console.error('Error:', error);
+        return {
+            name: 'Medivik',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
     }
+};
+
+
+const generateLinkForMedPay = ({ name, sku_id }) => {
+    // Convert the product name to a URL-friendly format
+    const urlFriendlyName = name.toLowerCase().replace(/\s+/g, '-');
+    return `https://www.medpay.store/products/${urlFriendlyName}-${sku_id}`;
   };
 
-  
+
+
+extractDataFromApiOfMedpay = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
+    try {
+        // Fetching HTML
+        var searchName = extractWordsForApis(nameOfMed);
+        var filterCount = 600;
+
+        if (typeof (searchName) == 'object') {
+            searchName = JSON.stringify(searchName);
+        }
+        console.log(typeof (searchName))
+
+        const { data } = await axios.get(`https://www.medpay.store/api/sku-store-search?name=${searchName}`, { timeout: 5000 });
+        const products = (data.data.response.sku_results.results);
+        console.log(products)
+
+        var fprod = [];
+
+        const filteredProducts = products.filter(product => {
+            // Check if text_msg is defined and not empty
+                const extractedNumber = parseFloat(extractLargestNumber(product.pack_qty_label));
+                // Compare it with medicinePackSize
+                if (medicinePackSize.includes(extractedNumber)) {
+                    fprod.push(product);
+                }
+        });
+
+
+
+        // Log the filtered products
+        //   console.log(filteredProducts);
+
+        const targetString = nameOfMed.toLowerCase();
+
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        fprod.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.name.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+        var finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+            console.log(mostSimilarProduct)
+        } else {
+            console.log('No products found with that package size');
+            return {};
+        }
+
+        var saltSection = (finalProd.composition || "NA");
+        if (typeof (saltSection) == 'string') {
+            saltSection = [saltSection];
+        }
+
+
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.name.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.join(' ').includes(num.toString());
+
+                    var inPackSize = finalProd.pack_qty_label.includes(num);
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt||inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+                console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside pharmeasy")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    filterCount -= 100;
+                }
+            }
+
+        } catch (error) {
+            filterCount -= 100;;
+        }
+
+        var qty = extractLargestNumber(finalProd.pack_qty_label);
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.name.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var deliPrice = 50;
+
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.name;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.name.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        if (firstWordScore == 100) {
+            newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
+        }
+        //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
+
+
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
+
+
+        if (secondaryAnchor != '@') {
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
+            }
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
+            }
+        }
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
+        const releaseMechanisms = [
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
+            "xt", "zok",
+            "dt", "md", "iu", "nmg", "dpi", "sf"
+        ];
+        const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
+
+        var releaseMechScore = 0;
+        // Return the found word or '@' if not found
+        const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
+
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
+                }
+            }
+        } else {
+            filterCount -= 100;
+        }
+
+
+        return {
+            name: 'MedPay Store',
+            item: finalProd.name,
+            link: generateLinkForMedPay(finalProd),
+            imgLink: finalProd.images[0],
+            price: parseFloat(finalProd.mrp),
+            deliveryCharge: deliPrice,
+            offer: '',
+            finalCharge: (parseFloat(finalProd.mrp) + deliPrice).toFixed(2),
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: "Pincode Serviceable",
+            deliveryTime: "1 - 3 days",
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: finalProd.mfr,
+            medicineAvailability: finalProd.status == "available" ? true : false,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+
+        };
+
+    } catch (error) {
+        // res.sendFile(__dirname + '/try.html');
+        // res.sendFile(__dirname + '/error.html');
+        console.log(error);
+        return {
+            name: 'Chemist180',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
+    }
+};
+
+
+
+
+
+
+
+
+
+
 
 extractLinkFromOptimizedyahoo = async (url, pharmaNames, medname) => {
     try {
@@ -8980,9 +9988,9 @@ fasterIgextractLinkFromOptimizedyahoo = async (url, pharmaNames, medname) => {
             });
         });
 
-        const final=[];
-        
-        for(var i=0;i<results.length;i++){
+        const final = [];
+
+        for (var i = 0; i < results.length; i++) {
             results[i].sort((a, b) => b.point - a.point);
         }
         // console.log(results)
@@ -9054,17 +10062,17 @@ const tempfzz = [];
 app.get('/getUpdatesOfMultiMeds', async (req, res) => {
 
     // res.send(tempfzz);
-    
-async function extractMedInfoFromApiMyUpChar(nameOfMed,medicinePackSize){
-    const response = await axios.get(`https://www.myupchar.com/en/search/autocomplete_v2?query=${nameOfMed}`);
-    const products = response.data;
-    // console.log(products)
 
-    const filteredProducts = products.filter(product => extractLargestNumber(product.form) === medicinePackSize);
+    async function extractMedInfoFromApiMyUpChar(nameOfMed, medicinePackSize) {
+        const response = await axios.get(`https://www.myupchar.com/en/search/autocomplete_v2?query=${nameOfMed}`);
+        const products = response.data;
+        // console.log(products)
 
-    console.log(filteredProducts)
+        const filteredProducts = products.filter(product => extractLargestNumber(product.form) === medicinePackSize);
 
-    const targetString = "Crocin 650 Tablet";
+        console.log(filteredProducts)
+
+        const targetString = "Crocin 650 Tablet";
 
         let mostSimilarProduct = null;
         let highestSimilarityScore = 0;
@@ -9077,20 +10085,20 @@ async function extractMedInfoFromApiMyUpChar(nameOfMed,medicinePackSize){
             }
         });
 
-        return ["MyUpChar",mostSimilarProduct.text,mostSimilarProduct["website-link"]];
-}
+        return ["MyUpChar", mostSimilarProduct.text, mostSimilarProduct["website-link"]];
+    }
 
-async function extractMedInfoFromApiPulsePlus(nameOfMed,medicinePackSize){
-    const response = await axios.get(`https://www.pulseplus.in/Pulse/SearchProduct?searchText=${nameOfMed}&searchLength=10`);
-    const products = response.data;
-    // console.log(products)
+    async function extractMedInfoFromApiPulsePlus(nameOfMed, medicinePackSize) {
+        const response = await axios.get(`https://www.pulseplus.in/Pulse/SearchProduct?searchText=${nameOfMed}&searchLength=10`);
+        const products = response.data;
+        // console.log(products)
 
-    const filteredProducts = products.filter(product => extractLargestNumber(product.Packing) === medicinePackSize);
+        const filteredProducts = products.filter(product => extractLargestNumber(product.Packing) === medicinePackSize);
 
-    console.log(filteredProducts)
-    console.log(extractLargestNumber("15 is a apple"))
+        console.log(filteredProducts)
+        console.log(extractLargestNumber("15 is a apple"))
 
-    const targetString = "Crocin 650 Tablet";
+        const targetString = "Crocin 650 Tablet";
 
         let mostSimilarProduct = null;
         let highestSimilarityScore = 0;
@@ -9103,13 +10111,13 @@ async function extractMedInfoFromApiPulsePlus(nameOfMed,medicinePackSize){
             }
         });
 
-        return ["PulsePlus",mostSimilarProduct.ProductName,mostSimilarProduct.ProductLinkUrl];
-}
+        return ["PulsePlus", mostSimilarProduct.ProductName, mostSimilarProduct.ProductLinkUrl];
+    }
 
 
 
-    console.log(await extractMedInfoFromApiMyUpChar("Crocin ",15));
-    console.log(await extractMedInfoFromApiPulsePlus("Crocin ",15));
+    console.log(await extractMedInfoFromApiMyUpChar("Crocin ", 15));
+    console.log(await extractMedInfoFromApiPulsePlus("Crocin ", 15));
 
 
 
@@ -9141,14 +10149,14 @@ app.get('/FastGetPharmaDataFromLinks', async (req, res) => {
     // extractDataOfKauveryMeds(pharmaLinkArray[7], medName,manufacturer),
 
     pharmaData.push(await Promise.all([
-        FastextractDataOfApollo(item[0], nameOfMed,manufacturer), 
-        extractDataOfNetMeds(item[1], nameOfMed,manufacturer), 
-        extractDataOfPharmEasy(item[2], nameOfMed,manufacturer),
-        extractDataOfPP(item[3], nameOfMed,manufacturer),
-        extractDataOfmedplusMart(item[4], nameOfMed,manufacturer), 
-        extractDataOfOgMPM(item[5], nameOfMed,manufacturer),
-        extractDataOfTruemeds(item[6], nameOfMed,manufacturer),
-        extractDataOfKauveryMeds(item[7], nameOfMed,manufacturer),
+        FastextractDataOfApollo(item[0], nameOfMed, manufacturer),
+        extractDataOfNetMeds(item[1], nameOfMed, manufacturer),
+        extractDataOfPharmEasy(item[2], nameOfMed, manufacturer),
+        extractDataOfPP(item[3], nameOfMed, manufacturer),
+        extractDataOfmedplusMart(item[4], nameOfMed, manufacturer),
+        extractDataOfOgMPM(item[5], nameOfMed, manufacturer),
+        extractDataOfTruemeds(item[6], nameOfMed, manufacturer),
+        extractDataOfKauveryMeds(item[7], nameOfMed, manufacturer),
     ]));
     console.log(pharmaData.data);
     // res.send(pharmaData);
@@ -9176,7 +10184,7 @@ app.get('/fastComp', async (req, res) => {
     const presReq = ["No"];
     var arr = [
 
-        'apollopharmacy.in','netmeds.com', 'pharmeasy.in',
+        'apollopharmacy.in', 'netmeds.com', 'pharmeasy.in',
         'pasumaipharmacy.com', 'pulseplus.in', 'medplusmart.com',
         'truemeds.in', 'kauverymeds.com',
         //  'myupchar.com',
@@ -9185,15 +10193,15 @@ app.get('/fastComp', async (req, res) => {
         // 'wellnessforever.com',
         // 'secondmedic.com', 'chemistsworld.com', 'callhealth.com',
     ]
-    
+
 
 
     var cont = checkforzero(arr);
     // console.log(arr)
-   
+
     var tries = 0;
     var cpyOftempf;
-    var tempf=[];
+    var tempf = [];
     var t = [0, 0, 0, 0, 0, 0, 0, 0];
 
 
@@ -9204,7 +10212,7 @@ app.get('/fastComp', async (req, res) => {
         tries++;
 
 
-       
+
         var mixUrl;
         // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed},${req.query['packSize']?req.query['packSize']:''} ${req.query['manufacturerName']?req.query['manufacturerName']:''})&vs=`;
         // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
@@ -9219,18 +10227,18 @@ app.get('/fastComp', async (req, res) => {
 
 
         tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
-        if(cpyOftempf==tempf||tries>=12){
+        if (cpyOftempf == tempf || tries >= 12) {
             break;
-        }else{
-        cont = checkforzero(arr);
-        console.log(cont)
-        console.log("Try -> " + tries);
-        cpyOftempf=tempf;
-        tempf = tempf.flat();
-         }
+        } else {
+            cont = checkforzero(arr);
+            console.log(cont)
+            console.log("Try -> " + tries);
+            cpyOftempf = tempf;
+            tempf = tempf.flat();
+        }
     }
-        
-        tempfzz.push(1);
+
+    tempfzz.push(1);
 
 
 
@@ -9244,10 +10252,10 @@ app.get('/fastComp', async (req, res) => {
         }
         else if (tempf[k].includes("pasumai")) {
             t[3] = tempf[k];
-        } 
+        }
         else if (tempf[k].includes("pulseplus")) {
             t[4] = tempf[k];
-        }else if (tempf[k].includes("medplusmart")) {
+        } else if (tempf[k].includes("medplusmart")) {
             t[5] = tempf[k];
         } else if (tempf[k].includes("truemeds")) {
             t[6] = tempf[k];
@@ -9260,12 +10268,12 @@ app.get('/fastComp', async (req, res) => {
     t.push(nameOfMed)
     console.log(t);
 
-    
 
-    
-    
+
+
+
     tempf = tempf.flat();
-    
+
     tempfzz.push(1);
 
 
@@ -9275,7 +10283,7 @@ app.get('/fastComp', async (req, res) => {
             t[0] = tempf[k];
         } else if (tempf[k].includes("pharmeasy")) {
             t[1] = tempf[k];
-        }else if (tempf[k].includes("tabletshablet")) {
+        } else if (tempf[k].includes("tabletshablet")) {
             t[2] = tempf[k];
         } else if (tempf[k].includes("pulseplus")) {
             t[3] = tempf[k];
@@ -9308,7 +10316,7 @@ app.get('/fastComp', async (req, res) => {
     //     , extractLinkFromOptimizedyahoo(urlForMyupcharMedplusMartPasumai, nameOfMed, 'myupchar', 'pasumai', 'medplusmart')])
 
 
-    tempf.length=0;
+    tempf.length = 0;
 
 
     res.send(t);
@@ -9540,7 +10548,7 @@ app.get('/fastCompMorePharmasUsingAxiosParallel', async (req, res) => {
 
 
 app.get('/getUpdatesOfSingleMedicineComparison', async (req, res) => {
-    
+
     res.send(app.locals.tempf);
 });
 
@@ -9600,7 +10608,7 @@ app.get('/searchPharm', async (req, res) => {
         'netmeds.com', 'pharmeasy.in',
         'pasumaipharmacy.com', 'pulseplus.in',
         'tabletshablet.com', 'medplusmart.com',
-        'truemeds.in', 
+        'truemeds.in',
         //  'myupchar.com',
         // '1mg.com', 
         // 'onebharatpharmacy.com',
@@ -9611,7 +10619,7 @@ app.get('/searchPharm', async (req, res) => {
 
     var cont = checkforzero(arr);
     // console.log(arr)
-   
+
     var tries = 0;
     var cpyOftempf;
     while (cont != 7) {
@@ -9620,7 +10628,7 @@ app.get('/searchPharm', async (req, res) => {
         tries++;
 
 
-       
+
         mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed})&vs=`;
         for (var i = 0; i < arr.length; i++) {
             if (arr[i] != 0) {
@@ -9633,20 +10641,20 @@ app.get('/searchPharm', async (req, res) => {
 
 
         tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
-        app.locals.tempf=tempf;
-        if(cpyOftempf==tempf||tries>=7){
+        app.locals.tempf = tempf;
+        if (cpyOftempf == tempf || tries >= 7) {
             break;
-        }else{
-        cont = checkforzero(arr);
-        console.log(cont)
-        console.log("Try -> " + tries);
-        cpyOftempf=tempf;
-        tempf = tempf.flat();
-         }
+        } else {
+            cont = checkforzero(arr);
+            console.log(cont)
+            console.log("Try -> " + tries);
+            cpyOftempf = tempf;
+            tempf = tempf.flat();
+        }
     }
-        
+
     tempf = tempf.flat();
-        tempfzz.push(1);
+    tempfzz.push(1);
 
 
 
@@ -9658,20 +10666,20 @@ app.get('/searchPharm', async (req, res) => {
         }
         else if (tempf[k].includes("pasumai")) {
             t[2] = tempf[k];
-        } 
+        }
         else if (tempf[k].includes("pulseplus")) {
             t[3] = tempf[k];
         } else if (tempf[k].includes("tabletshablet")) {
             t[4] = tempf[k];
-        }else if (tempf[k].includes("medplusmart")) {
+        } else if (tempf[k].includes("medplusmart")) {
             t[5] = tempf[k];
         } else if (tempf[k].includes("truemeds")) {
             t[6] = tempf[k];
-        } 
+        }
     }
 
 
-    tempf.length=0;
+    tempf.length = 0;
     console.log(t)
 
 
@@ -9722,7 +10730,7 @@ app.get('/storeSearchedMedicineData', async (req, res) => {
         const collection = database.collection('searchPharmas');
 
         // Insert a single document
-        const result = await collection.insertOne({ medicine: req.query['medicineName'] ,DateOfSearch: getCurrentDate()});
+        // const result = await collection.insertOne({ medicine: req.query['medicineName'], DateOfSearch: getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
         try {
@@ -9734,11 +10742,11 @@ app.get('/storeSearchedMedicineData', async (req, res) => {
     } catch (err) {
         console.error('Error inserting medicine', err);
     }
-    
-    
-  });
 
-app.get('/searchPharmacies',validateReferer, async (req, res) => {
+
+});
+
+app.get('/searchPharmacies', validateReferer, async (req, res) => {
     // Insert Login Code Here
 
     console.log(req.body)
@@ -9766,150 +10774,150 @@ app.get('/searchPharmacies',validateReferer, async (req, res) => {
     // } for delivery price change as per location
 
 
-    var linksExistsInDb=false;
+    var linksExistsInDb = false;
     console.log(req.query)
     var nameOfMed = req.query['medname'] + '\n';
     nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s]/g, ' ').toLowerCase();
     console.log(nameOfMed);
     var tempf = [];
-    var t = [0, 0, 0, 0, 0,0];
+    var t = [0, 0, 0, 0, 0, 0];
     var mixUrl;
 
 
     try {
-        
-    //     const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });    
-    //     const database = client.db('MedicompDb');
-    //     const collection = database.collection('medicineList');
-    
-    // // const result = await collection.findOne({ medicineName: "Crocin 650 Tablet 15" }, { links: 1, _id: 0 });
 
-    //     const result = await collection.findOne({ medicineName: `${nameOfMed}` }, { links: 1 });
-    //     linksExistsInDb = !!result.links;
+        //     const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });    
+        //     const database = client.db('MedicompDb');
+        //     const collection = database.collection('medicineList');
 
- 
-            console.log("Hola! New Medicine Searched - "+nameOfMed);
-       
-                // var mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=medicine intitle:(${nameOfMed})&vs=pharmeasy.in+%2C+myupchar.com+%2C+netmeds.com+%2C+medplusmart.com+%2C+tabletshablet.com+%2C+pulseplus.in+%2C+pasumaipharmacy.com+%2C+truemeds.in+%2C+1mg.com`;
-            
-            
-                // var arr = [
-            
-                //     'netmeds.com', 'pharmeasy.in',
-                //     'pasumaipharmacy.com', 'pulseplus.in',
-                //     'tabletshablet.com', 'medplusmart.com', 'myupchar.com',
-                //     'truemeds.in', '1mg.com', 'onebharatpharmacy.com',
-                //     'kauverymeds.com', 'indimedo.com', 'wellnessforever.com',
-                //     'secondmedic.com', 'chemistsworld.com', 'callhealth.com',
-                // ]
-            
-                var arr = [
-            
-                    'apollopharmacy.in','netmeds.com', 'pharmeasy.in',
-                    'pasumaipharmacy.com', 
-                    // 'pulseplus.in', 
-                    'medplusmart.com',
-                    //  'kauverymeds.com',
-                    // 'chemistbox.in','1mg.com', 
-                     'myupchar.com',
-                    // 'chemistsworld.com', 
-                    '1mg.com', 'expressmed.in'
-                    // 'onebharatpharmacy.com',
-                    // 'wellnessforever.com',
-                    // 'secondmedic.com', 
-                    // 'callhealth.com',
-                ]
-                
-            
-            
-                var cont = checkforzero(arr);
-                // console.log(arr)
-               
-                var tries = 0;
-                var cpyOftempf;
-                while (cont != 8) {
-            
-            
-                    tries++;
-            
-            
-                   
-                    mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${req.query['medicinePackSize']} })&vs=`;
-                    // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
-                    for (var i = 0; i < arr.length; i++) {
-                        if (arr[i] != 0) {
-                            mixUrl += arr[i] + "+%2C+";
-                        }
-                    }
-                    console.log("New Url => " + mixUrl)
-                    // console.log(arr)
-            
-            
-            
-                    tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
-                    if(cpyOftempf==tempf||tries>=7){
-                        break;
-                    }else{
-                    cont = checkforzero(arr);
-                    console.log(cont)
-                    console.log("Try -> " + tries);
-                    cpyOftempf=tempf;
-                    tempf = tempf.flat();
-                     }
+        // // const result = await collection.findOne({ medicineName: "Crocin 650 Tablet 15" }, { links: 1, _id: 0 });
+
+        //     const result = await collection.findOne({ medicineName: `${nameOfMed}` }, { links: 1 });
+        //     linksExistsInDb = !!result.links;
+
+
+        console.log("Hola! New Medicine Searched - " + nameOfMed);
+
+        // var mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=medicine intitle:(${nameOfMed})&vs=pharmeasy.in+%2C+myupchar.com+%2C+netmeds.com+%2C+medplusmart.com+%2C+tabletshablet.com+%2C+pulseplus.in+%2C+pasumaipharmacy.com+%2C+truemeds.in+%2C+1mg.com`;
+
+
+        // var arr = [
+
+        //     'netmeds.com', 'pharmeasy.in',
+        //     'pasumaipharmacy.com', 'pulseplus.in',
+        //     'tabletshablet.com', 'medplusmart.com', 'myupchar.com',
+        //     'truemeds.in', '1mg.com', 'onebharatpharmacy.com',
+        //     'kauverymeds.com', 'indimedo.com', 'wellnessforever.com',
+        //     'secondmedic.com', 'chemistsworld.com', 'callhealth.com',
+        // ]
+
+        var arr = [
+
+            'apollopharmacy.in', 'netmeds.com', 'pharmeasy.in',
+            'pasumaipharmacy.com',
+            // 'pulseplus.in', 
+            'medplusmart.com',
+            //  'kauverymeds.com',
+            // 'chemistbox.in','1mg.com', 
+            'myupchar.com',
+            // 'chemistsworld.com', 
+            '1mg.com', 'expressmed.in'
+            // 'onebharatpharmacy.com',
+            // 'wellnessforever.com',
+            // 'secondmedic.com', 
+            // 'callhealth.com',
+        ]
+
+
+
+        var cont = checkforzero(arr);
+        // console.log(arr)
+
+        var tries = 0;
+        var cpyOftempf;
+        while (cont != 8) {
+
+
+            tries++;
+
+
+
+            mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${req.query['medicinePackSize']} })&vs=`;
+            // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] != 0) {
+                    mixUrl += arr[i] + "+%2C+";
                 }
-                    
+            }
+            console.log("New Url => " + mixUrl)
+            // console.log(arr)
+
+
+
+            tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
+            if (cpyOftempf == tempf || tries >= 7) {
+                break;
+            } else {
+                cont = checkforzero(arr);
+                console.log(cont)
+                console.log("Try -> " + tries);
+                cpyOftempf = tempf;
                 tempf = tempf.flat();
-                    tempfzz.push(1);
-            
+            }
+        }
 
-                    
-                    for (var k = 0; k < tempf.length; k++) {
-                        if (tempf[k].includes("apollo")) {
-                        t[0] = tempf[k];
-                    } else if (tempf[k].includes("netmeds")) {
-                        t[1] = tempf[k];
-                    } else if (tempf[k].includes("pharmeasy")) {
-                        t[2] = tempf[k];
-                    }
-                    else if (tempf[k].includes("pasumai")) {
-                        t[3] = tempf[k];
-                    } 
-                    else if (tempf[k].includes("medplusmart")) {
-                        t[4] = tempf[k];
-                    }
-                    else if (tempf[k].includes("myupchar")) {
-                        t[5] = tempf[k];
-                    } else if (tempf[k].includes("1mg")) {
-                        t[6] = tempf[k];
-                    } else if (tempf[k].includes("expressmed")) {
-                        t[7] = tempf[k];
-                    }
-                    //  else if (tempf[k].includes("kauverymeds")) {
-                    //     t[6] = tempf[k];
-                    // }
-                    // else if (tempf[k].includes("chemistbox.in")) {
-                    //     t[7] = tempf[k];
-                    // }else if (tempf[k].includes("1mg.com")) {
-                    //     t[8] = tempf[k];
-                    // }else if (tempf[k].includes("myupchar")) {
-                    //     t[9] = tempf[k];
-                    // }
-                }
-            
-                t.push(req.query['prodLink']);
-                t.push(req.query['medicinePackSize']);
-                t.push(req.query['pincode']);
-                t.push(req.query['medname'])
-                console.log(t);
-            
-                
-                   
-                    
-            
-                   console.log("Links Added To Db - "+nameOfMed);
-        
+        tempf = tempf.flat();
+        tempfzz.push(1);
 
-        
+
+
+        for (var k = 0; k < tempf.length; k++) {
+            if (tempf[k].includes("apollo")) {
+                t[0] = tempf[k];
+            } else if (tempf[k].includes("netmeds")) {
+                t[1] = tempf[k];
+            } else if (tempf[k].includes("pharmeasy")) {
+                t[2] = tempf[k];
+            }
+            else if (tempf[k].includes("pasumai")) {
+                t[3] = tempf[k];
+            }
+            else if (tempf[k].includes("medplusmart")) {
+                t[4] = tempf[k];
+            }
+            else if (tempf[k].includes("myupchar")) {
+                t[5] = tempf[k];
+            } else if (tempf[k].includes("1mg")) {
+                t[6] = tempf[k];
+            } else if (tempf[k].includes("expressmed")) {
+                t[7] = tempf[k];
+            }
+            //  else if (tempf[k].includes("kauverymeds")) {
+            //     t[6] = tempf[k];
+            // }
+            // else if (tempf[k].includes("chemistbox.in")) {
+            //     t[7] = tempf[k];
+            // }else if (tempf[k].includes("1mg.com")) {
+            //     t[8] = tempf[k];
+            // }else if (tempf[k].includes("myupchar")) {
+            //     t[9] = tempf[k];
+            // }
+        }
+
+        t.push(req.query['prodLink']);
+        t.push(req.query['medicinePackSize']);
+        t.push(req.query['pincode']);
+        t.push(req.query['medname'])
+        console.log(t);
+
+
+
+
+
+        console.log("Links Added To Db - " + nameOfMed);
+
+
+
 
 
         // try {
@@ -9918,16 +10926,16 @@ app.get('/searchPharmacies',validateReferer, async (req, res) => {
         // } catch (err) {
         //     console.error('Error closing MongoDB connection', err);
         // }
-   
+
 
     } catch (err) {
         console.error('Error Fetching Whether links exist or not', err);
     }
 
 
-    
- 
-    
+
+
+
     // const urlForApolloNetmedsPharmEasy = `https://search.yahoo.com/search?&vl=lang_en&p=inurl:(${nameOfMed}+apollopharmacy.in+netmeds.com+pharmeasy.in)+
     // -1mg.com%2Chealthmug.com%2Cpasumaipharmacy.com%2Cmyupchar.in%2Chealthskoolpharmacy.com%2Ctabletshablet.com%2Cpulseplus.in
     // &vs=apollopharmacy.in+%2C+netmeds.com+%2Cpharmeasy.in&ad=dirN&o=0`;
@@ -9942,7 +10950,7 @@ app.get('/searchPharmacies',validateReferer, async (req, res) => {
     // extractLinkFromOptimizedyahoo(urlForHealthskoolTabletshabletPulsePlus, nameOfMed, 'healthskool', 'tabletshablet', 'pulseplus')
     //     , extractLinkFromOptimizedyahoo(urlForMyupcharMedplusMartPasumai, nameOfMed, 'myupchar', 'pasumai', 'medplusmart')])
 
-    tempf.length=0;
+    tempf.length = 0;
     res.render(__dirname + '/medicineAvail.ejs', { t });
 
     // await axios.all([extractLinkFromOptimizedyahoo(urlForApolloNetmedsPharmEasy,nameOfMed, 'apollo', 'netmeds', 'pharmeasy'),
@@ -9995,7 +11003,7 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
     var nameOfMed = req.query['medname'] + '\n';
     nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
     console.log(nameOfMed);
-    
+
     // try {
     //     const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -10033,7 +11041,7 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
 
     var arr = [
 
-        'apollopharmacy.in','netmeds.com', 'pharmeasy.in',
+        'apollopharmacy.in', 'netmeds.com', 'pharmeasy.in',
         'pasumaipharmacy.com', 'pulseplus.in', 'medplusmart.com',
         'truemeds.in', 'kauverymeds.com', 'expressmed.in'
         //  'myupchar.com',
@@ -10042,12 +11050,12 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
         // 'wellnessforever.com',
         // 'secondmedic.com', 'chemistsworld.com', 'callhealth.com',
     ]
-    
+
 
 
     var cont = checkforzero(arr);
     // console.log(arr)
-   
+
     var tries = 0;
     var cpyOftempf;
     while (cont != 9) {
@@ -10056,7 +11064,7 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
         tries++;
 
 
-       
+
         mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${req.query['packSize']})&vs=`;
         // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
         for (var i = 0; i < arr.length; i++) {
@@ -10070,19 +11078,19 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
 
 
         tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
-        if(cpyOftempf==tempf||tries>=12){
+        if (cpyOftempf == tempf || tries >= 12) {
             break;
-        }else{
-        cont = checkforzero(arr);
-        console.log(cont)
-        console.log("Try -> " + tries);
-        cpyOftempf=tempf;
-        tempf = tempf.flat();
-         }
+        } else {
+            cont = checkforzero(arr);
+            console.log(cont)
+            console.log("Try -> " + tries);
+            cpyOftempf = tempf;
+            tempf = tempf.flat();
+        }
     }
-        
+
     tempf = tempf.flat();
-        tempfzz.push(1);
+    tempfzz.push(1);
 
 
 
@@ -10096,16 +11104,16 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
         }
         else if (tempf[k].includes("pasumai")) {
             t[3] = tempf[k];
-        } 
+        }
         else if (tempf[k].includes("pulseplus")) {
             t[4] = tempf[k];
-        }else if (tempf[k].includes("medplusmart")) {
+        } else if (tempf[k].includes("medplusmart")) {
             t[5] = tempf[k];
         } else if (tempf[k].includes("truemeds")) {
             t[6] = tempf[k];
         } else if (tempf[k].includes("kauverymeds")) {
             t[7] = tempf[k];
-        }else if (tempf[k].includes("expressmed")) {
+        } else if (tempf[k].includes("expressmed")) {
             t[8] = tempf[k];
         }
     }
@@ -10114,8 +11122,8 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
     t.push(nameOfMed)
     console.log(t);
 
-    
-    
+
+
     // const urlForApolloNetmedsPharmEasy = `https://search.yahoo.com/search?&vl=lang_en&p=inurl:(${nameOfMed}+apollopharmacy.in+netmeds.com+pharmeasy.in)+
     // -1mg.com%2Chealthmug.com%2Cpasumaipharmacy.com%2Cmyupchar.in%2Chealthskoolpharmacy.com%2Ctabletshablet.com%2Cpulseplus.in
     // &vs=apollopharmacy.in+%2C+netmeds.com+%2Cpharmeasy.in&ad=dirN&o=0`;
@@ -10130,10 +11138,10 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
     // extractLinkFromOptimizedyahoo(urlForHealthskoolTabletshabletPulsePlus, nameOfMed, 'healthskool', 'tabletshablet', 'pulseplus')
     //     , extractLinkFromOptimizedyahoo(urlForMyupcharMedplusMartPasumai, nameOfMed, 'myupchar', 'pasumai', 'medplusmart')])
 
-    
-    
-    
-    tempf.length=0;
+
+
+
+    tempf.length = 0;
     res.send(t);
 
     // await axios.all([extractLinkFromOptimizedyahoo(urlForApolloNetmedsPharmEasy,nameOfMed, 'apollo', 'netmeds', 'pharmeasy'),
@@ -10159,29 +11167,29 @@ app.get('/searchPharmaciesForBackendData', async (req, res) => {
 
 
 app.get('/getDeliveryPriceOfPharmeasy', async (req, res) => {
-    var price = parseFloat(req.query['val']) 
+    var price = parseFloat(req.query['val'])
     var dc = 0;
-        if (price < 300) {
-            dc = 199;
-        } else if (price >= 300 && parseFloat(price) < 500) {
-            dc = 129;
-        } else if (price >= 500 && parseFloat(price) < 750) {
-            dc = 49;
-        } else if (price >= 750 && parseFloat(price) < 1000) {
-            dc = 25;
-        } else if (price >= 1000 && parseFloat(price) < 1250) {
-            dc = 14;
-        } else if (price >= 1250) {
-            dc = 0;
-        }
+    if (price < 300) {
+        dc = 199;
+    } else if (price >= 300 && parseFloat(price) < 500) {
+        dc = 129;
+    } else if (price >= 500 && parseFloat(price) < 750) {
+        dc = 49;
+    } else if (price >= 750 && parseFloat(price) < 1000) {
+        dc = 25;
+    } else if (price >= 1000 && parseFloat(price) < 1250) {
+        dc = 14;
+    } else if (price >= 1250) {
+        dc = 0;
+    }
 
-        res.send((dc).toString());;
+    res.send((dc).toString());;
 })
 app.get('/getDeliveryPriceOfNetmeds', async (req, res) => {
     var dc = 0;
-    var totalMedPrice = parseFloat(req.query['val']) 
-    
-    
+    var totalMedPrice = parseFloat(req.query['val'])
+
+
     if (totalMedPrice < 199) {
         dc = 69;
     } else if (totalMedPrice >= 199 && totalMedPrice < 499) {
@@ -10192,24 +11200,24 @@ app.get('/getDeliveryPriceOfNetmeds', async (req, res) => {
         dc = 0;
     }
 
-        res.send((dc).toString());;
+    res.send((dc).toString());;
 })
 app.get('/getDeliveryPriceOfTata1mg', async (req, res) => {
-    var price = parseFloat(req.query['val']) 
+    var price = parseFloat(req.query['val'])
     var dc = 0;
-    if (price > 0 && price < 100) { 
-        dc = 81; 
-    } else if(price >= 100 && price < 200) {
+    if (price > 0 && price < 100) {
+        dc = 81;
+    } else if (price >= 100 && price < 200) {
         dc = 75;
-    }else if(price>=200){
-        dc=0;
+    } else if (price >= 200) {
+        dc = 0;
     }
-        res.send((dc).toString());;
+    res.send((dc).toString());;
 })
 app.get('/getDeliveryPriceOfMedPlusMart', async (req, res) => {
-        var price = parseFloat(req.query['val']) 
-        var dc = 0;
-        if (price > 0 && price < 350) {
+    var price = parseFloat(req.query['val'])
+    var dc = 0;
+    if (price > 0 && price < 350) {
         dc = 40;
     } else if (price >= 350) {
         dc = 20;
@@ -10217,22 +11225,22 @@ app.get('/getDeliveryPriceOfMedPlusMart', async (req, res) => {
     res.send((dc).toString());;
 })
 app.get('/getDeliveryPriceOfPasumaiPharmacy', async (req, res) => {
-    var price = parseFloat(req.query['val']) 
+    var price = parseFloat(req.query['val'])
     var dc = 0;
-    
+
     if (price < 280) {
-            dc = 68;
-        } else if (price >= 280 && price < 1000) {
-            dc = 58;
-        } else if (price >= 1000) {
-            dc = 8;
-        }
-        res.send((dc).toString());;
-    })
+        dc = 68;
+    } else if (price >= 280 && price < 1000) {
+        dc = 58;
+    } else if (price >= 1000) {
+        dc = 8;
+    }
+    res.send((dc).toString());;
+})
 app.get('/getDeliveryPriceOfTabletShablet', async (req, res) => {
-    var price = parseFloat(req.query['val']) 
+    var price = parseFloat(req.query['val'])
     var dc = 0;
-    
+
     if (price < 500) {
         dc = 68.88;
     } else if (price >= 500 && price < 1000) {
@@ -10241,35 +11249,35 @@ app.get('/getDeliveryPriceOfTabletShablet', async (req, res) => {
         dc = 0;
     }
 
-        res.send((dc).toString());;
+    res.send((dc).toString());;
 })
 app.get('/getDeliveryPriceOfMyUpChar', async (req, res) => {
-    var price = parseFloat(req.query['val']) 
+    var price = parseFloat(req.query['val'])
     var dc = 0;
-    
+
     if (price < 499) {
         dc = 49;
     } else if (price > 500) {
         dc = 0;
     }
-        res.send((dc).toString());;
-    })   
+    res.send((dc).toString());;
+})
 app.get('/getDeliveryPriceOfPulsePlus', async (req, res) => {
-    var price = parseFloat(req.query['val']) 
+    var price = parseFloat(req.query['val'])
     var dc = 0;
-    
+
     if (price < 999) {
         dc = 50;
     } else if (price >= 1000) {
         dc = 15;
     }
-        res.send((dc).toString());;
+    res.send((dc).toString());;
 })
 
 app.get('/getDeliveryPriceOfApollo', async (req, res) => {
-    var m = parseFloat(req.query['val']) 
+    var m = parseFloat(req.query['val'])
     var dc = 0;
-    
+
     if (m < 200) {
         dc = 100;
     } else if (m >= 300 && m < 400) {
@@ -10279,39 +11287,39 @@ app.get('/getDeliveryPriceOfApollo', async (req, res) => {
     } else if (m >= 500) {
         dc = 0;
     }
-        res.send((dc).toString());;
+    res.send((dc).toString());;
 })
 
 app.get('/getDeliveryPriceOfTruemeds', async (req, res) => {
     var price = parseFloat(req.query['val'])
     var dc = 0;
-    
+
     if (price < 500) {
         dc = 50;
     } else if (price >= 500) {
         dc = 0;
     }
     console.log(dc)
-        res.send((dc).toString());
+    res.send((dc).toString());
 })
 
 app.get('/getDeliveryPriceOfKauvery', async (req, res) => {
     var price = parseFloat(req.query['val'])
     var dc = 0;
-    
-   dc=75; 
+
+    dc = 75;
     console.log(dc)
-        res.send((dc).toString());
+    res.send((dc).toString());
 })
 
 
 app.post('/algoSuggest', async (req, res) => {
-    const pharmaFinaldata=JSON.parse(req.body.finalFullData);
+    const pharmaFinaldata = JSON.parse(req.body.finalFullData);
     const priceFinal = [];
     var temp = [];
 
     console.log(pharmaFinaldata[0][0][0])
-   
+
     for (var i = 0; i < pharmaFinaldata.length; i++) {
         // final.push(pharmaFinaldata[i]['data']);
 
@@ -10370,7 +11378,7 @@ app.post('/algoSuggest', async (req, res) => {
 
     var combChart = {};
     var tempcombiChart = [];
-    var final=[];
+    var final = [];
 
 
     var finalPriceComboChart = {};
@@ -10419,7 +11427,7 @@ app.post('/algoSuggest', async (req, res) => {
 
     for (var i = 1; i <= pharmaFinaldata.length; i++) {
         combChart[i] = (permute(pharmaFinaldata.length, i));
-        console.log("9876789  -->>  "+ combChart[i])
+        console.log("9876789  -->>  " + combChart[i])
         tempcombiChart.push(permute(pharmaFinaldata.length, i));
     }
 
@@ -10475,7 +11483,7 @@ app.post('/algoSuggest', async (req, res) => {
             // getDeliveryChargeForTrueMeds
 
 
-            console.log("!~! "+tempca);
+            console.log("!~! " + tempca);
             console.log("Smallest Value --> " + tempca[findSmallest(tempca)]);
             smallesTotalCombValues[combChart[key][inkey]] = tempca[findSmallest(tempca)];
             smallesTotalCombValues[combChart[key][inkey] + "from"] = findSmallest(tempca);
@@ -10502,7 +11510,7 @@ app.post('/algoSuggest', async (req, res) => {
     function partitionSet(set) {
 
         const partitions = [];
-    
+
         function partitionHelper(remainingSet, currentPartition) {
             if (remainingSet.length === 0) {
                 if (currentPartition.length > 0) {
@@ -10510,122 +11518,122 @@ app.post('/algoSuggest', async (req, res) => {
                 }
                 return;
             }
-    
+
             const currentElement = remainingSet[0];
             const restOfSet = remainingSet.slice(1);
-    
+
             // Include current element in a new subset
             partitionHelper(restOfSet, [...currentPartition, [currentElement]]);
-            
+
             // Include current element in existing subsets
             currentPartition.forEach((subset, index) => {
                 partitionHelper(restOfSet, [...currentPartition.slice(0, index), [...subset, currentElement], ...currentPartition.slice(index + 1)]);
             });
         }
-    
+
         partitionHelper(set, []);
         return partitions.map(partition => partition.map(subset => [subset.join('')]));
     }
-    
-    
+
+
     function getKeyByValue(object, value) {
         return Object.keys(object).find(key => object[key] === value);
-      }
-
-    
-    console.log("--> "+pharmaFinaldata.length);
-    var set=[];
-    for(var i=1;i<=pharmaFinaldata.length;i++){
-     set.push(i)
     }
-    console.log("Set - "+set)
+
+
+    console.log("--> " + pharmaFinaldata.length);
+    var set = [];
+    for (var i = 1; i <= pharmaFinaldata.length; i++) {
+        set.push(i)
+    }
+    console.log("Set - " + set)
     const partitions = partitionSet(set);
-    console.log("=====>> >> "+typeof(partitions));
-    console.log("=====>> paritions "+partitions);
+    console.log("=====>> >> " + typeof (partitions));
+    console.log("=====>> paritions " + partitions);
 
-    var tempLowestValue=set.toString().replace(/,/g, '');
-    var newtemparea=[];
+    var tempLowestValue = set.toString().replace(/,/g, '');
+    var newtemparea = [];
 
-    tempLowestValue=smallesTotalCombValues[tempLowestValue];
-    
+    tempLowestValue = smallesTotalCombValues[tempLowestValue];
+
     console.log(set.toString().replace(/,/g, ''))
-    var vvtmp=0;
-    for(var i=0;i<partitions.length;i++){
-        for(var j=0;j<partitions[i].length;j++){
+    var vvtmp = 0;
+    for (var i = 0; i < partitions.length; i++) {
+        for (var j = 0; j < partitions[i].length; j++) {
             // console.log(j+" "+smallesTotalCombValues[partitions[i][j]])
-            vvtmp+=smallesTotalCombValues[partitions[i][j]];
-        } 
-        if(vvtmp<tempLowestValue){
-            newtemparea.length=0;
-            tempLowestValue=vvtmp;
-            console.log("k---"+partitions[i])
+            vvtmp += smallesTotalCombValues[partitions[i][j]];
+        }
+        if (vvtmp < tempLowestValue) {
+            newtemparea.length = 0;
+            tempLowestValue = vvtmp;
+            console.log("k---" + partitions[i])
             newtemparea.push(partitions[i].flat());
         }
-        vvtmp=0;
+        vvtmp = 0;
     }
-    
+
 
     var x;
-    console.log(newtemparea+" + "+tempLowestValue)
-    
-    var mnames=[];
+    console.log(newtemparea + " + " + tempLowestValue)
 
-    console.log(typeof(newtemparea))
+    var mnames = [];
+
+    console.log(typeof (newtemparea))
     console.log(newtemparea.flat())
-    newtemparea=newtemparea.flat();
+    newtemparea = newtemparea.flat();
 
 
-    if(newtemparea.length>1){
+    if (newtemparea.length > 1) {
         x = newtemparea;
-        for(var i=0;i<x.length;i++){
+        for (var i = 0; i < x.length; i++) {
             // 'apollopharmacy.in','netmeds.com', 'pharmeasy.in',
             // 'pasumaipharmacy.com', 'pulseplus.in', 'medplusmart.com',
             // 'truemeds.in', 'kauverymeds.com',
             var pname;
-            if (smallesTotalCombValues[x[i]+"from"] == '0' ) {
-                pname="Apollo";
-            }else if (smallesTotalCombValues[x[i]+"from"] == '1' ) {
-                pname="Netmeds";
-            } else if (smallesTotalCombValues[x[i]+"from"]=='2') {
-                pname="Pharmeasy";
-            }else if (smallesTotalCombValues[x[i]+"from"]=='3') {
-                pname="PasumaiPharmacy";
-            } else if (smallesTotalCombValues[x[i]+"from"]=='4') {
-                pname="PulsePlus";
-            } else if (smallesTotalCombValues[x[i]+"from"]=='5') {
-                pname="MedplusMart";
-            }  else if (smallesTotalCombValues[x[i]+"from"]=='6') {
-                pname="TrueMeds";
-            }else if (smallesTotalCombValues[x[i]+"from"]=='7') {
-                pname="Kauverymeds";
+            if (smallesTotalCombValues[x[i] + "from"] == '0') {
+                pname = "Apollo";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '1') {
+                pname = "Netmeds";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '2') {
+                pname = "Pharmeasy";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '3') {
+                pname = "PasumaiPharmacy";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '4') {
+                pname = "PulsePlus";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '5') {
+                pname = "MedplusMart";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '6') {
+                pname = "TrueMeds";
+            } else if (smallesTotalCombValues[x[i] + "from"] == '7') {
+                pname = "Kauverymeds";
             }
-            mnames.push("BUY "+"Medicine num"+`${x[i]} From `+`${pname}`)
+            mnames.push("BUY " + "Medicine num" + `${x[i]} From ` + `${pname}`)
         }
-    }else{
-            var pname;
-            if (smallesTotalCombValues[newtemparea+"from"] == '0' ) {
-                pname="Apollo";
-            }else if (smallesTotalCombValues[newtemparea+"from"] == '1' ) {
-                pname="Netmeds";
-            } else if (smallesTotalCombValues[newtemparea+"from"]=='2') {
-                pname="Pharmeasy";
-            }else if (smallesTotalCombValues[newtemparea+"from"]=='3') {
-                pname="PasumaiPharmacy";
-            } else if (smallesTotalCombValues[newtemparea+"from"]=='4') {
-                pname="PulsePlus";
-            } else if (smallesTotalCombValues[newtemparea+"from"]=='5') {
-                pname="MedplusMart";
-            }  else if (smallesTotalCombValues[newtemparea+"from"]=='6') {
-                pname="TrueMeds";
-            }else if (smallesTotalCombValues[newtemparea+"from"]=='7') {
-                pname="Kauverymeds";
-            }
-            mnames.push("BUY "+"Medicine num"+`${newtemparea} From `+`${pname}`)
-
-            
+    } else {
+        var pname;
+        if (smallesTotalCombValues[newtemparea + "from"] == '0') {
+            pname = "Apollo";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '1') {
+            pname = "Netmeds";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '2') {
+            pname = "Pharmeasy";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '3') {
+            pname = "PasumaiPharmacy";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '4') {
+            pname = "PulsePlus";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '5') {
+            pname = "MedplusMart";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '6') {
+            pname = "TrueMeds";
+        } else if (smallesTotalCombValues[newtemparea + "from"] == '7') {
+            pname = "Kauverymeds";
         }
+        mnames.push("BUY " + "Medicine num" + `${newtemparea} From ` + `${pname}`)
 
-    
+
+    }
+
+
 
 
 
@@ -10671,15 +11679,15 @@ app.post('/multiSearch', async (req, res) => {
     const startF = performance.now();
     const mnames = [];
     const manunames = [];
-    console.log(typeof(req.body.multiItems));
+    console.log(typeof (req.body.multiItems));
     console.log(req.body.multiItems);
 
     if (typeof (req.body.multiItems) == 'object') {
 
         for (mednames in req.body.multiItems) {
 
-            var medName=req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
-            var manuName=req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+            var medName = req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+            var manuName = req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
             // var medicineN=medName.replace(/[^a-zA-Z0-9 %+|]/g, '')
             linkdata.push(`http://localhost:4000/searchPharmaciesForBackendData?medname=${medName}&manufacturer=${manuName}&packSize=${req.body['packSize']}`)
             mnames.push(medName)
@@ -10687,8 +11695,8 @@ app.post('/multiSearch', async (req, res) => {
         }
     } else {
         console.log(typeof (req.body.multiItems))
-        var medName=req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
-        var manuName=req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+        var medName = req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+        var manuName = req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
 
         // var nameOfMed = req.body.multiItems.trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
         // console.log(nameOfMed);
@@ -10767,29 +11775,29 @@ app.post('/compareViaBlog', async (req, res) => {
     // Insert Login Code Here
 
 
-   
-    const nameOfMed=req.body.medname;
+
+    const nameOfMed = req.body.medname;
     var item = req.body.urls;
-    item=item.split(',');
+    item = item.split(',');
     console.log(item)
-    const final=[];
-    
+    const final = [];
 
 
-    const manufacturerN=await extractManufacNameFromPharmeasy(item[1]);
+
+    const manufacturerN = await extractManufacNameFromPharmeasy(item[1]);
     console.log(manufacturerN)
 
 
     const start1 = performance.now();
     // const LinkDataResponses = await axiosParallel(item);
 
-    const responses = await Promise.all([extractDataOfNetMeds(item[0], nameOfMed,manufacturerN), extractDataOfPharmEasy(item[1], nameOfMed,manufacturerN),
-    extractDataOfPP(item[2], nameOfMed,manufacturerN),
-    extractDataOfmedplusMart(item[3], nameOfMed,manufacturerN), 
-    extractDataOfOBP(item[4], nameOfMed,manufacturerN),
-    extractDataOfOgMPM(item[5], nameOfMed,manufacturerN),extractDataOfTruemeds(item[6], nameOfMed,manufacturerN),
-    // extractDataOfMyUpChar(item[4], nameOfMed,manufacturerN),
-    //   extractSubsfApollo(item[8],final),
+    const responses = await Promise.all([extractDataOfNetMeds(item[0], nameOfMed, manufacturerN), extractDataOfPharmEasy(item[1], nameOfMed, manufacturerN),
+    extractDataOfPP(item[2], nameOfMed, manufacturerN),
+    extractDataOfmedplusMart(item[3], nameOfMed, manufacturerN),
+    extractDataOfOBP(item[4], nameOfMed, manufacturerN),
+    extractDataOfOgMPM(item[5], nameOfMed, manufacturerN), extractDataOfTruemeds(item[6], nameOfMed, manufacturerN),
+        // extractDataOfMyUpChar(item[4], nameOfMed,manufacturerN),
+        //   extractSubsfApollo(item[8],final),
     ]);
 
     const end1 = performance.now() - start1;
@@ -10820,16 +11828,16 @@ app.post('/compareViaBlog', async (req, res) => {
     console.log(final)
 
     console.log('Found Everything Sir!..')
-        try {
+    try {
 
         console.log(final[0].finalCharge)
         console.log(final.length)
-        if(final[0].finalCharge>0 && final.length>2){
+        if (final[0].finalCharge > 0 && final.length > 2) {
             res.render(__dirname + '/resultsv4.ejs', { final });
-        }else{
+        } else {
             res.sendFile(__dirname + '/noResultsFound.html');
         }
-        
+
     } catch (error) {
         console.error(error);
         res.sendFile(__dirname + '/noResultsFound.html');
@@ -10850,7 +11858,7 @@ app.get('/compareUsingPromiseAll', async (req, res) => {
 
 
     const nameOfMed = req.query['medname'] + '\n';
-    
+
     const presReq = ["No"];
 
     const urlForPharmEasy = `https://search.yahoo.com/search?p=inurl:(${nameOfMed}+pharmeasy.in) &vs=pharmeasy.in`;  //*//
@@ -10874,13 +11882,13 @@ app.get('/compareUsingPromiseAll', async (req, res) => {
     const urlForMedPlusMart = `https://search.yahoo.com/search?p=inurl:(${nameOfMed}+medplusmart.com) &vs=medplusmart.com`;
     const
         final = [];
-   
-    
-    const item = await Promise.all([ 
-    extractLinkFromyahoo(urlForApollo), extractLinkFromyahoo(urlForNetMeds), extractLinkFromyahoo(urlForPharmEasy),
-    extractLinkFromyahoo(urlForPP), extractLinkFromyahoo(urlForMedPlusMart),extractLinkFromyahoo(urlForKauverymeds)])
 
-       res.send(item);
+
+    const item = await Promise.all([
+        extractLinkFromyahoo(urlForApollo), extractLinkFromyahoo(urlForNetMeds), extractLinkFromyahoo(urlForPharmEasy),
+        extractLinkFromyahoo(urlForPP), extractLinkFromyahoo(urlForMedPlusMart), extractLinkFromyahoo(urlForKauverymeds)])
+
+    res.send(item);
 });
 
 
@@ -10894,7 +11902,7 @@ app.get('/compare', async (req, res) => {
 
 
     const nameOfMed = req.query['medname'] + '\n';
-    
+
     const presReq = ["No"];
 
     // const nameOfMed = req.body.foodItem + '\n';
@@ -11082,12 +12090,12 @@ app.get('/compare', async (req, res) => {
     };
 
     const start = performance.now();
-    const item = await Promise.all([ extractLinkFromyahoo(urlForNetMeds), extractLinkFromyahoo(urlForPharmEasy), extractLinkFromyahoo(urlForOBP),
+    const item = await Promise.all([extractLinkFromyahoo(urlForNetMeds), extractLinkFromyahoo(urlForPharmEasy), extractLinkFromyahoo(urlForOBP),
     extractLinkFromyahoo(urlForPulsePlus), extractLinkFromyahoo(urlForMyUpChar),
     extractLinkFromyahoo(urlForPP), extractLinkFromyahoo(urlForTruemeds),
     extractLinkFromyahoo(urlForMedPlusMart)])
 
-    const manufacturerN=await extractManufacNameFromPharmeasy(item[1]);
+    const manufacturerN = await extractManufacNameFromPharmeasy(item[1]);
     console.log(manufacturerN)
 
     const end = performance.now() - start;
@@ -11096,13 +12104,13 @@ app.get('/compare', async (req, res) => {
     const start1 = performance.now();
     // const LinkDataResponses = await axiosParallel(item);
 
-    const responses = await Promise.all([extractDataOfNetMeds(item[0], nameOfMed,manufacturerN), extractDataOfPharmEasy(item[1], nameOfMed,manufacturerN),
-    extractDataOfOBP(item[2], nameOfMed,manufacturerN),
-    extractDataOfmedplusMart(item[3], nameOfMed,manufacturerN), extractDataOfMyUpChar(item[4], nameOfMed,manufacturerN),
-    extractDataOfPP(item[5], nameOfMed,manufacturerN),
+    const responses = await Promise.all([extractDataOfNetMeds(item[0], nameOfMed, manufacturerN), extractDataOfPharmEasy(item[1], nameOfMed, manufacturerN),
+    extractDataOfOBP(item[2], nameOfMed, manufacturerN),
+    extractDataOfmedplusMart(item[3], nameOfMed, manufacturerN), extractDataOfMyUpChar(item[4], nameOfMed, manufacturerN),
+    extractDataOfPP(item[5], nameOfMed, manufacturerN),
     //   extractSubsfApollo(item[8],final),
-    extractDataOfTruemeds(item[6], nameOfMed,manufacturerN), extractDataOfOgMPM(item[7], nameOfMed,manufacturerN),
-    extractDataOfMedkart(nameOfMed,manufacturerN),
+    extractDataOfTruemeds(item[6], nameOfMed, manufacturerN), extractDataOfOgMPM(item[7], nameOfMed, manufacturerN),
+    extractDataOfMedkart(nameOfMed, manufacturerN),
     ]);
 
     const end1 = performance.now() - start1;
@@ -11163,12 +12171,12 @@ app.get('/compare', async (req, res) => {
 
         console.log(final[0].finalCharge)
         console.log(final.length)
-        if(final[0].finalCharge>0 && final.length>2){
+        if (final[0].finalCharge > 0 && final.length > 2) {
             res.render(__dirname + '/resultsv4.ejs', { final });
-        }else{
+        } else {
             res.sendFile(__dirname + '/noResultsFound.html');
         }
-        
+
     } catch (error) {
         console.error(error);
         res.sendFile(__dirname + '/noResultsFound.html');
@@ -11197,16 +12205,16 @@ function getCurrentDate() {
 }
 
 app.post('/redirectFromMedicomp', async (req, res) => {
-  console.log(req.body.MedicineName)
-  
-  try {
-    const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log(req.body.MedicineName)
+
+    try {
+        const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         const database = client.db('MedicompDb');
         const collection = database.collection('RedirectsFromMedicomp');
 
         // Insert a single document
-        const result = await collection.insertOne({ PharmacyName: req.body.pharmaName,MedicineName:req.body.MedicineName,DateOfRedirect : getCurrentDate() });
+        const result = await collection.insertOne({ PharmacyName: req.body.pharmaName, MedicineName: req.body.MedicineName, DateOfRedirect: getCurrentDate() });
 
         console.log(`Inserted ${req.body.pharmaName} document`);
         try {
@@ -11219,13 +12227,13 @@ app.post('/redirectFromMedicomp', async (req, res) => {
     } catch (err) {
         console.error('Error inserting medicine', err);
     }
-   
-    
+
+
 });
 
 
 app.get('/storeComparisonData', async (req, res) => {
-  console.log(req.query['medicineName'])
+    console.log(req.query['medicineName'])
     try {
         const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -11234,7 +12242,7 @@ app.get('/storeComparisonData', async (req, res) => {
 
 
         // Insert a single document
-        const result = await collection.insertOne({ medicine: req.query['medicineName'] ,Pincode:req.query['pincode'], DateOfComparison : await getCurrentDate() });
+        // const result = await collection.insertOne({ medicine: req.query['medicineName'], Pincode: req.query['pincode'], DateOfComparison: await getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
         try {
@@ -11243,22 +12251,22 @@ app.get('/storeComparisonData', async (req, res) => {
         } catch (err) {
             console.error('Error closing MongoDB connection', err);
         }
-        
+
     } catch (err) {
         console.error('Error inserting medicine', err);
-    } 
-    
+    }
+
 });
 
 
 app.get('/medicineName', async (req, res) => {
     console.log((req.query['q']))
-    
+
     const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = client.db("MedicompDb");
     const collection = db.collection("biggerDOM");
-   
-    
+
+
     try {
 
         // const records = await collection.find({
@@ -11267,68 +12275,97 @@ app.get('/medicineName', async (req, res) => {
 
         var query = [
             {
-              $search: {
-                index: "searchFromBiggerDOM",
-                autocomplete: {
-                  query: req.query['q'],
-                  path: "medicineName",
-                 
+                $search: {
+                    index: "searchFromBiggerDOM",
+                    compound: {
+                        should: [
+                            {
+                                autocomplete: {
+                                    query: req.query['q'],
+                                    path: "medicineName",
+                                }
+                            },
+                            {
+                                autocomplete: {
+                                    query: req.query['q'],
+                                    path: "packSize",
+                                }
+                            }
+                        ]
+                    }
                 }
-              }
             },
             { $limit: 5 }
-          ];
+        ];
 
-          // Execute the query
-          var records = await collection.aggregate(query).toArray();
-    
-          if(records.length>0){
+
+        // Execute the query
+        var records = await collection.aggregate(query).toArray();
+
+        if (records.length > 0) {
             console.log("Found the following records:");
             // console.log(records);
-        }else{
+        } else {
             console.log("Not Found")
             query = [
                 {
-                  $search: {
-                    index: "searchFromBiggerDOM",
-                    autocomplete: {
-                      query: req.query['q'],
-                      path: "medicineName",
-                      fuzzy: {
-                        maxEdits: 2, // Adjust based on your fuzzy search needs
-                        prefixLength: 1
-                      }
+                    $search: {
+                        index: "searchFromBiggerDOM",
+                        compound: {
+                            should: [
+                                {
+                                    autocomplete: {
+                                        query: req.query['q'],
+                                        path: "medicineName",
+                                        fuzzy: {
+                                            maxEdits: 2, // Adjust based on your fuzzy search needs
+                                            prefixLength: 1
+                                        }
+                                    }
+                                },
+                                {
+                                    autocomplete: {
+                                        query: req.query['q'],
+                                        path: "packSize",
+                                        fuzzy: {
+                                            maxEdits: 2, // Adjust based on your fuzzy search needs
+                                            prefixLength: 1
+                                        }
+                                    }
+                                }
+                            ]
+                        }
                     }
-                  }
                 },
                 { $limit: 5 }
-              ];
-    
-              // Execute the query
-            records = await collection.aggregate(query).toArray();    
+            ];
+
+
+            // Execute the query
+            records = await collection.aggregate(query).toArray();
         }
 
         console.log(records)
         try {
-                await client.close();
+            await client.close();
             console.log('Closed MongoDB connection');
         } catch (err) {
             console.error('Error closing MongoDB connection', err);
         }
 
         res.send(records)
-    
+
     } catch (err) {
         console.error('Error inserting medicine', err);
     }
 
-    
-    
-    
-      
 
 
- 
+
+
+
+
+
 });
 
 // function getSecondaryAnchorValueFromString(nameOfMed){
@@ -11344,10 +12381,10 @@ app.get('/medicineName', async (req, res) => {
 //         "chewable", "spritzer", "gargle", "dressing", "lotion pack", "spray bottle", "disinfectant",
 //         "balm" ,"kit" , "vaccine","lancet","lancets","needle","thermometer","oximeter","pads","pad","wipes",
 //         "tonic","dilution","inhaler","oil","sanitizer","lozenges","juice","roll","bar","drink","glove",
-        
+
 //     ];
 
-    
+
 //     var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
 
 //     // Remove the words from the string
@@ -11373,32 +12410,41 @@ app.get('/medicineName', async (req, res) => {
 //     return secondaryAnchor;
 //   }
 
-  function getSecondaryAnchorValueFromString(nameOfMed) {
+function getSecondaryAnchorValueFromString(nameOfMed) {
     // Clean up special characters and excess whitespace
+
     var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, ' ').trim();
     console.log("Cleaned name: ", nameOfMed);
 
     var lastNumberIndex = nameOfMed.search(/\d+(?=\s*[^0-9]|$)/);
-    
+
     // If a number is found, get the substring before the last number
-    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : '';
-    
+    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : nameOfMed;
+
     // console.log("Substring before the last number: ", substringBeforeLastNumber);
 
-    nameOfMed=substringBeforeLastNumber;
+    nameOfMed = substringBeforeLastNumber;
 
     // List of words to remove
     var wordsToRemove = [
-        "tablet", "suspension", "syrup", "injection", "strip", "gel", "capsule", "cream", 
-        "drop", "lotion", "ointment", "liquid", "cap", "powder", "sachet", "infusion", 
-        "soap", "paste", "moisturizer", "facewash", "solution", "spray", "inj", "shampoo", 
+        "tablet", "suspension", "syrup", "injection", "strip", "gel", "capsule", "cream",
+        "drop", "lotion", "ointment", "liquid", "cap", "powder", "sachet", "infusion",
+        "soap", "paste", "moisturizer", "facewash", "solution", "spray", "inj", "shampoo",
         "serum", "syringe", "tube", "face wash", "mouth wash", "granules", "face", "wash",
         "of", "and", "the", "pills", "tablet pack", "supplement", "inhaler", "patch",
-        "bandage", "syrup pack", "gel pack", "drip", "vial", "ampoule", "lozenge", 
+        "bandage", "syrup pack", "gel pack", "drip", "vial", "ampoule", "lozenge",
         "chewable", "spritzer", "gargle", "dressing", "lotion pack", "spray bottle", "disinfectant",
-        "balm", "kit", "vaccine", "lancet", "lancets", "needle", "thermometer", "oximeter", "pads", 
-        "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice", 
-        "roll", "bar", "drink", "glove","regular"
+        "balm", "kit", "vaccine", "lancet", "lancets", "needle", "thermometer", "oximeter", "pads",
+        "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice",
+        "roll", "bar", "drink", "glove", "regular"
+
+        , "mg", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
+        "mg/ml", "g/ml", "mg/kg", "mcg/kg", "drops", "tablet", "capsule", "patch", "sachet", "vial", "ampoule",
+        "puff", "spray", "bottle", "tube", "strip", "jar", "packet", "suppository", "cream", "ointment", "syrup",
+        "suspension", "solution", "infusion", "injection", "bolus", "gel", "foam", "granules", "powder", "elixir",
+        "lozenge", "chewable", "softgel", "dispersible", "transdermal", "inhaler", "dragee", "emulsion", "eye drops",
+        "ear drops", "gargle", "liniment", "liquid", "mousse", "nasal spray", "oral drops", "suspension", "topical", "troche", "wafer",
+
     ];
 
     // Create regex for words to remove
@@ -11418,9 +12464,14 @@ app.get('/medicineName', async (req, res) => {
         secondaryAnchor = splitArray[1]; // Get the second word
         // console.log("Initial Secondary Anchor: ", secondaryAnchor);
 
+        var additionalAnchors;
         // Check for hyphens and split if necessary
-        var additionalAnchors = secondaryAnchor.split('-'); // Split by hyphen
-        // console.log("Final Secondary Anchors: ", additionalAnchors);
+        try {
+            additionalAnchors = secondaryAnchor.split('-');
+        } catch (error) {
+            additionalAnchors = [secondaryAnchor];
+        }
+        console.log("Final Secondary Anchors: ", additionalAnchors);
         return additionalAnchors; // Return as an array
     } else {
         console.log("No valid secondary anchor found.");
@@ -11429,47 +12480,79 @@ app.get('/medicineName', async (req, res) => {
 }
 
 
-  function privgetSecondaryAnchorValueFromString(nameOfMed){
+function privGetSecondaryAnchorValueFromString(nameOfMed) {
+    // Clean up special characters and excess whitespace
+    const words = nameOfMed.match(/[A-Za-z]+/g) || []; // Matches all words, returns an empty array if none
+    const numbers = nameOfMed.match(/\d+/g) || [];
 
-    var nameOfMed= nameOfMed.replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+    // Combine the words and numbers, with words first
+    nameOfMed = [...words, ...numbers].join(' ');
+
+    var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, ' ').trim();
+    console.log("Cleaned name: ", nameOfMed);
+
+    var lastNumberIndex = nameOfMed.search(/\d+(?=\s*[^0-9]|$)/);
+
+    // If a number is found, get the substring before the last number
+    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : nameOfMed;
+
+    // console.log("Substring before the last number: ", substringBeforeLastNumber);
+
+    nameOfMed = substringBeforeLastNumber;
+
+    // List of words to remove
     var wordsToRemove = [
-        "tablet", "suspension", "syrup", "injection", "strip", "gel", "capsule", "cream", 
-        "drop", "lotion", "ointment", "liquid", "cap", "powder", "sachet", "infusion", 
-        "soap", "paste", "moisturizer", "facewash", "solution", "spray", "inj", "shampoo", 
-        "serum", "syringe", "tube", "face wash", "mouth wash", "granules","face","wash",
-        "of","and","the", "pills", "tablet pack", "supplement", "inhaler", "patch",
-        "bandage", "syrup pack", "gel pack", "drip", "vial", "ampoule", "lozenge", 
+        "tablet", "suspension", "syrup", "injection", "strip", "gel", "capsule", "cream",
+        "drop", "lotion", "ointment", "liquid", "cap", "powder", "sachet", "infusion",
+        "soap", "paste", "moisturizer", "facewash", "solution", "spray", "inj", "shampoo",
+        "serum", "syringe", "tube", "face wash", "mouth wash", "granules", "face", "wash",
+        "of", "and", "the", "pills", "tablet pack", "supplement", "inhaler", "patch",
+        "bandage", "syrup pack", "gel pack", "drip", "vial", "ampoule", "lozenge",
         "chewable", "spritzer", "gargle", "dressing", "lotion pack", "spray bottle", "disinfectant",
-        "balm" ,"kit" , "vaccine","lancet","lancets","needle","thermometer","oximeter","pads","pad","wipes",
-        "tonic","dilution","inhaler","oil","sanitizer","lozenges","juice","roll","bar","drink","glove",
-        
+        "balm", "kit", "vaccine", "lancet", "lancets", "needle", "thermometer", "oximeter", "pads",
+        "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice",
+        "roll", "bar", "drink", "glove", "regular"
+
+        , "mg", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
+        "mg/ml", "g/ml", "mg/kg", "mcg/kg", "drops", "tablet", "capsule", "patch", "sachet", "vial", "ampoule",
+        "puff", "spray", "bottle", "tube", "strip", "jar", "packet", "suppository", "cream", "ointment", "syrup",
+        "suspension", "solution", "infusion", "injection", "bolus", "gel", "foam", "granules", "powder", "elixir",
+        "lozenge", "chewable", "softgel", "dispersible", "transdermal", "inhaler", "dragee", "emulsion", "eye drops",
+        "ear drops", "gargle", "liniment", "liquid", "mousse", "nasal spray", "oral drops", "suspension", "topical", "troche", "wafer",
+
     ];
 
-    
+    // Create regex for words to remove
     var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
 
-    // Remove the words from the string
+    // Remove unwanted words
     var cleanedNameOfMed = nameOfMed.replace(regex, '').trim();
+    console.log("After removing unnecessary words: ", cleanedNameOfMed);
 
-    var splitArray = cleanedNameOfMed.split(' ');
+    // Split the string into individual words
+    var splitArray = cleanedNameOfMed.split(' ').filter(Boolean);  // Filter to remove empty entries
+    console.log("Split Array: ", splitArray);
 
-    // Convert numbers to integers and keep strings as strings
-    var secondaryAnchor = splitArray.map(item => {
-        var number = parseInt(item, 10);
-        return isNaN(number) ? item : number;
-    });
+    // Fetch the second word or combination
+    var secondaryAnchor = '';
+    if (splitArray.length > 1) {
+        secondaryAnchor = splitArray[1]; // Get the second word
+        // console.log("Initial Secondary Anchor: ", secondaryAnchor);
 
-    if(typeof(secondaryAnchor[1])=='string' && secondaryAnchor[1]!=''&& secondaryAnchor[1]!=' '){
-        console.log(typeof(secondaryAnchor));
-            console.log("secondaryAnchor = "+ secondaryAnchor[1])
-            secondaryAnchor=secondaryAnchor[1];
-        }else{
-            console.log("secondaryAnchor = "+ "@")    
-            secondaryAnchor='@';
+        var additionalAnchors;
+        // Check for hyphens and split if necessary
+        try {
+            additionalAnchors = secondaryAnchor.split('-');
+        } catch (error) {
+            additionalAnchors = [secondaryAnchor];
         }
-
-    return secondaryAnchor;
-  }
+        console.log("Final Secondary Anchors: ", additionalAnchors);
+        return additionalAnchors; // Return as an array
+    } else {
+        console.log("No valid secondary anchor found.");
+        return '@';  // Default value when no valid secondary anchor is found
+    }
+}
 
 //   function getSecondaryAnchorValueFromString(nameOfMed){
 
@@ -11484,10 +12567,10 @@ app.get('/medicineName', async (req, res) => {
 //         "chewable", "spritzer", "gargle", "dressing", "lotion pack", "spray bottle", "disinfectant",
 //         "balm" ,"kit" , "vaccine","lancet","lancets","needle","thermometer","oximeter","pads","pad","wipes",
 //         "tonic","dilution","inhaler","oil","sanitizer","lozenges","juice","roll","bar","drink","glove",
-        
+
 //     ];
 
-    
+
 //     var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
 
 //     // Remove the words from the string
@@ -11515,7 +12598,7 @@ app.get('/medicineName', async (req, res) => {
 
 
 
-app.get('/medicomp',async (req, res) => {
+app.get('/medicomp', async (req, res) => {
     const dynamicTitle = `Find the Best Price for ${req.query['medname']} & Get Fast Delivery | Shop Online Now `;
     const dynamicDescription = `Purchase ${req.query['medname']} at the best price and get it delivered fast. Compare prices and save money on ${req.query['medname']}. Available for quick delivery.`;
 
@@ -11529,18 +12612,18 @@ app.get('/medicomp',async (req, res) => {
 });
 
 
-async function getMedicineCollection(medname,packSize) {
+async function getMedicineCollection(medname, packSize) {
     try {
         const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
         var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         const collection = client.db('MedicompDb').collection('biggerDOM');
-        
+
         // Find all documents where medname matches the input
-           const  result = await collection.find({
-                "medicineName": medname,
-                "packSize": packSize // Add this line to filter by packSize as well
-            }).toArray();
-        
+        const result = await collection.find({
+            "medicineName": medname,
+            "packSize": packSize // Add this line to filter by packSize as well
+        }).toArray();
+
         console.log(result[0])
         return result;  // Return the entire collection matching the medname
     } catch (err) {
@@ -11554,209 +12637,214 @@ async function getMedicineCollection(medname,packSize) {
 
 
 
-async function getPharmacyLinksUsingOurPAlgo(nameOfMed,packSize,medicineInformation) {
-   
-   
+async function getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInformation) {
+
+
     var tempf = [];
-    var t = [0, 0, 0, 0, 0,0];
+    var t = [0, 0, 0, 0, 0, 0];
     var mixUrl;
 
-   
+
     try {
-        
 
 
- 
-        console.log("Hola! New Medicine Searched - "+nameOfMed);
-   
-       
-        
-            var arr = [
-        
-                'apollopharmacy.in','netmeds.com', 'pharmeasy.in',
-                'pasumaipharmacy.com', 
-                // 'pulseplus.in', 
-                'medplusmart.com',
-                //  'kauverymeds.com',
-                // 'chemistbox.in','1mg.com', 
-                 'myupchar.com',
-                // 'chemistsworld.com', 
-                '1mg.com', 'expressmed.in' ,
-                'truemeds.in',
-                // 'onebharatpharmacy.com',
-                // 'wellnessforever.com',
-                // 'secondmedic.com', 
-                // 'callhealth.com',
-            ]
-            
-        
-        
-            var cont = checkforzero(arr);
-            // console.log(arr)
-           
-            var tries = 0;
-            var cpyOftempf;
 
 
-            while (cont != 9) {
-        
-        
-                tries++;
-        
-        
-               
-                mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${packSize} })&vs=`;
-                // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i] != 0) {
-                        mixUrl += arr[i] + "+%2C+";
-                    }
+        console.log("Hola! New Medicine Searched - " + nameOfMed);
+
+
+
+        var arr = [
+
+            'apollopharmacy.in', 'netmeds.com', 'pharmeasy.in',
+            'pasumaipharmacy.com',
+            // 'pulseplus.in', 
+            'medplusmart.com',
+            //  'kauverymeds.com',
+            // 'chemistbox.in','1mg.com', 
+            'myupchar.com',
+            // 'chemistsworld.com', 
+            '1mg.com', 'expressmed.in',
+            'truemeds.in',
+            // 'onebharatpharmacy.com',
+            // 'wellnessforever.com',
+            // 'secondmedic.com', 
+            // 'callhealth.com',
+        ]
+
+
+
+        var cont = checkforzero(arr);
+        // console.log(arr)
+
+        var tries = 0;
+        var cpyOftempf;
+
+
+        while (cont != 9) {
+
+
+            tries++;
+
+
+
+            mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${packSize},${medicineInformation.saltName} })&vs=`;
+            // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] != 0) {
+                    mixUrl += arr[i] + "+%2C+";
                 }
-                console.log("New Url => " + mixUrl)
-                // console.log(arr)
-        
-        
-        
-                tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
-                if(cpyOftempf==tempf||tries>=7){
-                    break;
-                }else{
+            }
+            console.log("New Url => " + mixUrl)
+            // console.log(arr)
+
+
+
+            tempf = [...tempf, await fasterIgextractLinkFromOptimizedyahoo(mixUrl, arr, nameOfMed)];
+            if (cpyOftempf == tempf || tries >= 7) {
+                break;
+            } else {
                 cont = checkforzero(arr);
                 console.log(cont)
                 console.log("Try -> " + tries);
-                cpyOftempf=tempf;
+                cpyOftempf = tempf;
                 tempf = tempf.flat();
-                 }
             }
-                
-            tempf = tempf.flat();
-                tempfzz.push(1);
-        
-
-                
-                for (var k = 0; k < tempf.length; k++) {
-                    if (tempf[k].includes("apollo")) {
-                    t[0] = tempf[k];
-                } else if (tempf[k].includes("netmeds")) {
-                    t[1] = tempf[k];
-                } else if (tempf[k].includes("pharmeasy")) {
-                    t[2] = tempf[k];
-                }
-                else if (tempf[k].includes("pasumai")) {
-                    t[3] = tempf[k];
-                } 
-                else if (tempf[k].includes("medplusmart")) {
-                    t[4] = tempf[k];
-                }
-                else if (tempf[k].includes("myupchar")) {
-                    t[5] = tempf[k];
-                } else if (tempf[k].includes("1mg")) {
-                    t[6] = tempf[k];
-                } else if (tempf[k].includes("expressmed")) {
-                    t[7] = tempf[k];
-                } else if (tempf[k].includes("truemeds")) {
-                    t[8] = tempf[k];
-                }
-
-            }
-        
-            t.push(medicineInformation[0].prodLink)
-
-            console.log(t)
-
-            return t;
-         
-
-        } catch (err) {
-            console.error('Error Fetching Whether links exist or not', err)
         }
-    
 
-        tempf.length=0;
+        tempf = tempf.flat();
+        tempfzz.push(1);
 
+
+
+        for (var k = 0; k < tempf.length; k++) {
+            if (tempf[k].includes("apollo")) {
+                t[0] = tempf[k];
+            } else if (tempf[k].includes("netmeds")) {
+                t[1] = tempf[k];
+            } else if (tempf[k].includes("pharmeasy")) {
+                t[2] = tempf[k];
+            }
+            else if (tempf[k].includes("pasumai")) {
+                t[3] = tempf[k];
+            }
+            else if (tempf[k].includes("medplusmart")) {
+                t[4] = tempf[k];
+            }
+            else if (tempf[k].includes("myupchar")) {
+                t[5] = tempf[k];
+            } else if (tempf[k].includes("1mg")) {
+                t[6] = tempf[k];
+            } else if (tempf[k].includes("expressmed")) {
+                t[7] = tempf[k];
+            } else if (tempf[k].includes("truemeds")) {
+                t[8] = tempf[k];
+            }
+
+        }
+
+        t.push(medicineInformation.prodLink)
+
+        console.log(t)
+
+        return t;
+
+
+    } catch (err) {
+        console.error('Error Fetching Whether links exist or not', err)
     }
 
 
+    tempf.length = 0;
+
+}
 
 
-app.get('/scrape-data',async (req, res) => {
+
+
+app.get('/scrape-data', async (req, res) => {
 
 
     res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
         'Connection': 'keep-alive'
-      });
-      
-    var medicineInformation=await getMedicineCollection(req.query['medname'],req.query['packSize']);
-    var pincode=parseInt(req.query['pincode'])||400003;
+    });
 
-    var linksExistsInDb=false;
+    var medicineInformation = await getMedicineCollection(req.query['medname'], req.query['packSize']);
+    var pincode = parseInt(req.query['pincode']) || 400003;
+
+    var linksExistsInDb = false;
     console.log(medicineInformation[0].medicineName)
     var nameOfMed = medicineInformation[0].medicineName + '\n';
-    var packSize = medicineInformation[0].packSize ;
+    var packSize = medicineInformation[0].packSize;
+    var medicineSaltName = medicineInformation[0].saltName;
+
     nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s]/g, ' ').toLowerCase();
     console.log(nameOfMed);
     console.log(packSize);
-   
-    
 
 
-  
-
-    
 
 
-    var item = await getPharmacyLinksUsingOurPAlgo(nameOfMed,packSize,medicineInformation);
+
+
+
+
+
+    var item = await getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInformation[0]);
     console.log(item)
 
-    nameOfMed=medicineInformation[0].medicineName.replace(/-/g, " ").replace(/\./g, "");
-    console.log("Results For "+ nameOfMed);
+    nameOfMed = medicineInformation[0].medicineName.replace(/-/g, " ").replace(/\./g, "");
+    console.log("Results For " + nameOfMed);
 
     console.log(item)
 
-    var cfnie=[]; //Check For Number If Exists
-    var splitCfnieBySpace=nameOfMed.split(' ');
+    var cfnie = []; //Check For Number If Exists
+    var splitCfnieBySpace = nameOfMed.split(' ');
 
     var tempArrayOfNumbersInString = nameOfMed.match(/\d+/g) || []; // Default to an empty array
     tempArrayOfNumbersInString = tempArrayOfNumbersInString.map(Number);
-    if(tempArrayOfNumbersInString.length>1){
-        cfnie=tempArrayOfNumbersInString.slice(0, -1);
+    if (tempArrayOfNumbersInString.length > 1) {
+        cfnie = tempArrayOfNumbersInString.slice(0, -1);
+    } else {
+        cfnie = tempArrayOfNumbersInString;
     }
 
-    console.log("CFNIE = "+cfnie)
+    console.log("CFNIE = " + cfnie)
 
 
-    var secondaryAnchor=await getSecondaryAnchorValueFromString(medicineInformation[0].medicineName.toLowerCase())
+    var secondaryAnchor = await privGetSecondaryAnchorValueFromString(medicineInformation[0].medicineName.toLowerCase())
     console.log(nameOfMed);
     console.log(secondaryAnchor);
 
 
 
-    var tempStringForCheckingRelease=nameOfMed.replace(/[^a-zA-Z0-9]/g, ' ');
+    var tempStringForCheckingRelease = nameOfMed.replace(/[^a-zA-Z0-9]/g, ' ');
     const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
     const releaseMechanisms = [
-        "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es", 
-        "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups", 
-        "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs", 
+        "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+        "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+        "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
         "xt", "zok"
     ];
     const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
 
-    var releaseMechScore=0;
+    var releaseMechScore = 0;
     // Return the found word or '@' if not found
     const releaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
-        
-
-    console.log("Release Mech Score - "+releaseMechanism)
 
 
-    
-    
+    console.log("Release Mech Score - " + releaseMechanism)
 
 
-    var medicinePackSize=extractNumbersWithDecimalPoints(packSize);
-    medicinePackSize=Math.max(...medicinePackSize)
+
+
+
+
+    var medicinePackSize = extractNumbersWithDecimalPoints(packSize);
+    // medicinePackSize=Math.max(...medicinePackSize)
+
     // const manufacturerN= await extractManufacNameFromPharmeasy(item[1]);
     // console.log(manufacturerN)
 
@@ -11769,141 +12857,142 @@ app.get('/scrape-data',async (req, res) => {
     // 'kauverymeds.com',
 
     const promises = [
-    FastextractDataOfApollo(item[0],medicineInformation[0].medicineName, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism),  /**/
-    extractDataOfNetMeds(item[1],medicineInformation[0].medicineName, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism),  /**/
-    extractDataOfPharmEasy(item[2],medicineInformation[0].medicineName, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism), /**/
-    // extractDataOfPP(item[3], nameOfMed,medicinePackSize,cfnie),
-    // extractDataOfmedplusMart(item[4], nameOfMed,medicinePackSize), //pulsepplus
-    // extractDataOfOgMPM(item[4], nameOfMed,medicinePackSize,cfnie), //medplusmart   LOT TO WORK ON THIS
-    // extractDataOfKauveryMeds(item[5], nameOfMed,medicinePackSize,cfnie),
-    // extractDataOfChemistBox(item[7], nameOfMed,medicinePackSize),
-    // extractDataOfTata(item[6],nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor),
-    // extractDataOfMyUpChar(item[9],nameOfMed,medicinePackSize),
-    extractDataOfMyUpChar(item[5],medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism), /**/
-    extractDataOfMedkart(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism),
-    // extractDataFromApiTata1mg(nameOfMed,item[6].split('/').pop().replace(/-/g, ' '),medicinePackSize,cfnie,pincode), /**/
-    extractDataFromExpressMed(item[7],medicineInformation[0].medicineName, nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism), /**/
-    extractDataOfTruemeds(item[8], nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism), /**/
-    extractDataFromApiOfChemist180(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism),
-    // extractDataFromApiOfMediBuddy(nameOfMed,medicinePackSize,cfnie),
-    extractDataFromApiOfOneBharatPharmacy(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism),
-    extractDataFromApiOfPasumaiPharmacy(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism),/**/
-    
-    // extractDataFromApiMyupchar(nameOfMed,medicinePackSize,cfnie),
-    extractDataFromApiPulseplus(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism),/**/
-    extractDataFromApiChemistBox(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism), /**/
-    extractDataFromApiChemistsWorld(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism), /**/
-    extractDataFromApiOfPracto(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism), /**/
-    extractDataFromApiMchemist(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,secondaryAnchor,releaseMechanism),
-    extractDataFromApiOfHealthmug(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism),
-    extractDataFromApiMedivik(medicineInformation[0].medicineName,nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor,releaseMechanism),
-    // extractDataFromApiOfDawaaDost(nameOfMed,medicinePackSize,cfnie,pincode), /**/
-    
+        FastextractDataOfApollo(item[0], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),  /**/
+        extractDataOfNetMeds(item[1], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),  /**/
+        extractDataOfPharmEasy(item[2], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+        // extractDataOfPP(item[3], nameOfMed,medicinePackSize,cfnie),
+        // extractDataOfmedplusMart(item[4], nameOfMed,medicinePackSize), //pulsepplus
+        // extractDataOfOgMPM(item[4], nameOfMed,medicinePackSize,cfnie), //medplusmart   LOT TO WORK ON THIS
+        // extractDataOfKauveryMeds(item[5], nameOfMed,medicinePackSize,cfnie),
+        // extractDataOfChemistBox(item[7], nameOfMed,medicinePackSize),
+        // extractDataOfTata(item[6],nameOfMed,medicinePackSize,cfnie,pincode,secondaryAnchor),
+        // extractDataOfMyUpChar(item[9],nameOfMed,medicinePackSize),
+        extractDataOfMyUpChar(item[5], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism), /**/
+        extractDataOfMedkart(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+        // extractDataFromApiTata1mg(nameOfMed,item[6].split('/').pop().replace(/-/g, ' '),medicinePackSize,cfnie,pincode), /**/
+        extractDataFromExpressMed(item[7], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+        extractDataOfTruemeds(item[8], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+        extractDataFromApiOfChemist180(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+        // extractDataFromApiOfMediBuddy(nameOfMed,medicinePackSize,cfnie),
+        extractDataFromApiOfOneBharatPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+        extractDataFromApiOfPasumaiPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
+
+        // extractDataFromApiMyupchar(nameOfMed,medicinePackSize,cfnie),
+        extractDataFromApiPulseplus(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
+        extractDataFromApiChemistBox(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+        extractDataFromApiChemistsWorld(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+        extractDataFromApiOfPracto(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+        extractDataFromApiMchemist(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+        extractDataFromApiOfHealthmug(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
+        extractDataFromApiMedivik(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
+        extractDataFromApiOfMedpay(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
+        // extractDataFromApiOfDawaaDost(nameOfMed,medicinePackSize,cfnie,pincode), /**/
+
     ];
 
 
 
-var final=[];
+    var final = [];
 
 
-promises.forEach(async (promise) => {
-    try {
-        const result = await promise;
-        final.push(result);
-        console.log(result)
-        console.log(result.name);
-        if (result.name != "NA" && result.price && result.sfinalAvg >= 85) {
-            res.write(`data: ${JSON.stringify(result)}\n\n`);
+    promises.forEach(async (promise) => {
+        try {
+            const result = await promise;
+            final.push(result);
+            console.log(result)
+            console.log(result.name);
+            if (result.name != "NA" && result.price && result.sfinalAvg >= 85) {
+                res.write(`data: ${JSON.stringify(result)}\n\n`);
+            }
+        } catch (error) {
+            console.error("Error processing promise:", error);
         }
-    } catch (error) {
-        console.error("Error processing promise:", error);
-    }
-});
-
-Promise.all(promises).then(() => res.end());
-
-const end1 = performance.now() - start1;
-console.log(`Execution time for pharmas: ${end1}ms`);
-
-
-
-var products=final;
-
-function parseDeliveryTime(deliveryTime) {
-    const timeMatch = deliveryTime.match(/(\d+)\s*-\s*(\d+)\s*(days|hours|mins)/);
-    if (timeMatch) {
-        let [_, min, max, unit] = timeMatch;
-      min = parseInt(min, 10);
-      max = parseInt(max, 10);
-      const avg = (min + max) / 2; // Calculate average time
-      console.log(deliveryTime)
-      
-      // Convert days and hours to minutes if needed
-      if (unit === 'days') {
-        return avg * 24 * 60; // Convert days to minutes
-      } else if (unit === 'hours') {
-        return avg * 60; // Convert hours to minutes
-      } else if (unit === 'mins') {
-        return avg; // Already in minutes
-      }
-    }else{
-        console.log(deliveryTime)
-    }
-    return Infinity; // Return a large number if no valid time is found for safety
-  }
-  
-  // Function to assign ranks based on delivery time
-  function assignDeliveryTimeRank(products) {
-    // Calculate delivery hours and create a list of [index, deliveryHours] for ranking
-    const deliveryTimes = products.map((product, index) => ({
-      index,
-      deliveryHours: parseDeliveryTime(product.deliveryTime),
-    }));
-  
-    // Sort based on delivery hours
-    deliveryTimes.sort((a, b) => a.deliveryHours - b.deliveryHours);
-  
-    console.log(deliveryTimes)
-    // Assign ranks based on sorted order
-    deliveryTimes.forEach((item, rank) => {
-      products[item.index].rankForDelTime = rank + 1;
     });
-  }
 
-  function assignBestRank(products) {
-    // Create a list of [index, sFinalAvg] for ranking
-    const rankings = products.map((product, index) => ({
-      index,
-      sFinalAvg: product.sFinalAvg,
-    }));
-  
-    // Sort based on sFinalAvg (assuming higher sFinalAvg is better)
-    rankings.sort((a, b) => b.sFinalAvg - a.sFinalAvg);
-  
-    // Assign ranks based on sorted order
-    rankings.forEach((item, rank) => {
-      products[item.index].bestRank = rank + 1;
+    Promise.all(promises).then(() => res.end());
+
+    const end1 = performance.now() - start1;
+    console.log(`Execution time for pharmas: ${end1}ms`);
+
+
+
+    var products = final;
+
+    function parseDeliveryTime(deliveryTime) {
+        const timeMatch = deliveryTime.match(/(\d+)\s*-\s*(\d+)\s*(days|hours|mins)/);
+        if (timeMatch) {
+            let [_, min, max, unit] = timeMatch;
+            min = parseInt(min, 10);
+            max = parseInt(max, 10);
+            const avg = (min + max) / 2; // Calculate average time
+            console.log(deliveryTime)
+
+            // Convert days and hours to minutes if needed
+            if (unit === 'days') {
+                return avg * 24 * 60; // Convert days to minutes
+            } else if (unit === 'hours') {
+                return avg * 60; // Convert hours to minutes
+            } else if (unit === 'mins') {
+                return avg; // Already in minutes
+            }
+        } else {
+            console.log(deliveryTime)
+        }
+        return Infinity; // Return a large number if no valid time is found for safety
+    }
+
+    // Function to assign ranks based on delivery time
+    function assignDeliveryTimeRank(products) {
+        // Calculate delivery hours and create a list of [index, deliveryHours] for ranking
+        const deliveryTimes = products.map((product, index) => ({
+            index,
+            deliveryHours: parseDeliveryTime(product.deliveryTime),
+        }));
+
+        // Sort based on delivery hours
+        deliveryTimes.sort((a, b) => a.deliveryHours - b.deliveryHours);
+
+        console.log(deliveryTimes)
+        // Assign ranks based on sorted order
+        deliveryTimes.forEach((item, rank) => {
+            products[item.index].rankForDelTime = rank + 1;
+        });
+    }
+
+    function assignBestRank(products) {
+        // Create a list of [index, sFinalAvg] for ranking
+        const rankings = products.map((product, index) => ({
+            index,
+            sFinalAvg: product.sFinalAvg,
+        }));
+
+        // Sort based on sFinalAvg (assuming higher sFinalAvg is better)
+        rankings.sort((a, b) => b.sFinalAvg - a.sFinalAvg);
+
+        // Assign ranks based on sorted order
+        rankings.forEach((item, rank) => {
+            products[item.index].bestRank = rank + 1;
+        });
+    }
+
+    // Assign delivery time ranks
+    assignDeliveryTimeRank(products);
+    assignBestRank(products);
+
+
+
+
+
+    req.on('close', () => {
+        res.write(`over`);  // Send each result as an SSE message
+        console.log("connection closed")
+        res.end();  // End the SSE stream
     });
-  }
-
-  // Assign delivery time ranks
-  assignDeliveryTimeRank(products);
-  assignBestRank(products);
-  
-
-
-
-
-req.on('close', () => {
-res.write(`over`);  // Send each result as an SSE message
-    console.log("connection closed")
-    res.end();  // End the SSE stream
-});
 
     // extractDataOfOBP(item[4], nameOfMed,manufacturerN),
     // extractDataOfIndiMedo(item[7], nameOfMed,manufacturerN),
     // extractDataOfSecondMedic(item[7], nameOfMed,manufacturerN),
-    
+
     // extractDataOfMyUpChar(item[4], nameOfMed,manufacturerN),
     //   extractSubsfApollo(item[8],final),
 
@@ -11912,52 +13001,52 @@ res.write(`over`);  // Send each result as an SSE message
 
 app.post('/checkout', (req, res) => {
 
-    const final=[];
+    const final = [];
     final.push({
-        pharmacyName:req.body.pharmacyName,
-        medicineName:req.body.medicineName,
-        ImgSrc:req.body.ImgSrc,
-        medicinePrice:req.body.medicinePrice,
-        deliveryCharge:req.body.deliveryCharge,
+        pharmacyName: req.body.pharmacyName,
+        medicineName: req.body.medicineName,
+        ImgSrc: req.body.ImgSrc,
+        medicinePrice: req.body.medicinePrice,
+        deliveryCharge: req.body.deliveryCharge,
     })
- 
 
-   res.render(__dirname + '/checkOutPage.ejs', { final });
+
+    res.render(__dirname + '/checkOutPage.ejs', { final });
 });
 
 app.post('/create-order', async (req, res) => {
     const options = {
-      amount: req.body.amount * 100,  // amount in the smallest currency unit
-      currency: 'INR',
-      receipt: 'order_rcptid_11'
+        amount: req.body.amount * 100,  // amount in the smallest currency unit
+        currency: 'INR',
+        receipt: 'order_rcptid_11'
     };
-  
+
     try {
-      const order = await razorpay.orders.create(options);
-      res.json({
-        id: order.id,
-        currency: order.currency,
-        amount: order.amount,
-        key_id: process.env.RAZORPAY_KEY_ID // Send the key_id to the client
-      });
+        const order = await razorpay.orders.create(options);
+        res.json({
+            id: order.id,
+            currency: order.currency,
+            amount: order.amount,
+            key_id: process.env.RAZORPAY_KEY_ID // Send the key_id to the client
+        });
     } catch (error) {
-      res.status(500).send(error);
+        res.status(500).send(error);
     }
-  });
+});
 
 app.post('/verify-payment', (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
     const body = razorpay_order_id + '|' + razorpay_payment_id;
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-                                    .update(body.toString())
-                                    .digest('hex');
-    
+        .update(body.toString())
+        .digest('hex');
+
     if (expectedSignature === razorpay_signature) {
-      res.json({ status: 'success' });
+        res.json({ status: 'success' });
     } else {
-      res.json({ status: 'failure' });
+        res.json({ status: 'failure' });
     }
-  });
+});
 
 
 
