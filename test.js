@@ -12680,6 +12680,7 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInform
         var tries = 0;
         var cpyOftempf;
 
+        const processedSaltNames = medicineInformation.saltName.map(name => name.replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, ' ').trim() || "");
 
         while (cont != 9) {
 
@@ -12688,7 +12689,7 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInform
 
 
 
-            mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${packSize},${medicineInformation.saltName} })&vs=`;
+            mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=buy intitle:(${nameOfMed},${packSize},${processedSaltNames} })&vs=`;
             // mixUrl = `https://search.yahoo.com/search?&vl=lang_en&p=intitle:(${nameOfMed})&vs=`;
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i] != 0) {
