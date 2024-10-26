@@ -11056,7 +11056,7 @@ app.get('/storeSearchedMedicineData', async (req, res) => {
         const collection = database.collection('searchPharmas');
 
         // Insert a single document
-        const result = await collection.insertOne({ medicine: req.query['medicineName'], DateOfSearch: getCurrentDate() });
+        // const result = await collection.insertOne({ medicine: req.query['medicineName'], DateOfSearch: getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
         try {
@@ -12568,7 +12568,7 @@ app.get('/storeComparisonData', async (req, res) => {
 
 
         // Insert a single document
-        const result = await collection.insertOne({ medicine: req.query['medicineName'], Pincode: req.query['pincode'], DateOfComparison: await getCurrentDate() });
+        // const result = await collection.insertOne({ medicine: req.query['medicineName'], Pincode: req.query['pincode'], DateOfComparison: await getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
         try {
@@ -12950,11 +12950,16 @@ async function getMedicineCollection(medname, packSize) {
             "packSize": packSize // Add this line to filter by packSize as well
         }).toArray();
 
-        console.log(result[0])
-        return result;  // Return the entire collection matching the medname
+        if(result[0]){
+
+            console.log(result[0])
+            return result;  // Return the entire collection matching the medname
+        }else{
+            return [];
+        }
     } catch (err) {
         console.error("Error fetching collection:", err);
-        return null;  // Return null in case of an error
+        return [];  // Return null in case of an error
     } finally {
         client.close();
         console.log("Db Connection closed")
@@ -13089,7 +13094,7 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInform
 
 
 
-app.get('/scrape-data' ,validateReferer,async (req, res) => {
+app.get('/scrape-data' ,async (req, res) => {
 
 
     res.writeHead(200, {
@@ -13101,55 +13106,60 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
     var medicineInformation = await getMedicineCollection(req.query['medname'], req.query['packSize']);
     var pincode = parseInt(req.query['pincode']) || 400003;
 
-    var linksExistsInDb = false;
-    console.log(medicineInformation[0].medicineName)
-    var nameOfMed = medicineInformation[0].medicineName + '\n';
-    var packSize = medicineInformation[0].packSize;
-    var medicineSaltName = medicineInformation[0].saltName;
+    console.log(medicineInformation.length)
 
-    nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s]/g, ' ').toLowerCase();
-    console.log(nameOfMed);
-    console.log(packSize);
+    if(medicineInformation.length>0){
+        console.log(medicineInformation[0].medicineName)
+    
+        
+        var linksExistsInDb = false;
+        var nameOfMed = medicineInformation[0].medicineName + '\n';
+        var packSize = medicineInformation[0].packSize;
+        var medicineSaltName = medicineInformation[0].saltName;
+        
+        nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s]/g, ' ').toLowerCase();
+        console.log(nameOfMed);
+        console.log(packSize);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var item = await getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInformation[0]);
+        console.log(item)
+        
+        nameOfMed = medicineInformation[0].medicineName.replace(/-/g, " ").replace(/\./g, "");
+        console.log("Results For " + nameOfMed);
+        
+        console.log(item)
+        
+        var cfnie = []; //Check For Number If Exists
+        var splitCfnieBySpace = nameOfMed.split(' ');
+        
+        var tempArrayOfNumbersInString = nameOfMed.match(/\d+/g) || []; // Default to an empty array
+        tempArrayOfNumbersInString = tempArrayOfNumbersInString.map(Number);
+        if (tempArrayOfNumbersInString.length > 1) {
+            cfnie = tempArrayOfNumbersInString.slice(0, -1);
+        } else {
+            cfnie = tempArrayOfNumbersInString;
+        }
 
-
-
-
-
-
-
-
-
-    var item = await getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInformation[0]);
-    console.log(item)
-
-    nameOfMed = medicineInformation[0].medicineName.replace(/-/g, " ").replace(/\./g, "");
-    console.log("Results For " + nameOfMed);
-
-    console.log(item)
-
-    var cfnie = []; //Check For Number If Exists
-    var splitCfnieBySpace = nameOfMed.split(' ');
-
-    var tempArrayOfNumbersInString = nameOfMed.match(/\d+/g) || []; // Default to an empty array
-    tempArrayOfNumbersInString = tempArrayOfNumbersInString.map(Number);
-    if (tempArrayOfNumbersInString.length > 1) {
-        cfnie = tempArrayOfNumbersInString.slice(0, -1);
-    } else {
-        cfnie = tempArrayOfNumbersInString;
-    }
-
-    console.log("CFNIE = " + cfnie)
-
-
-    var secondaryAnchor = await privGetSecondaryAnchorValueFromString(medicineInformation[0].medicineName.toLowerCase())
-    console.log(nameOfMed);
-    console.log(secondaryAnchor);
-
-
-
-    var tempStringForCheckingRelease = nameOfMed.replace(/[^a-zA-Z0-9]/g, ' ');
-    const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
-    const releaseMechanisms = [
+        console.log("CFNIE = " + cfnie)
+        
+        
+        var secondaryAnchor = await privGetSecondaryAnchorValueFromString(medicineInformation[0].medicineName.toLowerCase())
+        console.log(nameOfMed);
+        console.log(secondaryAnchor);
+        
+        
+        
+        var tempStringForCheckingRelease = nameOfMed.replace(/[^a-zA-Z0-9]/g, ' ');
+        const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
+        const releaseMechanisms = [
         "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
         "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
         "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
@@ -13160,29 +13170,29 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
     var releaseMechScore = 0;
     // Return the found word or '@' if not found
     const releaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
-
+    
 
     console.log("Release Mech Score - " + releaseMechanism)
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
     var medicinePackSize = extractNumbersWithDecimalPoints(packSize);
     // medicinePackSize=Math.max(...medicinePackSize)
-
+    
     // const manufacturerN= await extractManufacNameFromPharmeasy(item[1]);
     // console.log(manufacturerN)
-
+    
     console.log(medicinePackSize)
     const start1 = performance.now();
     // const LinkDataResponses = await axiosParallel(item);
-
+    
     // 'netmeds.com', 'pharmeasy.in','pasumaipharmacy.com', 
     // 'pulseplus.in', 'medplusmart.com','truemeds.in', 
     // 'kauverymeds.com',
-
+    
     const promises = [
         FastextractDataOfApollo(item[0], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),  /**/
         extractDataOfNetMeds(item[1], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),  /**/
@@ -13203,7 +13213,7 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
         // extractDataFromApiOfMediBuddy(nameOfMed,medicinePackSize,cfnie),
         extractDataFromApiOfOneBharatPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
         extractDataFromApiOfPasumaiPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
-
+        
         // extractDataFromApiMyupchar(nameOfMed,medicinePackSize,cfnie),
         extractDataFromApiPulseplus(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
         extractDataFromApiChemistBox(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
@@ -13215,14 +13225,14 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
         extractDataFromApiOfMedpay(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
         extractDataFromApiOfMrmed(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
         // extractDataFromApiOfDawaaDost(nameOfMed,medicinePackSize,cfnie,pincode), /**/
-
+        
     ];
 
-
-
+    
+    
     var final = [];
-
-
+    
+    
     promises.forEach(async (promise) => {
         try {
             const result = await promise;
@@ -13238,14 +13248,14 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
     });
 
     Promise.all(promises).then(() => res.end());
-
+    
     const end1 = performance.now() - start1;
     console.log(`Execution time for pharmas: ${end1}ms`);
-
-
-
+    
+    
+    
     var products = final;
-
+    
     function parseDeliveryTime(deliveryTime) {
         const timeMatch = deliveryTime.match(/(\d+)\s*-\s*(\d+)\s*(days|hours|mins)/);
         if (timeMatch) {
@@ -13254,7 +13264,7 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
             max = parseInt(max, 10);
             const avg = (min + max) / 2; // Calculate average time
             console.log(deliveryTime)
-
+            
             // Convert days and hours to minutes if needed
             if (unit === 'days') {
                 return avg * 24 * 60; // Convert days to minutes
@@ -13268,7 +13278,7 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
         }
         return Infinity; // Return a large number if no valid time is found for safety
     }
-
+    
     // Function to assign ranks based on delivery time
     function assignDeliveryTimeRank(products) {
         // Calculate delivery hours and create a list of [index, deliveryHours] for ranking
@@ -13279,14 +13289,14 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
 
         // Sort based on delivery hours
         deliveryTimes.sort((a, b) => a.deliveryHours - b.deliveryHours);
-
+        
         console.log(deliveryTimes)
         // Assign ranks based on sorted order
         deliveryTimes.forEach((item, rank) => {
             products[item.index].rankForDelTime = rank + 1;
         });
     }
-
+    
     function assignBestRank(products) {
         // Create a list of [index, sFinalAvg] for ranking
         const rankings = products.map((product, index) => ({
@@ -13296,39 +13306,48 @@ app.get('/scrape-data' ,validateReferer,async (req, res) => {
 
         // Sort based on sFinalAvg (assuming higher sFinalAvg is better)
         rankings.sort((a, b) => b.sFinalAvg - a.sFinalAvg);
-
+        
         // Assign ranks based on sorted order
         rankings.forEach((item, rank) => {
             products[item.index].bestRank = rank + 1;
         });
     }
-
+    
     // Assign delivery time ranks
     assignDeliveryTimeRank(products);
     assignBestRank(products);
-
-
-
-
-
+    
+    
+    
+    
+    
     req.on('close', () => {
         res.write(`over`);  // Send each result as an SSE message
         console.log("connection closed")
         res.end();  // End the SSE stream
     });
 
+
+    }else{
+        console.log("Wrong Spelling Of Medicine")
+        res.write(`over`);  // Send each result as an SSE message
+        res.end();  // End the SSE stream
+
+    }
+    
     // extractDataOfOBP(item[4], nameOfMed,manufacturerN),
     // extractDataOfIndiMedo(item[7], nameOfMed,manufacturerN),
     // extractDataOfSecondMedic(item[7], nameOfMed,manufacturerN),
-
+    
     // extractDataOfMyUpChar(item[4], nameOfMed,manufacturerN),
     //   extractSubsfApollo(item[8],final),
-
+    
+    
 });
 
 
 app.post('/checkout', (req, res) => {
-
+    
     const final = [];
     final.push({
         pharmacyName: req.body.pharmacyName,
