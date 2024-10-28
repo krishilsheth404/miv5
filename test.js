@@ -1953,8 +1953,9 @@ extractDataOfPharmEasy = async (url, meddata, nameOfMed, medicinePackSize, cfnie
                     // Check if the number is in apolloData.name
                     var inName = newcfnie.includes(num);
 
+                    var inSalt = salts.includes(num.toString())||0;
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inPackSize = [qty].includes(num);
+                    var inPackSize = [qty].includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -1995,7 +1996,7 @@ extractDataOfPharmEasy = async (url, meddata, nameOfMed, medicinePackSize, cfnie
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -2221,9 +2222,9 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.package_size.includes(num);
+                    var inPackSize = ([finalProd.package_size]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -2262,7 +2263,7 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -2557,9 +2558,9 @@ extractDataOfNetMeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie, 
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = qty.includes(num);
+                    var inPackSize = [qty].includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -2598,7 +2599,7 @@ extractDataOfNetMeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie, 
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -3049,6 +3050,7 @@ FastextractDataOfApollo = async (url, meddata, nameOfMed, medicinePackSize, cfni
             saltSection = [saltSection];
         }
 
+        
 
         
 
@@ -3077,9 +3079,9 @@ FastextractDataOfApollo = async (url, meddata, nameOfMed, medicinePackSize, cfni
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = qty.includes(num);
+                    var inPackSize = [qty].includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -3119,7 +3121,7 @@ FastextractDataOfApollo = async (url, meddata, nameOfMed, medicinePackSize, cfni
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -3585,7 +3587,7 @@ extractDataOfTruemeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie,
                     // Check if the number is in saltSection (join saltSection to a string and check)
                     var inSalt = $('.compositionDescription').first().text().split("+").join(' ').includes(num.toString());
 
-                    var inPackSize = $('.medStrips button').first().text().includes(num);
+                    var inPackSize = $('.medStrips button').first().text().includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -3623,7 +3625,7 @@ extractDataOfTruemeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie,
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -4380,9 +4382,9 @@ extractDataOfMyUpChar = async (url, meddata, nameOfMed, medicinePackSize, cfnie,
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = qty.includes(num);
+                    var inPackSize = [qty].includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -4421,7 +4423,7 @@ extractDataOfMyUpChar = async (url, meddata, nameOfMed, medicinePackSize, cfnie,
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -5485,9 +5487,9 @@ extractDataFromApiOfChemist180 = async (meddata, nameOfMed, medicinePackSize, cf
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.packSize.includes(num);
+                    var inPackSize = ([finalProd.packSize]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -5526,7 +5528,7 @@ extractDataFromApiOfChemist180 = async (meddata, nameOfMed, medicinePackSize, cf
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -5760,9 +5762,9 @@ extractDataFromApiOfOneBharatPharmacy = async (meddata, nameOfMed, medicinePackS
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.text_msg.includes(num);
+                    var inPackSize = ([finalProd.text_msg]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -5801,7 +5803,7 @@ extractDataFromApiOfOneBharatPharmacy = async (meddata, nameOfMed, medicinePackS
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -6637,9 +6639,9 @@ extractDataFromApiPulseplus = async (meddata, nameOfMed, medicinePackSize, cfnie
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.Packing.includes(num);
+                    var inPackSize = ([finalProd.Packing]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -6678,7 +6680,7 @@ extractDataFromApiPulseplus = async (meddata, nameOfMed, medicinePackSize, cfnie
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -6939,10 +6941,10 @@ extractDataFromApiChemistBox = async (meddata, nameOfMed, medicinePackSize, cfni
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
-                    var inPackSize = finalProd.Strength.includes(num);
+                    var inPackSize = ([finalProd.Strength]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -6981,7 +6983,7 @@ extractDataFromApiChemistBox = async (meddata, nameOfMed, medicinePackSize, cfni
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -7198,9 +7200,9 @@ extractDataFromApiChemistsWorld = async (meddata, nameOfMed, medicinePackSize, c
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = emContent.includes(num);
+                    var inPackSize = ([emContent]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -7239,7 +7241,7 @@ extractDataFromApiChemistsWorld = async (meddata, nameOfMed, medicinePackSize, c
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -7500,9 +7502,9 @@ extractDataFromApiMchemist = async (meddata, nameOfMed, medicinePackSize, cfnie,
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.packing_qty.includes(num);
+                    var inPackSize = ([finalProd.packing_qty]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -7541,7 +7543,7 @@ extractDataFromApiMchemist = async (meddata, nameOfMed, medicinePackSize, cfnie,
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -7880,7 +7882,7 @@ extractDataFromApiOfPasumaiPharmacy = async (meddata, nameOfMed, medicinePackSiz
                     var inSalt = 0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
-                    var inPackSize = finalProd.SaleUnit.includes(num);
+                    var inPackSize = ([finalProd.SaleUnit]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -7919,7 +7921,7 @@ extractDataFromApiOfPasumaiPharmacy = async (meddata, nameOfMed, medicinePackSiz
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -8179,6 +8181,8 @@ extractDataFromApiOfPracto = async (meddata, nameOfMed, medicinePackSize, cfnie,
         if (typeof (saltSection) == 'string') {
             saltSection = [saltSection];
         }
+
+        
         var cfnieScore = 0;
         try {
             var newcfnie = finalProd.display_text.match(/\d+/g);
@@ -8192,9 +8196,9 @@ extractDataFromApiOfPracto = async (meddata, nameOfMed, medicinePackSize, cfnie,
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.drug.pack.includes(num);
+                    var inPackSize = ([finalProd.drug.pack]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -8212,7 +8216,7 @@ extractDataFromApiOfPracto = async (meddata, nameOfMed, medicinePackSize, cfnie,
             } else {
                 console.log("AAAA")
                 if (newcfnie) {
-                    console.log("AAAA inside pharmeasy")
+                    console.log("AAAA inside practo")
                     if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
                         foundCount++;
                     }
@@ -8233,11 +8237,12 @@ extractDataFromApiOfPracto = async (meddata, nameOfMed, medicinePackSize, cfnie,
                     }
 
                 } else {
-                    filterCount -= 100;
+                    cfnieScore = 0;
                 }
             }
 
         } catch (error) {
+            console.log("Error practo "+[finalProd.drug.pack] +error)
             filterCount -= 100;;
         }
 
@@ -8446,9 +8451,9 @@ extractDataFromExpressMed = async (url, meddata, nameOfMed, medicinePackSize, cf
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = $('.item-qty').first().text().includes(num);
+                    var inPackSize = $('.item-qty').first().text().includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -8486,7 +8491,7 @@ extractDataFromExpressMed = async (url, meddata, nameOfMed, medicinePackSize, cf
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -8849,9 +8854,9 @@ extractDataFromApiOfHealthmug = async (meddata, nameOfMed, medicinePackSize, cfn
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.variant_size.includes(num);
+                    var inPackSize = ([finalProd.variant_size]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -8890,7 +8895,7 @@ extractDataFromApiOfHealthmug = async (meddata, nameOfMed, medicinePackSize, cfn
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -9150,10 +9155,10 @@ extractDataFromApiMedivik = async (meddata, nameOfMed, medicinePackSize, cfnie, 
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
-                    var inPackSize = finalProd.Packaging.includes(num);
+                    var inPackSize = ([finalProd.Packaging]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -9192,7 +9197,7 @@ extractDataFromApiMedivik = async (meddata, nameOfMed, medicinePackSize, cfnie, 
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -9439,9 +9444,9 @@ extractDataFromApiOfMedpay = async (meddata, nameOfMed, medicinePackSize, cfnie,
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.pack_qty_label.includes(num);
+                    var inPackSize = ([finalProd.pack_qty_label]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -9480,7 +9485,7 @@ extractDataFromApiOfMedpay = async (meddata, nameOfMed, medicinePackSize, cfnie,
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -9717,9 +9722,9 @@ extractDataFromApiOfMrmed = async (meddata, nameOfMed, medicinePackSize, cfnie, 
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.packingDetail.includes(num);
+                    var inPackSize = ([finalProd.packingDetail]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -9758,11 +9763,12 @@ extractDataFromApiOfMrmed = async (meddata, nameOfMed, medicinePackSize, cfnie, 
                     }
 
                 } else {
-                    filterCount -= 100;
+                        cfnieScore = 0;
                 }
             }
 
         } catch (error) {
+            console.log("Practo Error " +error)
             filterCount -= 100;;
         }
 
@@ -10035,9 +10041,9 @@ extractDataFromApiOfMfine = async (meddata, nameOfMed, medicinePackSize, cfnie, 
                     var inName = newcfnie.includes(num);
 
                     // Check if the number is in saltSection (join saltSection to a string and check)
-                    var inSalt = saltSection.join(' ').includes(num.toString());
+                    var inSalt = saltSection.includes(num.toString())||0;
 
-                    var inPackSize = finalProd.label.includes(num);
+                    var inPackSize = ([finalProd.label]).includes(num)||0;
 
                     // If found in either apolloData.name or saltSection, increment the counter
                     if (inName || inSalt||inPackSize) {
@@ -10076,7 +10082,7 @@ extractDataFromApiOfMfine = async (meddata, nameOfMed, medicinePackSize, cfnie, 
                     }
 
                 } else {
-                    filterCount -= 100;
+                                          cfnieScore = 0;
                 }
             }
 
@@ -11381,7 +11387,7 @@ app.get('/storeSearchedMedicineData', async (req, res) => {
         const collection = database.collection('searchPharmas');
 
         // Insert a single document
-        const result = await collection.insertOne({ medicine: req.query['medicineName'], DateOfSearch: getCurrentDate() });
+        // const result = await collection.insertOne({ medicine: req.query['medicineName'], DateOfSearch: getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
         try {
@@ -12893,7 +12899,7 @@ app.get('/storeComparisonData', async (req, res) => {
 
 
         // Insert a single document
-        const result = await collection.insertOne({ medicine: req.query['medicineName'], Pincode: req.query['pincode'], DateOfComparison: await getCurrentDate() });
+        // const result = await collection.insertOne({ medicine: req.query['medicineName'], Pincode: req.query['pincode'], DateOfComparison: await getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
         try {
