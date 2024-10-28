@@ -9964,7 +9964,7 @@ extractDataFromApiOfMrmed = async (meddata, nameOfMed, medicinePackSize, cfnie, 
 extractDataFromApiOfMfine = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName,pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        var searchName = extractWordsForApis(nameOfMed);
+        var searchName = (nameOfMed);
         var filterCount = 600;
 
         if (typeof (searchName) == 'object') {
@@ -13542,7 +13542,7 @@ app.get('/scrape-data',finalPageLimiter ,async (req, res) => {
         extractDataOfTruemeds(item[8], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
         extractDataFromApiOfChemist180(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
         // extractDataFromApiOfMediBuddy(nameOfMed,medicinePackSize,cfnie),
-        extractDataFromApiOfOneBharatPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+        extractDataFromApiOfOneBharatPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName,pincode, secondaryAnchor, releaseMechanism),
         extractDataFromApiOfPasumaiPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
         
         // extractDataFromApiMyupchar(nameOfMed,medicinePackSize,cfnie),
