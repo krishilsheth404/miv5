@@ -12,6 +12,18 @@ const mongoose = require("mongoose");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
 
+const rateLimit = require('express-rate-limit');
+
+const finalPageLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minutes window
+    max: 20, // Limit each IP to 100 requests per `window` (here, per 1 minute)
+    handler: (req, res) => {
+        // Redirect to the /rateLimitExceeded route when the rate limit is exceeded
+        res.redirect('/rateLimitExceeded');
+    },
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  });
 // const Razorpay = require('razorpay');
 // var instance = new Razorpay({
 //     key_id: 'YOUR_KEY_ID',
@@ -163,6 +175,17 @@ app.get('/home', (req, res) => {
 
     // console.log(req.session.user)
     res.sendFile(__dirname + 'Laptopindex.html');
+    // if (req.session.user) {
+    //     res.sendFile(__dirname+'/index.html');
+    // } else {
+    //    res.redirect('/login')
+    // }
+});
+
+app.get('/rateLimitExceeded', (req, res) => {
+
+    // console.log(req.session.user)
+    res.sendFile(__dirname + '/rateLimitExceeded.html');
     // if (req.session.user) {
     //     res.sendFile(__dirname+'/index.html');
     // } else {
@@ -13226,7 +13249,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
 
 
 
-app.get('/medicomp', async (req, res) => {
+app.get('/medicomp',finalPageLimiter, async (req, res) => {
     const dynamicTitle = `Find the Best Price for ${req.query['medname']} & Get Fast Delivery | Shop Online Now `;
     const dynamicDescription = `Purchase ${req.query['medname']} at the best price and get it delivered fast. Compare prices and save money on ${req.query['medname']}. Available for quick delivery.`;
 
@@ -13396,7 +13419,7 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInform
 
 
 
-app.get('/scrape-data' ,async (req, res) => {
+app.get('/scrape-data',finalPageLimiter ,async (req, res) => {
 
 
     res.writeHead(200, {
