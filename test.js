@@ -2297,7 +2297,7 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -2922,7 +2922,7 @@ function extractNumbersWithDecimalPoints(text) {
 
 function normalizeString(str) {
     // Extract only alphanumeric characters and convert to lowercase
-    return str.replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase();
+    return str.replace(/[^a-zA-Z0-9\s]/g, ' ').toLowerCase();
 }
 
 
@@ -3203,7 +3203,7 @@ FastextractDataOfApollo = async (url, meddata, nameOfMed, medicinePackSize, cfni
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = apolloDataFromFirstApi.data.data.getPDPV4.productdp.name.replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -3671,7 +3671,7 @@ extractDataOfTruemeds = async (url, meddata, nameOfMed, medicinePackSize, cfnie,
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = $('.medName').first().text().replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = $('.medName').first().text().replace(/-/g, ' ').toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         console.log(fullNewMedicineName)
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
@@ -4454,7 +4454,7 @@ extractDataOfMyUpChar = async (url, meddata, nameOfMed, medicinePackSize, cfnie,
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = $('#med_details h1[class=container_margin]').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = $('#med_details h1[class=container_margin]').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -5563,7 +5563,7 @@ extractDataFromApiOfChemist180 = async (meddata, nameOfMed, medicinePackSize, cf
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -5842,7 +5842,7 @@ extractDataFromApiOfOneBharatPharmacy = async (meddata, nameOfMed, medicinePackS
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.product_name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.product_name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -6582,7 +6582,7 @@ extractDataFromApiPulseplus = async (meddata, nameOfMed, medicinePackSize, cfnie
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -6884,7 +6884,7 @@ extractDataFromApiChemistBox = async (meddata, nameOfMed, medicinePackSize, cfni
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -7161,7 +7161,7 @@ extractDataFromApiChemistsWorld = async (meddata, nameOfMed, medicinePackSize, c
 
         if (!sprice) {
             sprice = ($$('#qty_1 option').first().text().trim())
-            let cleanedPrice = sprice.replace(/,/g, '');
+            let cleanedPrice = sprice.replace(/,/g, ' ');
             let matches = cleanedPrice.match(/\d+(\.\d+)?/g);
             let price = matches ? parseFloat(matches[matches.length - 1]) : null;
             sprice = price
@@ -7278,7 +7278,7 @@ extractDataFromApiChemistsWorld = async (meddata, nameOfMed, medicinePackSize, c
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.value.replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.value.replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -7566,7 +7566,7 @@ extractDataFromApiMchemist = async (meddata, nameOfMed, medicinePackSize, cfnie,
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = mostSimilarProduct.medicine_name_full.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = mostSimilarProduct.medicine_name_full.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -7976,7 +7976,7 @@ extractDataFromApiOfPasumaiPharmacy = async (meddata, nameOfMed, medicinePackSiz
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -8285,10 +8285,12 @@ extractDataFromApiOfPracto = async (meddata, nameOfMed, medicinePackSize, cfnie,
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.display_text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.display_text.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
+        console.log("FUll Name in Practo "+ fullNewMedicineName)
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
+        console.log("FUll Name in Practo "+ newTempStringForExtractingSecondaryAnchor)
         //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
 
 
@@ -8547,7 +8549,7 @@ extractDataFromExpressMed = async (url, meddata, nameOfMed, medicinePackSize, cf
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = $('h2').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = $('h2').first().text().toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -8793,7 +8795,7 @@ extractDataFromApiOfHealthmug = async (meddata, nameOfMed, medicinePackSize, cfn
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -9220,7 +9222,7 @@ extractDataFromApiMedivik = async (meddata, nameOfMed, medicinePackSize, cfnie, 
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.ProductName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -9522,7 +9524,7 @@ extractDataFromApiOfMedpay = async (meddata, nameOfMed, medicinePackSize, cfnie,
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -9815,7 +9817,7 @@ extractDataFromApiOfMrmed = async (meddata, nameOfMed, medicinePackSize, cfnie, 
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.medicineName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.medicineName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -10130,7 +10132,7 @@ extractDataFromApiOfMfine = async (meddata, nameOfMed, medicinePackSize, cfnie, 
 
         var newTempStringForExtractingSecondaryAnchor = '';
 
-        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '');
+        var fullNewMedicineName = finalProd.name.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
         if (firstWordScore == 100) {
             newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
         }
@@ -11237,7 +11239,7 @@ app.get('/searchPharm', async (req, res) => {
 
 
     var nameOfMed = req.query['medname'] + '\n';
-    nameOfMed = nameOfMed.trim().replace(/[%,+]/g, '');
+    nameOfMed = nameOfMed.trim().replace(/[%,+]/g, ' ');
     console.log(nameOfMed);
     var tempf = [];
     var t = [0, 0, 0, 0, 0, 0, 0];
@@ -12208,7 +12210,7 @@ app.post('/algoSuggest', async (req, res) => {
     console.log("=====>> >> " + typeof (partitions));
     console.log("=====>> paritions " + partitions);
 
-    var tempLowestValue = set.toString().replace(/,/g, '');
+    var tempLowestValue = set.toString().replace(/,/g, ' ');
     var newtemparea = [];
 
     tempLowestValue = smallesTotalCombValues[tempLowestValue];
@@ -12343,8 +12345,8 @@ app.post('/multiSearch', async (req, res) => {
 
         for (mednames in req.body.multiItems) {
 
-            var medName = req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
-            var manuName = req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+            var medName = req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, ' ');
+            var manuName = req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, ' ');
             // var medicineN=medName.replace(/[^a-zA-Z0-9 %+|]/g, '')
             linkdata.push(`http://localhost:4000/searchPharmaciesForBackendData?medname=${medName}&manufacturer=${manuName}&packSize=${req.body['packSize']}`)
             mnames.push(medName)
@@ -12352,10 +12354,10 @@ app.post('/multiSearch', async (req, res) => {
         }
     } else {
         console.log(typeof (req.body.multiItems))
-        var medName = req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
-        var manuName = req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+        var medName = req.body.multiItems[mednames].split('~')[0].trim().replace(/[^a-zA-Z0-9 %+|]/g, ' ');
+        var manuName = req.body.multiItems[mednames].split('~')[1].trim().replace(/[^a-zA-Z0-9 %+|]/g, ' ');
 
-        // var nameOfMed = req.body.multiItems.trim().replace(/[^a-zA-Z0-9 %+|]/g, '');
+        // var nameOfMed = req.body.multiItems.trim().replace(/[^a-zA-Z0-9 %+|]/g, ' ');
         // console.log(nameOfMed);
         linkdata.push(`http://localhost:4000/searchPharmaciesForBackendData?medname=${medName}&manufacturer=${manuName}&packSize=${req.body['packSize']}`);
         mnames.push(medName)
@@ -13070,15 +13072,16 @@ app.get('/medicineName', async (req, res) => {
 function getSecondaryAnchorValueFromString(nameOfMed) {
     // Clean up special characters and excess whitespace
 
-    var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, ' ').trim();
+    console.log("Befores name: ", nameOfMed);
+    var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim();
     console.log("Cleaned name: ", nameOfMed);
 
-    var lastNumberIndex = nameOfMed.search(/\d+(?=\s*[^0-9]|$)/);
+    var lastNumberIndex = nameOfMed.match(/\b\d+\b(?!.*\b\d+\b)/)||-1; // Find the last standalone number
 
     // If a number is found, get the substring before the last number
     var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : nameOfMed;
 
-    // console.log("Substring before the last number: ", substringBeforeLastNumber);
+    console.log("Substring before the last number: ", substringBeforeLastNumber);
 
     nameOfMed = substringBeforeLastNumber;
 
@@ -13105,14 +13108,14 @@ function getSecondaryAnchorValueFromString(nameOfMed) {
     ];
 
     // Create regex for words to remove
-    var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
+    const regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
 
     // Remove unwanted words
-    var cleanedNameOfMed = nameOfMed.replace(regex, '').trim();
+    let cleanedNameOfMed = nameOfMed.replace(regex, '').trim();
     console.log("After removing unnecessary words: ", cleanedNameOfMed);
 
     // Split the string into individual words
-    var splitArray = cleanedNameOfMed.split(' ').filter(Boolean);  // Filter to remove empty entries
+    const splitArray = cleanedNameOfMed.split(' '); // Filter to remove empty entries
     console.log("Split Array: ", splitArray);
 
     // Fetch the second word or combination
@@ -13145,15 +13148,15 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
     // Combine the words and numbers, with words first
     nameOfMed = [...words, ...numbers].join(' ');
 
-    var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, ' ').trim();
+   console.log("Befores name: ", nameOfMed);
+    var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim();
     console.log("Cleaned name: ", nameOfMed);
 
-    var lastNumberIndex = nameOfMed.search(/\d+(?=\s*[^0-9]|$)/);
+    var lastNumberIndex = nameOfMed.match(/\b\d+\b(?!.*\b\d+\b)/)||-1; // Find the last standalone number
 
     // If a number is found, get the substring before the last number
     var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : nameOfMed;
 
-    // console.log("Substring before the last number: ", substringBeforeLastNumber);
 
     nameOfMed = substringBeforeLastNumber;
 
@@ -13180,14 +13183,14 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
     ];
 
     // Create regex for words to remove
-    var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
+var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
 
     // Remove unwanted words
-    var cleanedNameOfMed = nameOfMed.replace(regex, '').trim();
+var cleanedNameOfMed = nameOfMed.replace(regex, '').trim();
     console.log("After removing unnecessary words: ", cleanedNameOfMed);
 
     // Split the string into individual words
-    var splitArray = cleanedNameOfMed.split(' ').filter(Boolean);  // Filter to remove empty entries
+splitArray = cleanedNameOfMed.split(' ');
     console.log("Split Array: ", splitArray);
 
     // Fetch the second word or combination
@@ -13209,7 +13212,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
         console.log("No valid secondary anchor found.");
         return '@';  // Default value when no valid secondary anchor is found
     }
-}
+}   
 
 //   function getSecondaryAnchorValueFromString(nameOfMed){
 
@@ -13258,6 +13261,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
 app.get('/medicomp',finalPageLimiter, async (req, res) => {
     const dynamicTitle = `Find the Best Price for ${req.query['medname']} & Get Fast Delivery | Shop Online Now `;
     const dynamicDescription = `Purchase ${req.query['medname']} at the best price and get it delivered fast. Compare prices and save money on ${req.query['medname']}. Available for quick delivery.`;
+
 
     res.render(__dirname + '/tempresultsv4.ejs', {
         medname: req.query['medname'],
