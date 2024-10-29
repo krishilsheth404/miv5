@@ -13142,11 +13142,17 @@ function getSecondaryAnchorValueFromString(nameOfMed) {
 
 function privGetSecondaryAnchorValueFromString(nameOfMed) {
     // Clean up special characters and excess whitespace
-    const words = nameOfMed.match(/[A-Za-z]+/g) || []; // Matches all words, returns an empty array if none
-    const numbers = nameOfMed.match(/\d+/g) || [];
+    const standaloneNumbers = nameOfMed.match(/(?<!\S)\d+(?!\S)/g) || []; // Matches standalone numbers only
 
-    // Combine the words and numbers, with words first
-    nameOfMed = [...words, ...numbers].join(' ');
+// Remove standalone numbers and non-alphabetic/non-numeric characters
+var cleanedNameOfMed = nameOfMed
+  .replace(/(?<!\S)\d+(?!\S)/g, ' ')  // Remove standalone numbers
+  .replace(/[^A-Za-z0-9\s]/g, ' ')   // Remove non-alphabetic and non-numeric characters
+  .trim();                           // Trim excess whitespace
+
+// Combine cleaned name with standalone numbers
+    nameOfMed = `${cleanedNameOfMed} ${standaloneNumbers.join(' ')}`.trim(); // Join cleaned string with standalone numbers
+
 
    console.log("Befores name: ", nameOfMed);
     var nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim();
