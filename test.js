@@ -13617,8 +13617,10 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
     var regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
 
     // Remove unwanted words
-    var cleanedNameOfMed = nameOfMed.replace(regex, '').trim();
+    var cleanedNameOfMed = nameOfMed.replace(regex, '').trim().replace(/\s+/g, ' ').trim();;
     console.log("After removing unnecessary words: ", cleanedNameOfMed);
+
+    cleanedNameOfMed=cleanedNameOfMed.replace(/\b\d+\b/g, '').replace(/\s+/g, ' ').trim(); //removiign numbers
 
     // Split the string into individual words
     splitArray = cleanedNameOfMed.split(' ');
@@ -13637,7 +13639,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
         } catch (error) {
             additionalAnchors = [secondaryAnchor];
         }
-        console.log("Final Secondary Anchors: ", additionalAnchors);
+        console.log("Final ji Secondary Anchors: ", additionalAnchors);
         return additionalAnchors; // Return as an array
     } else {
         console.log("No valid secondary anchor found.");
@@ -13908,7 +13910,7 @@ app.get('/scrape-data', finalPageLimiter, async (req, res) => {
         console.log("CFNIE = " + cfnie)
 
 
-        var secondaryAnchor = await privGetSecondaryAnchorValueFromString(medicineInformation[0].medicineName.toLowerCase())
+        var secondaryAnchor = privGetSecondaryAnchorValueFromString(medicineInformation[0].medicineName.toLowerCase())
         console.log(nameOfMed);
         console.log(secondaryAnchor);
 
