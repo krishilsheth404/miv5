@@ -10342,6 +10342,7 @@ extractDataFromApiOfNetmeds = async (meddata, nameOfMed, medicinePackSize, cfnie
                 {
                     indexName: 'prod_meds',
                     params: `clickAnalytics=true&facets=%5B%22in_stock%22%2C%22categories%22%2C%22brand%22%2C%22manufacturer_name%22%2C%22algolia_facet.Benefits%22%2C%22algolia_facet.Product%20Characteristic%22%2C%22algolia_facet.Skin%20Concern%22%2C%22algolia_facet.Skin%20Type%22%2C%22selling_price%22%2C%22discount_pct%22%5D&highlightPostTag=__%2Fais-highlight__&highlightPreTag=__ais-highlight__&hitsPerPage=12&maxValuesPerFacet=50&page=0&query=${searchName}&tagFilters=&userToken=33420139`
+                
                 }
             ]
         };
@@ -10361,6 +10362,7 @@ extractDataFromApiOfNetmeds = async (meddata, nameOfMed, medicinePackSize, cfnie
 
         const products = (netmedsData['results'][0]['hits']);
         console.log(products)
+        console.log("netmeds")
 
         var fprod = [];
 
@@ -10670,12 +10672,12 @@ extractDataFromApiOfNetmeds = async (meddata, nameOfMed, medicinePackSize, cfnie
 extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
     try {
         // Fetching HTML
-        // const searchName = nameOfMed // Set your search name here
+        const searchName = extractSearchName(nameOfMed) // Set your search name here
         var filterCount = 600;
 
         var truemedsData;
       try {
-            const {data} = await axios.get(`https://nal.tmmumbai.in/CustomerService/getSearchResult?warehouseId=10&elasticSearchType=SKU_BRAND_SEARCH&searchString=${nameOfMed}&isMultiSearch=true&variantId=8`, 
+            const {data} = await axios.get(`https://nal.tmmumbai.in/CustomerService/getSearchResult?warehouseId=10&elasticSearchType=SKU_BRAND_SEARCH&searchString=${searchName}&isMultiSearch=true&variantId=8`, 
                 {timeout: 5000 });
         
                 truemedsData = data.responseData.elasticProductDetails; // Correctly access the data property from response
@@ -10685,7 +10687,7 @@ extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfni
         }
 
         const products = (truemedsData);
-        console.log(products)
+        console.log(products +"Truemeds")
 
         var fprod = [];
 
@@ -10717,6 +10719,7 @@ extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfni
             }
         });
 
+
         var finalProd;
         if (mostSimilarProduct) {
             finalProd = mostSimilarProduct;
@@ -10726,6 +10729,8 @@ extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfni
             return {};
         }
 
+
+        // console.log(finalProd.product)
         var saltSection = finalProd.product.composition||'';
 
 
@@ -10810,11 +10815,11 @@ extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfni
         // price = parseFloat(price.split("₹")[1]);
 
         if (price < 400) {
-            dc = 39 + 11;
+            deliPrice = 39 + 11;
         } else if (price >= 400 && price < 550) {
-            dc = 29 + 11;
+            deliPrice = 29 + 11;
         } else if (price >= 550) {
-            dc = 11;
+            deliPrice = 11;
         }
 
 
@@ -13854,7 +13859,7 @@ function getSecondaryAnchorValueFromString(nameOfMed) {
         "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice",
         "roll", "bar", "drink", "glove", "regular","Strip","of","tablets"
 
-        , "mg", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
+        , "mg","gm", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
         "mg/ml", "g/ml", "mg/kg", "mcg/kg", "drops", "tablet", "capsule", "patch", "sachet", "vial", "ampoule",
         "puff", "spray", "bottle", "tube", "strip", "jar", "packet", "suppository", "cream", "ointment", "syrup",
         "suspension", "solution", "infusion", "injection", "bolus", "gel", "foam", "granules", "powder", "elixir",
@@ -13962,7 +13967,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
         "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice",
         "roll", "bar", "drink", "glove", "regular"
 
-        , "mg", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
+        , "mg","gm", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
         "mg/ml", "g/ml", "mg/kg", "mcg/kg", "drops", "tablet", "capsule", "patch", "sachet", "vial", "ampoule",
         "puff", "spray", "bottle", "tube", "strip", "jar", "packet", "suppository", "cream", "ointment", "syrup",
         "suspension", "solution", "infusion", "injection", "bolus", "gel", "foam", "granules", "powder", "elixir",
@@ -13980,9 +13985,38 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
 
     cleanedNameOfMed=cleanedNameOfMed.replace(/\b\d+\b/g, '').replace(/\s+/g, ' ').trim(); //removiign numbers
 
+   
+    const finalWords = cleanedNameOfMed.split(' ').map(word => {
+        // Extract numbers from the word
+        const numberMatches = word.match(/\d+/g);
+
+        // If the word contains numbers, check against wordsToRemove
+        if (numberMatches) {
+            // Remove any unwanted substrings from the word
+            wordsToRemove.forEach(removeWord => {
+                if (word.includes(removeWord)) {
+                    word = word.replace(removeWord, ''); // Remove the unwanted word
+                }
+            });
+        }
+
+        return word.trim(); // Trim and return the modified word
+    }).filter(Boolean); // Remove empty strings
+
+    // Step 3: Join the final words
+    let outputString = finalWords.join(' ').replace(/\s+/g, ' ').trim(); // Final output as a single string
+
+    // Step 4: Remove individual numbers from the output string
+    outputString = outputString.replace(/\b\d+\b/g, '').replace(/\s+/g, ' ').trim(); // Remove standalone numbers
+
+
+
+
     // Split the string into individual words
-    splitArray = cleanedNameOfMed.split(' ');
+    const splitArray = outputString.split(' '); // Filter to remove empty entries
     console.log("Split Array: ", splitArray);
+
+    
 
     // Fetch the second word or combination
     var secondaryAnchor = '';
@@ -14229,7 +14263,7 @@ app.get('/scrape-data', finalPageLimiter, async (req, res) => {
         var packSize = medicineInformation[0].packSize;
         var medicineSaltName = medicineInformation[0].saltName;
 
-        nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s&]/g, ' ').toLowerCase();
+        nameOfMed = nameOfMed.replace(/[^a-zA-Z0-9\s&.]/g, ' ').toLowerCase();
 
         // Step 2: Replace '&' with '%26'
         nameOfMed = nameOfMed.replace(/&/g, '%26');
@@ -14241,7 +14275,7 @@ app.get('/scrape-data', finalPageLimiter, async (req, res) => {
         var item = await getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInformation[0]);
         console.log(item)
 
-        nameOfMed = medicineInformation[0].medicineName.replace(/-/g, " ").replace(/\./g, "");
+        nameOfMed = medicineInformation[0].medicineName.replace(/-/g, " ");
         console.log("Results For " + nameOfMed);
 
         console.log(item)
