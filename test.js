@@ -11,19 +11,22 @@ const mysql = require('mysql');
 const mongoose = require("mongoose");
 const sessions = require('express-session');
 const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
 
 const rateLimit = require('express-rate-limit');
 
-const finalPageLimiter = rateLimit({
-    windowMs: 60 * 1000, // 1 minutes window
-    max: 20, // Limit each IP to 100 requests per `window` (here, per 1 minute)
-    handler: (req, res) => {
-        // Redirect to the /rateLimitExceeded route when the rate limit is exceeded
-        res.redirect('/rateLimitExceeded');
-    },
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-});
+
+// const finalPageLimiter = rateLimit({
+//     windowMs: 60 * 1000, // 1 minutes window
+//     max: 20, // Limit each IP to 100 requests per `window` (here, per 1 minute)
+//     handler: (req, res) => {
+//         // Redirect to the /rateLimitExceeded route when the rate limit is exceeded
+//         res.redirect('/rateLimitExceeded');
+//     },
+//     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+//     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+// });
+
 // const Razorpay = require('razorpay');
 // var instance = new Razorpay({
 //     key_id: 'YOUR_KEY_ID',
@@ -77,6 +80,51 @@ const e = require('express');
 // });
 
 app.use(express.static(__dirname));
+app.use(cookieParser('medicomp9i3s7t2h6e7b7e2s4t5@'));  // Replace 'yourSecretKey' with a strong, unique secret key
+
+const REQUEST_LIMIT = 10;            // Max requests per session per window
+const WINDOW_DURATION = 60 * 1000;   // 1 minute in milliseconds
+const sessionRequestCounts = new Map();  // For storing request counts and timestamps
+
+const generateSessionToken = () => crypto.randomBytes(16).toString('hex');
+
+const rateLimiter = (req, res, next) => {
+    const { signedCookies } = req;
+    let sessionToken = signedCookies['sessionToken'];
+
+    // If no session token, generate a new one and store it
+    if (!sessionToken) {
+        sessionToken = generateSessionToken();
+        res.cookie('sessionToken', sessionToken, { httpOnly: true, secure: true, signed: true });
+        sessionRequestCounts.set(sessionToken, { count: 1, timestamp: Date.now() });
+        return next();
+    }
+
+    // Retrieve or initialize session data
+    const sessionData = sessionRequestCounts.get(sessionToken) || { count: 0, timestamp: Date.now() };
+    const { count, timestamp } = sessionData;
+    const currentTime = Date.now();
+
+    // Reset the count if the time window has passed
+    if (currentTime - timestamp > WINDOW_DURATION) {
+        sessionData.count = 1;
+        sessionData.timestamp = currentTime;
+        sessionRequestCounts.set(sessionToken, sessionData);
+        return next();
+    }
+
+    // Increment the count if within the same window
+    if (count < REQUEST_LIMIT) {
+        sessionData.count++;
+        sessionRequestCounts.set(sessionToken, sessionData);
+        next();
+    } else {
+        // Redirect if the limit is exceeded
+        res.redirect('/rateLimitExceeded');
+    }
+};
+
+
 
 app.set('view engine', 'ejs');
 
@@ -94,6 +142,8 @@ function validateReferer(req, res, next) {
 }
 
 
+
+
 // session middleware
 // app.use(sessions({
 // secret: "thisismysecrctekey",
@@ -108,6 +158,10 @@ function validateReferer(req, res, next) {
 const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net"; // Replace with your MongoDB URI
 
 app.use(cookieParser());
+// app.use(rateLimiter);
+
+app.use('/medicomp', rateLimiter);
+app.use('/scrape-data', rateLimiter);
 
 
 // app.set('views', './');
@@ -14083,7 +14137,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
 
 
 
-app.get('/medicomp', finalPageLimiter, async (req, res) => {
+app.get('/medicomp', async (req, res) => {
     const dynamicTitle = `Find the Best Price for ${req.query['medname']} & Get Fast Delivery | Shop Online Now `;
     const dynamicDescription = `Purchase ${req.query['medname']} at the best price and get it delivered fast. Compare prices and save money on ${req.query['medname']}. Available for quick delivery.`;
 
@@ -14240,7 +14294,7 @@ async function getPharmacyLinksUsingOurPAlgo(nameOfMed, packSize, medicineInform
 
 
 
-app.get('/scrape-data', finalPageLimiter, async (req, res) => {
+app.get('/scrape-data', async (req, res) => {
 
 
     res.writeHead(200, {

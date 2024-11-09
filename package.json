@@ -25,6 +25,7 @@
     "cheerio": "^1.0.0-rc.10",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.1.0",
+    "crypto": "^1.0.1",
     "domutils": "^2.8.0",
     "ejs": "^3.1.8",
     "es": "^0.8.0",
