@@ -13902,25 +13902,21 @@ function getSecondaryAnchorValueFromString(nameOfMed) {
 
     // List of words to remove
     var wordsToRemove = [
-        "tablets", "suspension", "syrup", "injection", "strip", "gel", "capsule", "cream",
-        "drop", "lotion", "ointment", "liquid", "cap", "powder", "sachet", "infusion",
-        "soap", "paste", "moisturizer", "facewash", "solution", "spray", "inj", "shampoo",
-        "serum", "syringe", "tube", "face wash", "mouth wash", "granules", "face", "wash",
-        "of", "and", "the", "pills", "tablet pack", "supplement", "inhaler", "patch",
-        "bandage", "syrup pack", "gel pack", "drip", "vial", "ampoule", "lozenge",
-        "chewable", "spritzer", "gargle", "dressing", "lotion pack", "spray bottle", "disinfectant",
-        "balm", "kit", "vaccine", "lancet", "lancets", "needle", "thermometer", "oximeter", "pads",
-        "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice",
-        "roll", "bar", "drink", "glove", "regular","Strip","of","tablets"
-
-        , "mg","gm", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
-        "mg/ml", "g/ml", "mg/kg", "mcg/kg", "drops", "tablet", "capsule", "patch", "sachet", "vial", "ampoule",
-        "puff", "spray", "bottle", "tube", "strip", "jar", "packet", "suppository", "cream", "ointment", "syrup",
-        "suspension", "solution", "infusion", "injection", "bolus", "gel", "foam", "granules", "powder", "elixir",
-        "lozenge", "chewable", "softgel", "dispersible", "transdermal", "inhaler", "dragee", "emulsion", "eye drops",
-        "ear drops", "gargle", "liniment", "liquid", "mousse", "nasal spray", "oral drops", "suspension", "topical", "troche", "wafer", "tab",
-
+        "spray bottle", "disinfectant", "moisturizer", "tablet pack", "lotion pack", "thermometer", "suppository", "dispersible", 
+        "transdermal", "nasal spray", "suspension", "mouth wash", "supplement", "syrup pack", "oral drops", "injection", "face wash",
+        "sanitizer", "eye drops", "ear drops", "ointment", "infusion", "facewash", "solution", "granules", "gel pack", "chewable",
+        "spritzer", "dressing", "oximeter", "dilution", "lozenges", "emulsion", "liniment", "tablets", "capsule", "shampoo", "syringe",
+        "inhaler", "bandage", "ampoule", "lozenge", "vaccine", "lancets", "regular", "softgel", "topical", "lotion", "liquid", "powder",
+        "sachet", "gargle", "lancet", "needle", "mcg/ml", "mcg/kg", "tablet", "sachet", "bottle", "packet", "powder", "elixir", "dragee",
+        "gargle", "liquid", "mousse", "troche", "syrup", "strips", "cream", "paste", "spray", "serum", "pills", "patch", "wipes", "tonic",
+        "juice", "drink", "glove", "units", "mg/ml", "mg/kg", "drops", "patch", "spray", "strip", "bolus", "wafer",
+        "drop", "soap", "tube", "face", "wash", "drip", "vial", "balm", "pads", "roll", "g/ml", "vial", "puff", "foam", "gel",
+        "cap", "inj", "and", "the", "kit", "pad", "oil", "bar", "mcg", "mcl", "meq", "jar", "tab", "of", "mg", "gm", "kg", "ml",
+        "oz", "lb", "iu", "cc", "mm", "g", "l"
     ];
+    
+
+    
 
     // Create regex for words to remove
     const regex = new RegExp(`\\b(${wordsToRemove.join('|')})\\b`, 'gi');
@@ -14010,24 +14006,17 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
 
     // List of words to remove
     var wordsToRemove = [
-        "tablet", "suspension", "syrup", "injection", "strip", "gel", "capsule", "cream",
-        "drop", "lotion", "ointment", "liquid", "cap", "powder", "sachet", "infusion",
-        "soap", "paste", "moisturizer", "facewash", "solution", "spray", "inj", "shampoo",
-        "serum", "syringe", "tube", "face wash", "mouth wash", "granules", "face", "wash",
-        "of", "and", "the", "pills", "tablet pack", "supplement", "inhaler", "patch",
-        "bandage", "syrup pack", "gel pack", "drip", "vial", "ampoule", "lozenge",
-        "chewable", "spritzer", "gargle", "dressing", "lotion pack", "spray bottle", "disinfectant",
-        "balm", "kit", "vaccine", "lancet", "lancets", "needle", "thermometer", "oximeter", "pads",
-        "pad", "wipes", "tonic", "dilution", "inhaler", "oil", "sanitizer", "lozenges", "juice",
-        "roll", "bar", "drink", "glove", "regular"
-
-        , "mg","gm", "g", "mcg", "kg", "ml", "l", "oz", "lb", "iu", "mcl", "cc", "meq", "mm", "units", "mcg/ml",
-        "mg/ml", "g/ml", "mg/kg", "mcg/kg", "drops", "tablet", "capsule", "patch", "sachet", "vial", "ampoule",
-        "puff", "spray", "bottle", "tube", "strip", "jar", "packet", "suppository", "cream", "ointment", "syrup",
-        "suspension", "solution", "infusion", "injection", "bolus", "gel", "foam", "granules", "powder", "elixir",
-        "lozenge", "chewable", "softgel", "dispersible", "transdermal", "inhaler", "dragee", "emulsion", "eye drops",
-        "ear drops", "gargle", "liniment", "liquid", "mousse", "nasal spray", "oral drops", "suspension", "topical", "troche", "wafer",
-
+        "spray bottle", "disinfectant", "moisturizer", "tablet pack", "lotion pack", "thermometer", "suppository", "dispersible", 
+        "transdermal", "nasal spray", "suspension", "mouth wash", "supplement", "syrup pack", "oral drops", "injection", "face wash",
+        "sanitizer", "eye drops", "ear drops", "ointment", "infusion", "facewash", "solution", "granules", "gel pack", "chewable",
+        "spritzer", "dressing", "oximeter", "dilution", "lozenges", "emulsion", "liniment", "tablets", "capsule", "shampoo", "syringe",
+        "inhaler", "bandage", "ampoule", "lozenge", "vaccine", "lancets", "regular", "softgel", "topical", "lotion", "liquid", "powder",
+        "sachet", "gargle", "lancet", "needle", "mcg/ml", "mcg/kg", "tablet", "sachet", "bottle", "packet", "powder", "elixir", "dragee",
+        "gargle", "liquid", "mousse", "troche", "syrup", "strips", "cream", "paste", "spray", "serum", "pills", "patch", "wipes", "tonic",
+        "juice", "drink", "glove", "units", "mg/ml", "mg/kg", "drops", "patch", "spray", "strip", "bolus", "wafer",
+        "drop", "soap", "tube", "face", "wash", "drip", "vial", "balm", "pads", "roll", "g/ml", "vial", "puff", "foam", "gel",
+        "cap", "inj", "and", "the", "kit", "pad", "oil", "bar", "mcg", "mcl", "meq", "jar", "tab", "of", "mg", "gm", "kg", "ml",
+        "oz", "lb", "iu", "cc", "mm", "g", "l"
     ];
 
     // Create regex for words to remove
