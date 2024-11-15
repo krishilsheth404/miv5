@@ -157,6 +157,26 @@ function validateReferer(req, res, next) {
 
 const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net"; // Replace with your MongoDB URI
 
+const options = {
+    useUnifiedTopology: true,  // Helps in connection pooling
+    maxPoolSize: 10,           // Set the max connection pool size to 10
+    socketTimeoutMS: 45000,    // Timeout after 45 seconds if no response
+    connectTimeoutMS: 30000,   // Timeout for initial connection
+  };
+  
+  const client = new MongoClient(uri, options);
+  
+  async function connectToDb() {
+    try {
+      await client.connect();
+      console.log('Connected to MongoDB with connection pooling enabled!');
+    } catch (err) {
+      console.error('Error connecting to MongoDB:', err);
+    }
+  }
+  
+  connectToDb();    
+
 app.use(cookieParser());
 // app.use(rateLimiter);
 
@@ -2261,7 +2281,7 @@ extractDataOfPharmEasy = async (meddata, nameOfMed, medicinePackSize, cfnie, med
     }
 };
 
-extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism) => {
+extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor,pincode, releaseMechanism) => {
     try {
 
         var filterCount = 600;
@@ -2466,6 +2486,40 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
         }
 
 
+        var lson="Not Serviceable";
+        var deltimeData;
+        var delTime="";
+        var dc=0;
+
+        try {
+            deltimeData = await axios.get(`https://app.medkart.in/api/v1/pincode-details?pincode=${pincode}`);
+
+            if(deltimeData.data.code==200){
+                if(deltimeData.data["pincode-details"].is_deliverable){
+                    lson="Pincode Serviceable";
+                    delTime=deltimeData.data["pincode-details"].delivery_time;
+                    dc=parseFloat(deltimeData.data["pincode-details"].normal_charges);
+                }else{
+                    lson="Pincode Not Serviceable";
+                }
+            }else{
+                lson="Pincode Not Serviceable";
+            }
+
+            
+
+        } catch (error) {
+            deltimeData="";
+        }
+       
+
+        // var delTime = (deltimeData.data.Result.result[0].delivery_estimate.in_day_counts.on_or_after);
+
+
+        
+        var finalPrice=finalProd.mrp +dc;
+
+
         return {
             name: 'Medkart',
             item: finalProd.name ? finalProd.name : '',
@@ -2474,7 +2528,7 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
             price: finalProd.mrp ? finalProd.mrp : 0,
             offer: finalProd.sales_price ? finalProd.sales_price : 0,
             deliveryCharge: finalProd.mrp < 1500 ? 70 : 0,
-            finalCharge: (parseFloat(parseFloat(finalProd.mrp) + parseFloat(finalProd.mrp < 1500 ? 70 : 0))).toFixed(2),
+            finalCharge: finalPrice.toFixed(2),
 
             smed: smed,
             spack: spack,
@@ -2486,8 +2540,8 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
 
             sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
             filterCount: filterCount,
-            lson: "Pincode Serviceable",
-            deliveryTime: "3 - 5 days",
+            lson: lson,
+            deliveryTime:delTime,
 
             secondaryAnchor: secondaryAnchor,
             newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
@@ -2502,7 +2556,7 @@ extractDataOfMedkart = async (meddata, nameOfMed, medicinePackSize, cfnie, medic
     } catch (error) {
         // res.sendFile(__dirname + '/try.html');
         // res.sendFile(__dirname + '/error.html');
-        // console.log(error);
+        console.log(error);
         return {
             name: 'Medkart',
             item: '',
@@ -12174,25 +12228,19 @@ app.get('/searchPharm', async (req, res) => {
 
 app.get('/storeSearchedMedicineData', async (req, res) => {
     try {
-        const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
         const database = client.db('MedicompDb');
         const collection = database.collection('searchPharmas');
+
+        
 
         // Insert a single document
         const result = await collection.insertOne({ medicine: req.query['medicineName'], DateOfSearch: getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
-        try {
-            await client.close();
-            console.log('Closed MongoDB connection');
-        } catch (err) {
-            console.error('Error closing MongoDB connection', err);
-        }
+       
     } catch (err) {
         console.error('Error inserting medicine', err);
     }
-
 
 });
 
@@ -13658,21 +13706,15 @@ app.post('/redirectFromMedicomp', async (req, res) => {
     console.log(req.body.MedicineName)
 
     try {
-        const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
         const database = client.db('MedicompDb');
         const collection = database.collection('RedirectsFromMedicomp');
+
 
         // Insert a single document
         const result = await collection.insertOne({ PharmacyName: req.body.pharmaName, MedicineName: req.body.MedicineName, DateOfRedirect: getCurrentDate() });
 
         console.log(`Inserted ${req.body.pharmaName} document`);
-        try {
-            await client.close();
-            console.log('Closed MongoDB connection');
-        } catch (err) {
-            console.error('Error closing MongoDB connection', err);
-        }
+        
         res.redirect(req.body.pharmaLink)
     } catch (err) {
         console.error('Error inserting medicine', err);
@@ -13685,23 +13727,16 @@ app.post('/redirectFromMedicomp', async (req, res) => {
 app.get('/storeComparisonData', async (req, res) => {
     console.log(req.query['medicineName'])
     try {
-        const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
         const database = client.db('MedicompDb');
         const collection = database.collection('finalResultPageMedicomp');
+
 
 
         // Insert a single document
         const result = await collection.insertOne({ medicine: req.query['medicineName'], Pincode: req.query['pincode'], DateOfComparison: await getCurrentDate() });
 
         console.log(`Inserted ${req.query['medicineName']} document`);
-        try {
-            await client.close();
-            console.log('Closed MongoDB connection');
-        } catch (err) {
-            console.error('Error closing MongoDB connection', err);
-        }
-
+       
     } catch (err) {
         console.error('Error inserting medicine', err);
     }
@@ -13712,9 +13747,9 @@ app.get('/storeComparisonData', async (req, res) => {
 app.get('/medicineName', async (req, res) => {
     console.log((req.query['q']))
 
-    const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    const db = client.db("MedicompDb");
+const db = client.db("MedicompDb");
     const collection = db.collection("biggerDOM");
+    
 
 
     try {
@@ -13812,13 +13847,7 @@ app.get('/medicineName', async (req, res) => {
         }
 
         console.log(records)
-        try {
-            await client.close();
-            console.log('Closed MongoDB connection');
-        } catch (err) {
-            console.error('Error closing MongoDB connection', err);
-        }
-
+      
         res.send(records)
 
     } catch (err) {
@@ -14143,9 +14172,9 @@ app.get('/medicomp', async (req, res) => {
 
 async function getMedicineCollection(medname, packSize) {
     try {
-        const uri = "mongodb+srv://krishil:hwMRi.iXePK.4J3@medicompuser.vjqrgbt.mongodb.net/?retryWrites=true&w=majority"; // Replace with your MongoDB URI
-        var client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        const collection = client.db('MedicompDb').collection('biggerDOM');
+       
+        const database = client.db("MedicompDb");
+        const collection = database.collection("biggerDOM");
 
         // Find all documents where medname matches the input
         const result = await collection.find({
@@ -14163,9 +14192,6 @@ async function getMedicineCollection(medname, packSize) {
     } catch (err) {
         console.error("Error fetching collection:", err);
         return [];  // Return null in case of an error
-    } finally {
-        client.close();
-        console.log("Db Connection closed")
     }
 }
 
@@ -14397,7 +14423,7 @@ app.get('/scrape-data', async (req, res) => {
             
             // extractDataFromApiMyupchar(nameOfMed,medicinePackSize,cfnie),
             extractDataOfPharmEasy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
-            extractDataOfMedkart(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+            // extractDataOfMedkart(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor,pincode, releaseMechanism),  //dont use untill full API is done
             extractDataFromApiOfChemist180(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfOneBharatPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfPasumaiPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
@@ -14512,7 +14538,7 @@ app.get('/scrape-data', async (req, res) => {
 
         req.on('close', () => {
             res.write(`over`);  // Send each result as an SSE message
-            console.log("connection closed")
+            console.log("Data Found Sir.")
             res.end();  // End the SSE stream
         });
 
