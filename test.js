@@ -13923,7 +13923,7 @@ function getSecondaryAnchorValueFromString(nameOfMed) {
     }
 
     // If a number is found, get the substring before the last number
-    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : nameOfMed;
+    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex.index).trim() : nameOfMed;
 
     console.log("Substring before the last number: ", substringBeforeLastNumber);
 
@@ -13940,7 +13940,7 @@ function getSecondaryAnchorValueFromString(nameOfMed) {
         "gargle", "liquid", "mousse", "troche", "syrup", "strips", "cream", "paste", "spray", "serum", "pills", "patch", "wipes", "tonic",
         "juice", "drink", "glove", "units", "mg/ml", "mg/kg", "drops", "patch", "spray", "strip", "bolus", "wafer",
         "drop", "soap", "tube", "face", "wash", "drip", "vial", "balm", "pads", "roll", "g/ml", "vial", "puff", "foam", "gel",
-        "cap", "inj", "and", "the", "kit", "pad", "oil", "bar", "mcg", "mcl", "meq", "jar", "tab", "of", "mg", "gm", "kg", "ml",
+        "cap", "for","inj", "and", "the", "kit", "pad", "oil", "bar", "mcg", "mcl", "meq", "jar", "tab", "of", "mg", "gm", "kg", "ml",
         "oz", "lb", "iu", "cc", "mm", "g", "l"
     ];
     
@@ -14028,10 +14028,13 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
     var lastNumberIndex = nameOfMed.match(/\b\d+\b(?!.*\b\d+\b)/) || -1; // Find the last standalone number
 
     // If a number is found, get the substring before the last number
-    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex).trim() : nameOfMed;
+    console.log(nameOfMed);
+    console.log(lastNumberIndex.index);
+    var substringBeforeLastNumber = lastNumberIndex !== -1 ? nameOfMed.substring(0, lastNumberIndex.index).trim() : nameOfMed;
 
 
     nameOfMed = substringBeforeLastNumber;
+    console.log(nameOfMed);
 
     // List of words to remove
     var wordsToRemove = [
@@ -14044,7 +14047,7 @@ function privGetSecondaryAnchorValueFromString(nameOfMed) {
         "gargle", "liquid", "mousse", "troche", "syrup", "strips", "cream", "paste", "spray", "serum", "pills", "patch", "wipes", "tonic",
         "juice", "drink", "glove", "units", "mg/ml", "mg/kg", "drops", "patch", "spray", "strip", "bolus", "wafer",
         "drop", "soap", "tube", "face", "wash", "drip", "vial", "balm", "pads", "roll", "g/ml", "vial", "puff", "foam", "gel",
-        "cap", "inj", "and", "the", "kit", "pad", "oil", "bar", "mcg", "mcl", "meq", "jar", "tab", "of", "mg", "gm", "kg", "ml",
+        "cap", "for","inj", "and", "the", "kit", "pad", "oil", "bar", "mcg", "mcl", "meq", "jar", "tab", "of", "mg", "gm", "kg", "ml",
         "oz", "lb", "iu", "cc", "mm", "g", "l"
     ];
 
@@ -14454,7 +14457,7 @@ app.get('/scrape-data', async (req, res) => {
                 final.push(result);
                 console.log(result)
                 console.log(result.name);
-                if (result.name != "NA" && result.price && result.sfinalAvg >= 85) {
+                if (result.name != "NA" && result.price && result.sfinalAvg >= 85 && result.smed >= 50) {
                     res.write(`data: ${JSON.stringify(result)}\n\n`);
                 }
             } catch (error) {
