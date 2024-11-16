@@ -2035,7 +2035,7 @@ extractDataOfPharmEasy = async (meddata, nameOfMed, medicinePackSize, cfnie, med
         if (parseFloat(costPrice) < 300) {
             dc = 199;
         } else if (parseFloat(costPrice) >= 300 && parseFloat(costPrice) < 500) {
-            dc = 129;
+            dc = 99;
         } else if (parseFloat(costPrice) >= 500 && parseFloat(costPrice) < 700) {
             dc = 49;
         } else if (parseFloat(costPrice) >= 700) {
@@ -5987,7 +5987,7 @@ extractDataFromApiOfOneBharatPharmacy = async (meddata, nameOfMed, medicinePackS
 
 
         var deliPrice = 0;
-        if (parseFloat(finalProd.product_discount_price) <= 700) {
+        if (parseFloat(finalProd.product_discount_price) <= 1000) {
             deliPrice = 50;
         }
 
@@ -8119,10 +8119,12 @@ extractDataFromApiOfPasumaiPharmacy = async (meddata, nameOfMed, medicinePackSiz
 
 
         var dc = 0;
-        if (parseFloat(finalProd.SalePrice) >= 0 && parseFloat(finalProd.SalePrice) < 1000) {
-            dc = 63;
-        } else {
-            dc = 13;
+        if (parseFloat(finalProd.SalePrice) >= 0 && parseFloat(finalProd.SalePrice) < 275) {
+            dc = 70;
+        } else  if (parseFloat(finalProd.SalePrice) >= 275 && parseFloat(finalProd.SalePrice) < 500) {
+            dc = 45;
+        }else{
+            dc = 10;
         }
 
         var firstWordScore = 0;
@@ -10595,9 +10597,9 @@ extractDataFromApiOfNetmeds = async (meddata, nameOfMed, medicinePackSize, cfnie
 
         if (parseFloat(price) < 199) {
             deliPrice = 69;
-        } else if (parseFloat(price) >= 199 && parseFloat(price) < 250) {
+        } else if (parseFloat(price) >= 199 && parseFloat(price) < 300) {
             deliPrice = 49;
-        } else if (parseFloat(price) >= 250) {
+        } else if (parseFloat(price) >= 300) {
             deliPrice = 0;
         }
 
@@ -10922,9 +10924,9 @@ extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfni
         var price = parseFloat(finalProd.product.sellingPrice)||parseFloat(finalProd.product.mrp);
         // price = parseFloat(price.split("₹")[1]);
 
-        if (price < 400) {
+        if (price < 460) {
             deliPrice = 39 + 11;
-        } else if (price >= 400 && price < 550) {
+        } else if (price >= 460 && price < 550) {
             deliPrice = 29 + 11;
         } else if (price >= 550) {
             deliPrice = 11;
@@ -11110,6 +11112,338 @@ extractDataFromApiOfTruemeds = async (meddata, nameOfMed, medicinePackSize, cfni
 };
 
 
+
+extractDataFromApiOfPharmacyNeeds = async (meddata, nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism) => {
+    try {
+        // Fetching HTML
+        const searchName = extractSearchName(nameOfMed) // Set your search name here
+        var filterCount = 600;
+
+        var truemedsData;
+      try {
+            const {data} = await axios.get(`https://pharmacy-needs.com/wp-admin/admin-ajax.php?action=get_ajax_product_search&searchField=${searchName}`, 
+                {timeout: 5000 });
+        
+                truemedsData = data.responseData.elasticProductDetails; // Correctly access the data property from response
+            // console.log(netmedsData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+        const products = (truemedsData);
+        console.log(products +"Truemeds")
+
+        var fprod = [];
+
+        const filteredProducts = products.filter(product => {
+            
+            // Check if text_msg is defined and not empty
+            const extractedNumber = parseFloat(extractLargestNumber(product.product.packForm));
+            // Compare it with medicinePackSize
+            if (medicinePackSize.includes(extractedNumber)) {
+                fprod.push(product);
+            }
+        }); 
+
+
+
+        // Log the filtered products
+        //   console.log(filteredProducts);
+
+        const targetString = nameOfMed.toLowerCase();
+
+        let mostSimilarProduct = null;
+        let highestSimilarityScore = 0;
+
+        fprod.forEach(product => {
+            const similarityScore = stringSimilarity.compareTwoStrings(product.product.skuName.toLowerCase(), targetString);
+            if (similarityScore > highestSimilarityScore) {
+                highestSimilarityScore = similarityScore;
+                mostSimilarProduct = product;
+            }
+        });
+
+
+        var finalProd;
+        if (mostSimilarProduct) {
+            finalProd = mostSimilarProduct;
+            // console.log(mostSimilarProduct)
+        } else {
+            console.log('No products found with that package size');
+            return {};
+        }
+
+
+        // console.log(finalProd.product)
+        var saltSection = finalProd.product.composition||'';
+
+
+        var cfnieScore = 0;
+        try {
+            var newcfnie = finalProd.product.skuName.match(/\d+/g);
+            newcfnie = newcfnie ? newcfnie.map(Number) : [];
+
+            var foundCount = 0;
+            if (cfnie.length) {
+                // Loop through cfnie numbers and check if they exist in apolloData.name or saltSection
+                cfnie.forEach(num => {
+                    // Check if the number is in apolloData.name
+                    var inName = newcfnie.includes(num);
+
+                    // Check if the number is in saltSection (join saltSection to a string and check)
+                    var inSalt = saltSection.includes(num.toString()) || 0;
+
+                    var inPackSize = ([extractLargestNumber(finalProd.product.packForm)]).includes(num) || 0;
+
+                    // If found in either apolloData.name or saltSection, increment the counter
+                    if (inName || inSalt || inPackSize) {
+                        foundCount++;
+                    }
+                });
+
+                // Update cfnieScore based on how many cfnie numbers were found
+                if (foundCount === cfnie.length) {
+                    cfnieScore = 100; // All numbers found
+                } else {
+                    cfnieScore = 0; // No numbers found
+                }
+
+            } else {
+               // console.log("AAAA")
+                if (newcfnie) {
+                    console.log("AAAA inside mfine")
+                    if (newcfnie.some(num => meddata.packSize.includes(num.toString()))) {
+                        foundCount++;
+                    }
+                    if (
+                        newcfnie.some(num =>
+                            meddata.saltName.some(salt =>
+                                salt.includes(num.toString())
+                            )
+                        )
+                    ) {
+                        foundCount++;
+                    }
+
+                    if (foundCount == newcfnie.length) {
+                        cfnieScore = 100;
+                    } else {
+                        cfnieScore = 0;
+                    }
+
+                } else {
+                    cfnieScore = 0;
+                }
+            }
+
+        } catch (error) {
+            filterCount -= 100;;
+        }
+
+        var qty = extractLargestNumber(finalProd.product.packForm);
+
+
+        qty = parseFloat(qty);
+
+        var spack = 0;
+        if (medicinePackSize.includes(qty)) {
+            spack = 100;
+        }
+
+        var smed = parseFloat(await calculateSimilarity(finalProd.product.skuName.toLowerCase(), nameOfMed.toLowerCase()));
+
+
+        var deliPrice = 0;
+
+        var price = parseFloat(finalProd.product.sellingPrice)||parseFloat(finalProd.product.mrp);
+        // price = parseFloat(price.split("₹")[1]);
+
+        if (price < 460) {
+            deliPrice = 39 + 11;
+        } else if (price >= 460 && price < 550) {
+            deliPrice = 29 + 11;
+        } else if (price >= 550) {
+            deliPrice = 11;
+        }
+
+
+        var firstWordScore = 0;
+        var firstWord = finalProd.product.skuName;
+        if (compareFirstWords(firstWord, extractSearchName(nameOfMed))) {
+            firstWordScore = 100;
+        } else {
+            firstWordScore = 0;
+        }
+
+        var newSecondaryAnchor = finalProd.product.skuName.toLowerCase().match(/[A-Za-z]+|\d+(\.\d+)?/g);
+        var secondAnchorSearchScore = 0;
+
+        var newTempStringForExtractingSecondaryAnchor = '';
+
+        var fullNewMedicineName = finalProd.product.skuName.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, ' ');
+        if (firstWordScore == 100) {
+            newTempStringForExtractingSecondaryAnchor = fullNewMedicineName.substring(fullNewMedicineName.toLowerCase().indexOf(extractSearchName(nameOfMed).toLowerCase())).toLowerCase();
+        }
+        //console.log("New Sub String "+ newTempStringForExtractingSecondaryAnchor)
+
+
+        var tempnewanchor = getSecondaryAnchorValueFromString(newTempStringForExtractingSecondaryAnchor);
+
+
+        if (secondaryAnchor != '@') {
+
+            console.log("SECONDARY ANCHOR INSIDE MEDPAY " + secondaryAnchor)
+
+            const allPresent = secondaryAnchor.every(anchor => {
+                // If the anchor length is 1, use the original method
+                if (anchor.length === 1) {
+                    return new RegExp(`\\b${anchor}\\b`, 'i').test(newTempStringForExtractingSecondaryAnchor);
+                }
+                // Otherwise, check if the word is present anywhere in the string (case-insensitive)
+                else {
+                    return newTempStringForExtractingSecondaryAnchor.toLowerCase().includes(anchor.toLowerCase());
+                }
+            });
+
+
+            if (allPresent) {
+                secondAnchorSearchScore = 100;
+            } else {
+                secondAnchorSearchScore = 0;
+
+            }
+        } else {
+            if (tempnewanchor == secondaryAnchor) {
+                filterCount -= 100;
+            } else {
+                secondAnchorSearchScore = 0;
+            }
+        }
+
+        var tempStringForCheckingRelease = newTempStringForExtractingSecondaryAnchor.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ');
+        const wordsInString = tempStringForCheckingRelease.split(' ').filter(Boolean); // Filter to remove any empty entries
+        const releaseMechanisms = [
+            "cc", "cd", "cr", "da", "dr", "ds", "ec", "epr", "er", "es",
+            "hbs", "hs", "id", "ir", "la", "lar", "ls", "mr", "mt", "mups",
+            "od", "pa", "pr", "sa", "sr", "td", "tr", "xl", "xr", "xs",
+            "xt", "zok",
+            "dt", "md", "iu", "nmg", "dpi", "sf"
+        ];
+        const foundWord = wordsInString.find(word => releaseMechanisms.includes(word.toLowerCase()));
+
+        var releaseMechScore = 0;
+        // Return the found word or '@' if not found
+        const newreleaseMechanism = foundWord ? foundWord.toLowerCase() : '@';
+
+        if (releaseMechanism != '@') {
+            if (newreleaseMechanism == releaseMechanism) {
+                releaseMechScore = 100;
+            } else {
+                if (newreleaseMechanism == '@') {
+                    releaseMechScore = 100;
+                } else {
+                    releaseMechScore = 0;
+                }
+            }
+        } else {
+            filterCount -= 100;
+        }
+
+
+        var lson;
+        try {
+            lson = await axios.get(`https://nal.tmmumbai.in/ThirdPartyService/checkPincodeServiceability?pincode=${pincode}`);
+            if (lson.data.isServicable) {
+                lson = "Pincode Serviceable";
+            }
+        } catch (e) {
+            console.log(e)
+            lson = "Pincode Not Serviceable";
+        }
+
+        var delTime = '';
+        try {
+            var delTimeData = await axios.get(`https://nal.tmmumbai.in/CustomerService/getEstimatedDeliveryDateBasedOnPincode?pincode=${pincode}`);
+            if (delTimeData.data.surface) {
+                delTime = Math.ceil((new Date(delTimeData.data.surface) - new Date()) / (1000 * 60 * 60 * 24));
+
+
+                if (delTime > 2) {
+                    delTime = `${delTime - 2} - ${delTime} days`;
+                } else {
+                    delTime = `${delTime - 1} - ${delTime} days`;
+                }
+
+
+                if (delTime == 0) {
+                    delTime = "Within 24 hours";
+                }
+            }
+        } catch (e) {
+            console.log(e)
+            delTime = "Pincode Not Serviceable";
+        }
+
+
+        // var { pincodeServiceable } = await axios.get(`https://api.mrmed.in/orders/api/v1/pincode/pincodeServiceabilty?pincode=${pincode}`);
+
+        return {
+            name: 'Truemeds',
+            item: finalProd.product.skuName,
+            link: `https://www.truemeds.in/` + finalProd.product.productUrlSuffix,
+            imgLink: finalProd.product.productImageUrlArray[0] || './public/NoImageAv.png',
+            price: price,
+            deliveryCharge: deliPrice,
+            offer: '',
+            finalCharge: (parseFloat(price) + deliPrice).toFixed(2),
+
+            smed: smed,
+            spack: spack,
+            cfnie: cfnie,
+            cfnieScore: cfnieScore,
+            newcfnie: newcfnie,
+            firstWordScore: firstWordScore,
+            releaseMechScore: releaseMechScore,
+
+            sfinalAvg: Math.round(parseFloat(parseFloat(smed + spack + cfnieScore + firstWordScore + secondAnchorSearchScore + releaseMechScore) / filterCount) * 100),
+            filterCount: filterCount,
+
+            lson: lson,
+            deliveryTime: delTime,
+
+            secondaryAnchor: secondaryAnchor,
+            newSecondaryAnchor: tempnewanchor, secondAnchorSearchScore: secondAnchorSearchScore,
+
+            manufacturerName: finalProd.product.manufacturerName,
+            medicineAvailability: finalProd.product.available,
+            minQty: 1,
+            saltName: saltSection,
+            qtyItContainsDesc: qty,
+
+        };
+
+    } catch (error) {
+        // res.sendFile(__dirname + '/try.html');
+        // res.sendFile(__dirname + '/error.html');
+        console.log(error);
+        return {
+            name: 'Truemeds',
+            item: 'NA',
+            link: '',
+            imgLink: '',
+            price: '',
+            deliveryCharge: '',
+            offer: '',
+            finalCharge: 0,
+            similarityIndex: '',
+            smed: '',
+            sman: '',
+            manufacturerName: '',
+            medicineAvailability: '',
+            minQty: 1,
+        };
+    }
+};
 
 
 extractLinkFromOptimizedyahoo = async (url, pharmaNames, medname) => {
@@ -14409,7 +14743,7 @@ app.get('/scrape-data', async (req, res) => {
         // 'kauverymeds.com',
 
         const promises = [
-            FastextractDataOfApollo(item[0], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),  /**/
+            // FastextractDataOfApollo(item[0], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),  /**/
             extractDataOfMyUpChar(item[1], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism), /**/
             extractDataFromExpressMed(item[2], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
             // extractDataOfTruemeds(item[3], medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
@@ -14427,13 +14761,13 @@ app.get('/scrape-data', async (req, res) => {
             // extractDataFromApiMyupchar(nameOfMed,medicinePackSize,cfnie),
             extractDataOfPharmEasy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
             // extractDataOfMedkart(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor,pincode, releaseMechanism),  //dont use untill full API is done
-            extractDataFromApiOfChemist180(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
+            // extractDataFromApiOfChemist180(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfOneBharatPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfPasumaiPharmacy(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
-            extractDataFromApiPulseplus(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
+            // extractDataFromApiPulseplus(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),/**/
             extractDataFromApiChemistBox(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
             extractDataFromApiChemistsWorld(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
-            extractDataFromApiOfPracto(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
+            // extractDataFromApiOfPracto(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism), /**/
             extractDataFromApiMchemist(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfHealthmug(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
             extractDataFromApiMedivik(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
@@ -14442,6 +14776,7 @@ app.get('/scrape-data', async (req, res) => {
             extractDataFromApiOfMfine(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfNetmeds(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
             extractDataFromApiOfTruemeds(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
+            // extractDataFromApiOfPharmacyNeeds(medicineInformation[0], nameOfMed, medicinePackSize, cfnie, medicineSaltName, pincode, secondaryAnchor, releaseMechanism),
             // extractDataFromApiOfDawaaDost(nameOfMed,medicinePackSize,cfnie,pincode), /**/
 
         ];
