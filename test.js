@@ -257,7 +257,7 @@ app.use(bodyParser.json());
 // });
 
 const optionsForConn = {
-    key: fs.readFileSync(' /etc/letsencrypt/live/medicomp.in/privkey.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/medicomp.in/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/medicomp.in/cert.pem'),
     ca: fs.readFileSync('/etc/letsencrypt/live/medicomp.in/fullchain.pem')
 };
