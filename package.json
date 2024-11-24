@@ -36,6 +36,8 @@
     "fuzzywuzzy": "^0.1.0",
     "googleapis": "^95.0.0",
     "hammer": "^0.0.5",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
     "kuzzle-sdk": "^7.10.5",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1",
@@ -46,6 +48,7 @@
     "serve-static": "^1.15.0",
     "sql": "^0.78.0",
     "string-similarity": "^4.0.4",
-    "twilio": "^3.72.0"
+    "twilio": "^3.72.0",
+    "ws": "^8.18.0"
   }
 }
