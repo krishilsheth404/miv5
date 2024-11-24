@@ -269,7 +269,7 @@ app.use(bodyParser.json());
   });
   
   // Set up the WebSocket server and attach it to the HTTP server
-  const wss = new WebSocket.Server({ server });
+  const wss = new WebSocket.Server({ server, path: '/ws/' });
   
   // Handle incoming WebSocket connections
   wss.on('connection', (ws) => {
