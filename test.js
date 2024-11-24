@@ -287,7 +287,7 @@ app.use(bodyParser.json());
   
   
   // Start HTTP server on port 80 (for HTTP)
-  server.listen(80, () => {
+  server.listen(8080, () => {
     console.log('HTTP server and WebSocket server are running on http://medicomp.in');
   });
   
