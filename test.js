@@ -16,7 +16,7 @@ const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
 // const http = require('http');
 
-const https = require('https');
+const http = require('http');
 
 const WebSocket = require('ws');
 
@@ -256,20 +256,14 @@ app.use(bodyParser.json());
 //   }
 // });
 
-const optionsForConn = {
-    key: fs.readFileSync('/etc/letsencrypt/archive/medicomp.in/privkey2.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/archive/medicomp.in/cert2.pem'),
-    ca: fs.readFileSync('/etc/letsencrypt/archive/medicomp.in/fullchain2.pem')
-};
-
 
 // Your HTTPS server code using the certificates
 // const https = require('https');
   
   // Create HTTPS server
-  const server = https.createServer(optionsForConn, app);
-  
-  // Initialize WebSocket server on top of the HTTPS server
+  const server = http.createServer(app);
+
+  // Initialize WebSocket server on top of the HTTP server
   const wss = new WebSocket.Server({ server });
   
   // Handle WebSocket connections
@@ -282,20 +276,21 @@ const optionsForConn = {
       // You can handle different types of messages here
     });
   
+    // Handle disconnection
+    ws.on('close', () => {
+      console.log('A chemist has disconnected.');
+    });
+  
     // Send a welcome message when a chemist connects
     ws.send('Welcome to Medicomp WebSocket Server');
   });
   
-  // Create a route for testing your app
-  app.get('/', (req, res) => {
-    res.send('Welcome to Medicomp! WebSocket server is running');
+  
+  // Start HTTP server on port 80 (for HTTP)
+  server.listen(80, () => {
+    console.log('HTTP server and WebSocket server are running on http://medicomp.in');
   });
   
-  // Start HTTPS server on port 443 (HTTPS)
-  server.listen(443, () => {
-    console.log('HTTPS server and WebSocket server are running on https://medicomp.in');
-  });
-
 
 // Function to connect to the chemist's WebSocket server and fetch data
 const fetchDataFromChemist = (medicineId) => {
@@ -15395,7 +15390,7 @@ app.post('/verify-payment', (req, res) => {
 
 
 
-const port = process.env.PORT || 3000 // Port we will listen on
+const port = process.env.PORT || 4000 // Port we will listen on
 
 // Function to listen on the port
 app.listen(port, () => console.log(`This app is listening on port ${port}`));
