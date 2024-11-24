@@ -261,35 +261,47 @@ app.use(bodyParser.json());
 // const https = require('https');
   
   // Create HTTPS server
-  const server = http.createServer(app);
 
-  // Initialize WebSocket server on top of the HTTP server
+
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello, WebSocket Server is running!');
+  });
+  
+  // Set up the WebSocket server and attach it to the HTTP server
   const wss = new WebSocket.Server({ server });
   
-  // Handle WebSocket connections
+  // Handle incoming WebSocket connections
   wss.on('connection', (ws) => {
-    console.log('A chemist has connected.');
+    console.log('A new client connected.');
   
-    // Handle messages from the chemist
+    // Send a welcome message to the client
+    ws.send('Welcome to the WebSocket server!');
+  
+    // Handle messages from clients
     ws.on('message', (message) => {
-      console.log('Received:', message);
-      // You can handle different types of messages here
+      console.log('Received message: %s', message);
+      
+      // Echo the message back to the client
+      ws.send(`Echo: ${message}`);
     });
   
-    // Handle disconnection
+    // Handle WebSocket connection closure
     ws.on('close', () => {
-      console.log('A chemist has disconnected.');
+      console.log('Client disconnected.');
     });
   
-    // Send a welcome message when a chemist connects
-    ws.send('Welcome to Medicomp WebSocket Server');
+    // Handle WebSocket errors
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
   });
   
-  
-  // Start HTTP server on port 80 (for HTTP)
+  // Start the HTTP server and WebSocket server
   server.listen(8080, () => {
-    console.log('HTTP server and WebSocket server are running on http://medicomp.in');
+    console.log(`Server is listening on http://localhost:8080`);
   });
+
   
 
 // Function to connect to the chemist's WebSocket server and fetch data
